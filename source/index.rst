@@ -73,7 +73,7 @@ The sessions will take place in **CISPA Lecture Hall, Stuhlsatzenhaus 5**.
 +------------+------------+------------------------------------------------+
 
 
-📬 **Submit your questions [here](https://forms.gle/enzD3i6yjbAFJaya6)** — review sessions will be organized based on your questions and feedback.
+📬 **Submit your questions** [**here**](https://forms.gle/enzD3i6yjbAFJaya6) — review sessions will be organized based on your questions and feedback.
 
 
 ---
