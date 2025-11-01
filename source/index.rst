@@ -114,6 +114,7 @@ If you find the tutorials helpful, please cite this course as:
    :caption: Tutorial 2: Intrusion Detection:
 
    tutorial_notebooks/tutorial2_anomaly_detection/tutorial2_anomaly_detection
+   tutorial_notebooks/ttutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection
    tutorial_notebooks/tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols
 
 
