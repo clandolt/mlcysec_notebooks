@@ -1,0 +1,758 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started 3: Classic Machine Learning for Cybersecurity &mdash; CISPA Machine Learning in Cybersecurity v0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=82d01d63" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34cd777e"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Getting Started 4: Deep Learning for Cybersecurity" href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html" />
+    <link rel="prev" title="Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis" href="../discover_visualize_gain_insights/discover_visualize_gain_insights.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CISPA Machine Learning in Cybersecurity
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial 1: Getting started:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html">Getting started 1: Working with Jupyter and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../discover_visualize_gain_insights/discover_visualize_gain_insights.html">Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started 3: Classic Machine Learning for Cybersecurity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Tutorial-Objectives">Tutorial Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-Preprocessing">Data Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Load-and-Process-the-KDDCUP99-Dataset">Load and Process the KDDCUP99 Dataset</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Unsupervised-Learning-with-the-KDDCUP99-Dataset">Unsupervised Learning with the KDDCUP99 Dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#PCA-(Principal-Component-Analysis)">PCA (Principal Component Analysis)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#K-Means-Clustering">K-Means Clustering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#DBSCAN-–-Density-Based-Spatial-Clustering">DBSCAN – Density-Based Spatial Clustering</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Supervised-Learning-with-the-KDDCUP99-Dataset">Supervised Learning with the KDDCUP99 Dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Logistic-Regression">Logistic Regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Gaussian-Naive-Bayes">Gaussian Naive Bayes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Support-Vector-Machine-(SVM)">Support Vector Machine (SVM)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises">Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-1:-Train-Decision-Tree-Classifier">Exercise 1: Train Decision Tree Classifier</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-2:-Visualize-the-Decision-Tree">Exercise 2: Visualize the Decision Tree</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-3:-Feature-Importance">Exercise 3: Feature Importance</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-4:-Parameter-Optimization-for-SVM">Exercise 4: Parameter Optimization for SVM</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html">Getting Started 4: Deep Learning for Cybersecurity</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 2: Intrusion Detection:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html">Tutorial 2.1: Intrusion Detection System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html">Tutorial 2.2: Deep Learning based IDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html">Tutorial 2.3: Analyzing Application-Layer Protocols</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CISPA Machine Learning in Cybersecurity</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started 3: Classic Machine Learning for Cybersecurity</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorial_notebooks/getting_started_with_ml/getting_started_with_ml.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Getting-Started-3:-Classic-Machine-Learning-for-Cybersecurity">
+<h1>Getting Started 3: Classic Machine Learning for Cybersecurity<a class="headerlink" href="#Getting-Started-3:-Classic-Machine-Learning-for-Cybersecurity" title="Link to this heading"></a></h1>
+<img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Open&amp;color=blue" />
+<div class="line-block">
+<div class="line"><strong>Open notebook on:</strong> <a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/getting_started_with_ml/getting_started_with_ml.ipynb"><img alt="View filled on Github" src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" /></a> <a class="reference external" href="https://colab.research.google.com/github/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/getting_started_with_ml/getting_started_with_ml.ipynb"><img alt="Open filled In Collab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></div>
+<div class="line"><strong>Author:</strong> Christoph R. Landolt</div>
+</div>
+<p>In this tutorial, we will use <strong>basic machine learning algorithms</strong> to gain insights into network traffic and detect potential cyber attacks.</p>
+<section id="Tutorial-Objectives">
+<h2>Tutorial Objectives<a class="headerlink" href="#Tutorial-Objectives" title="Link to this heading"></a></h2>
+<p>By the end of this tutorial, you will be able to:</p>
+<ul class="simple">
+<li><p><strong>Preprocess and clean</strong> data for machine learning.</p></li>
+<li><p><strong>Extract meaningful features</strong> from raw data to use in machine learning models.</p></li>
+<li><p><strong>Train a machine learning model</strong> using scikit-learn.</p></li>
+<li><p><strong>Evaluate the performance</strong> of your model using appropriate metrics.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Importing required libraries</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span><span class="p">,</span> <span class="n">OneHotEncoder</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">,</span> <span class="n">classification_report</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span><span class="p">,</span> <span class="n">DBSCAN</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Data-Preprocessing">
+<h2>Data Preprocessing<a class="headerlink" href="#Data-Preprocessing" title="Link to this heading"></a></h2>
+<p>In this section, we will work with the <a class="reference external" href="https://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html">KDD Cup 99 dataset</a>, a widely used benchmark for evaluating <a class="reference external" href="https://en.wikipedia.org/wiki/Intrusion_detection_system">network intrusion detection</a> algorithms. This dataset contains simulated network traffic, including both <em>normal</em> connections and a small fraction of <em>attack</em> events.</p>
+<p>The dataset contains a mix of <strong>continuous</strong> and <strong>categorical</strong> features describing TCP connections, login attempts, and traffic patterns. Key feature categories include:</p>
+<ol class="arabic simple">
+<li><p><strong>Basic connection features</strong> – e.g., <code class="docutils literal notranslate"><span class="pre">duration</span></code>, <code class="docutils literal notranslate"><span class="pre">protocol_type</span></code>, <code class="docutils literal notranslate"><span class="pre">service</span></code>, <code class="docutils literal notranslate"><span class="pre">src_bytes</span></code>, <code class="docutils literal notranslate"><span class="pre">dst_bytes</span></code>, <code class="docutils literal notranslate"><span class="pre">flag</span></code>, <code class="docutils literal notranslate"><span class="pre">land</span></code>, <code class="docutils literal notranslate"><span class="pre">wrong_fragment</span></code>, <code class="docutils literal notranslate"><span class="pre">urgent</span></code>.</p></li>
+<li><p><strong>Content features</strong> – e.g., <code class="docutils literal notranslate"><span class="pre">hot</span></code>, <code class="docutils literal notranslate"><span class="pre">num_failed_logins</span></code>, <code class="docutils literal notranslate"><span class="pre">logged_in</span></code>, <code class="docutils literal notranslate"><span class="pre">num_compromised</span></code>, <code class="docutils literal notranslate"><span class="pre">root_shell</span></code>, <code class="docutils literal notranslate"><span class="pre">su_attempted</span></code>.</p></li>
+<li><p><strong>Traffic features over a 2-second time window</strong> – e.g., <code class="docutils literal notranslate"><span class="pre">count</span></code>, <code class="docutils literal notranslate"><span class="pre">srv_count</span></code>, <code class="docutils literal notranslate"><span class="pre">serror_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">srv_serror_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">rerror_rate</span></code>, <code class="docutils literal notranslate"><span class="pre">srv_rerror_rate</span></code>.</p></li>
+</ol>
+<section id="Load-and-Process-the-KDDCUP99-Dataset">
+<h3>Load and Process the KDDCUP99 Dataset<a class="headerlink" href="#Load-and-Process-the-KDDCUP99-Dataset" title="Link to this heading"></a></h3>
+<p>We’ll use the <strong>SA subset</strong> of the data to keep computation manageable. It contains mostly normal connections with a small fraction of attacks (~1–3%).</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load KDDCup99 dataset (subset for demonstration)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_kddcup99</span><span class="p">(</span>
+    <span class="n">subset</span><span class="o">=</span><span class="s2">&quot;SA&quot;</span><span class="p">,</span>             <span class="c1"># Use the &#39;SA&#39; subset (smaller sample)</span>
+    <span class="n">percent10</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>          <span class="c1"># Use 10% of the full dataset for efficiency</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>         <span class="c1"># Ensure reproducibility</span>
+    <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>         <span class="c1"># Return data and labels separately</span>
+    <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span>            <span class="c1"># Load as pandas DataFrame</span>
+<span class="p">)</span>
+
+<span class="c1"># Convert binary label: 1 = attack, 0 = normal</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">!=</span> <span class="sa">b</span><span class="s2">&quot;normal.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+<span class="n">n_samples</span><span class="p">,</span> <span class="n">anomaly_frac</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2"> datapoints with </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> anomalies (</span><span class="si">{</span><span class="n">anomaly_frac</span><span class="si">:</span><span class="s2">.02%</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+100655 datapoints with 3377 anomalies (3.36%)
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p>We convert labels and predictions into <strong>binary format</strong>:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code> → Normal</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code> → Anomaly</p></li>
+</ul>
+</li>
+</ul>
+<p>The SA dataset contains 41 features out of which 3 are categorical: <code class="docutils literal notranslate"><span class="pre">protocol_type</span></code>, <code class="docutils literal notranslate"><span class="pre">service</span></code> and <code class="docutils literal notranslate"><span class="pre">flag</span></code>. We will explicitly convert these columns to the category data type and ensure that all other features are treated as numeric.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure categorical columns are &#39;category&#39;</span>
+<span class="n">cat_columns</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;protocol_type&quot;</span><span class="p">,</span> <span class="s2">&quot;service&quot;</span><span class="p">,</span> <span class="s2">&quot;flag&quot;</span><span class="p">]</span>
+<span class="n">X</span><span class="p">[</span><span class="n">cat_columns</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">cat_columns</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">&quot;category&quot;</span><span class="p">)</span>
+
+<span class="c1"># Ensure numeric columns are float</span>
+<span class="n">numeric_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">cat_columns</span><span class="p">)</span>  <span class="c1"># all other columns</span>
+<span class="n">X</span><span class="p">[</span><span class="n">numeric_features</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">numeric_features</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="c1"># Update categorical features in case dtype changed</span>
+<span class="n">categorical_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;category&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">numeric_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;number&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="line-block">
+<div class="line">Before training a machine learning model, all categorical (non-numeric) features need to be converted into a numerical format. Here, we use <strong>one-hot encoding</strong> via <code class="docutils literal notranslate"><span class="pre">OneHotEncoder</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn.preprocessing</span></code>.</div>
+<div class="line">Numeric features are <strong>standardized</strong> using <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code> to have zero mean and unit variance. Finally, the processed numeric and categorical features are combined into a single array suitable for model training.</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># One-hot encode categorical features</span>
+<span class="n">encoder</span> <span class="o">=</span> <span class="n">OneHotEncoder</span><span class="p">(</span><span class="n">sparse_output</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">handle_unknown</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
+<span class="n">X_cat</span> <span class="o">=</span> <span class="n">encoder</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">categorical_features</span><span class="p">])</span>
+
+<span class="c1"># Standardize numeric features</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_num</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">numeric_features</span><span class="p">])</span>
+
+<span class="c1"># Combine processed numeric and categorical features</span>
+<span class="n">X_processed</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">X_num</span><span class="p">,</span> <span class="n">X_cat</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<p>We split the dataset into <strong>training (80%)</strong> and <strong>testing (20%)</strong> subsets.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Split into training and test sets</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_processed</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span>
+<span class="p">)</span>
+
+<span class="c1"># Print dataset sizes</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training samples:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing samples:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Training samples: 80524
+Testing samples: 20131
+</pre></div></div>
+</div>
+<p>Visualize the distribution of <strong>Normal</strong> vs <strong>Attack</strong> labels in the dataset to understand the balance between normal connections and attacks.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot label distribution</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of Labels&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_12_0.png" src="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_12_0.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fetch_kddcup99()</span></code> conveniently downloads and loads the dataset from scikit-learn’s built-in datasets.</p></li>
+<li><p>Labels are converted from text (<code class="docutils literal notranslate"><span class="pre">b&quot;normal.&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">b&quot;attack&quot;</span></code>) to integers (<code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">1</span></code>).</p></li>
+<li><p>The histogram provides a quick look at <strong>class imbalance</strong>, which is typical in cybersecurity data — attacks are rarer than normal events.</p></li>
+<li><p>Using only 10% of the dataset keeps the demo lightweight while preserving statistical patterns.</p></li>
+</ul>
+</section>
+</section>
+<section id="Unsupervised-Learning-with-the-KDDCUP99-Dataset">
+<h2>Unsupervised Learning with the KDDCUP99 Dataset<a class="headerlink" href="#Unsupervised-Learning-with-the-KDDCUP99-Dataset" title="Link to this heading"></a></h2>
+<p>Unsupervised learning methods allow us to detect patterns and clusters in the network traffic dataset without using labels. In this section, we demonstrate <strong>K-Means</strong>, <strong>DBSCAN</strong>, and <strong>Hierarchical Clustering</strong> on PCA-reduced KDDCUP99 data.</p>
+<section id="PCA-(Principal-Component-Analysis)">
+<h3>PCA (Principal Component Analysis)<a class="headerlink" href="#PCA-(Principal-Component-Analysis)" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">PCA is a linear dimensionality reduction technique that finds new orthogonal axes (principal components) along which the variance of the data is maximized.</div>
+<div class="line">&gt; <strong>Note:</strong> It prioritizes directions where the data varies the most, since higher variance typically corresponds to more informative features.</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reduce dimensionality for visualization</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">X_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_processed</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>PCA maximizes the variance captured in the reduced space.</p></li>
+<li><p>Principal components are <strong>uncorrelated</strong> (orthogonal).</p></li>
+<li><p>Often used for visualization, noise reduction, and improving clustering efficiency.</p></li>
+</ul>
+</section>
+<section id="K-Means-Clustering">
+<h3>K-Means Clustering<a class="headerlink" href="#K-Means-Clustering" title="Link to this heading"></a></h3>
+<p><strong>Mathematical Idea:</strong> K-Means partitions <span class="math notranslate nohighlight">\(n\)</span> points <span class="math notranslate nohighlight">\(\{x_1, ..., x_n\}\)</span> into <span class="math notranslate nohighlight">\(k\)</span> clusters <span class="math notranslate nohighlight">\(C_1,...,C_k\)</span> by minimizing:</p>
+<p><span class="math notranslate nohighlight">\(J = \sum_{i=1}^{k} \sum_{x \in C_i} \|x - \mu_i\|^2\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(\mu_i\)</span> is the centroid of cluster <span class="math notranslate nohighlight">\(C_i\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># K-Means with 2 clusters</span>
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">kmeans_labels</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_pca</span><span class="p">)</span>
+
+<span class="c1"># Plot K-Means clusters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">kmeans_labels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;viridis&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;K-Means Clustering (k=2)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;PC1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;PC2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_19_0.png" src="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_19_0.png" />
+</div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li><p><strong>K-Means</strong> partitions data into <span class="math notranslate nohighlight">\(k\)</span> clusters based on similarity.</p></li>
+<li><p>Each point is assigned to the nearest cluster centroid.</p></li>
+<li><p>Requires specifying the number of clusters <span class="math notranslate nohighlight">\(k\)</span> which is often done using the <a class="reference external" href="https://www.geeksforgeeks.org/machine-learning/elbow-method-for-optimal-value-of-k-in-kmeans/">Elbow Method</a>.</p></li>
+</ul>
+</section>
+<section id="DBSCAN-–-Density-Based-Spatial-Clustering">
+<h3>DBSCAN – Density-Based Spatial Clustering<a class="headerlink" href="#DBSCAN-–-Density-Based-Spatial-Clustering" title="Link to this heading"></a></h3>
+<p>DBSCAN is a non-parametric clustering algorithm which clusters points based on density:</p>
+<ul class="simple">
+<li><p>A point is a <strong>core point</strong> if at least <code class="docutils literal notranslate"><span class="pre">min_samples</span></code> points are within <code class="docutils literal notranslate"><span class="pre">eps</span></code> distance.</p></li>
+<li><p><strong>Border points</strong> are reachable from core points.</p></li>
+<li><p><strong>Noise points</strong> are those not reachable from any core point.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># DBSCAN clustering</span>
+<span class="n">dbscan</span> <span class="o">=</span> <span class="n">DBSCAN</span><span class="p">(</span><span class="n">eps</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">min_samples</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">dbscan_labels</span> <span class="o">=</span> <span class="n">dbscan</span><span class="o">.</span><span class="n">fit_predict</span><span class="p">(</span><span class="n">X_pca</span><span class="p">)</span>
+
+<span class="c1"># Plot DBSCAN clusters</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X_pca</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">dbscan_labels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;plasma&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;DBSCAN Clustering&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;PC1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;PC2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_22_0.png" src="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_22_0.png" />
+</div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li><p><strong>DBSCAN</strong> groups points based on density.</p></li>
+<li><p>Can detect outliers as points not belonging to any cluster (label = -1).</p></li>
+<li><p>Does not require specifying the number of clusters (non-parametric).</p></li>
+</ul>
+</section>
+</section>
+<section id="Supervised-Learning-with-the-KDDCUP99-Dataset">
+<h2>Supervised Learning with the KDDCUP99 Dataset<a class="headerlink" href="#Supervised-Learning-with-the-KDDCUP99-Dataset" title="Link to this heading"></a></h2>
+<p>In this section, we will demonstrate <strong>classic supervised learning algorithms</strong> that require labeled data, specifically <strong>Logistic Regression</strong> and <strong>Naive Bayes</strong>, to detect attacks in network traffic.</p>
+<section id="Logistic-Regression">
+<h3>Logistic Regression<a class="headerlink" href="#Logistic-Regression" title="Link to this heading"></a></h3>
+<p>Logistic Regression is a classic supervised learning algorithm used for <strong>binary classification</strong> tasks.</p>
+<p><strong>Mathematical Idea:</strong></p>
+<p>Logistic Regression models the probability that a given input belongs to a class using the logistic (sigmoid) function:</p>
+<p><span class="math notranslate nohighlight">\(P(y=1 \mid \mathbf{x}) = \sigma(\mathbf{w}^\top \mathbf{x} + b) = \frac{1}{1 + \exp(-(\mathbf{w}^\top \mathbf{x} + b))}\)</span></p>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is the feature vector,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{w}\)</span> are the model weights,</p></li>
+<li><p><span class="math notranslate nohighlight">\(b\)</span> is the bias term,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma(\cdot)\)</span> is the sigmoid function mapping any real number to <span class="math notranslate nohighlight">\([0,1]\)</span>.</p></li>
+</ul>
+<p>The model is trained by minimizing the <strong>binary cross-entropy loss</strong>:</p>
+<p><span class="math notranslate nohighlight">\(\mathcal{L} = -\frac{1}{N} \sum_{i=1}^{N} \left[ y_i \log \hat{y}_i + (1-y_i) \log (1-\hat{y}_i) \right]\)</span></p>
+<p>where <span class="math notranslate nohighlight">\(\hat{y}_i = P(y=1 \mid \mathbf{x}_i)\)</span> and <span class="math notranslate nohighlight">\(y_i \in \{0,1\}\)</span>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train logistic regression</span>
+<span class="n">lr</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">(</span><span class="n">max_iter</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">lr</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predictions</span>
+<span class="n">y_pred_lr</span> <span class="o">=</span> <span class="n">lr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Confusion matrix</span>
+<span class="n">cm_lr</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">)</span>
+<span class="n">disp_lr</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="o">=</span><span class="n">cm_lr</span><span class="p">,</span> <span class="n">display_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="s2">&quot;Attack&quot;</span><span class="p">])</span>
+<span class="n">disp_lr</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix – Logistic Regression&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Classification report</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_lr</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="s2">&quot;Attack&quot;</span><span class="p">]))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_26_0.png" src="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_26_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              precision    recall  f1-score   support
+
+      Normal       1.00      1.00      1.00     19456
+      Attack       1.00      0.98      0.99       675
+
+    accuracy                           1.00     20131
+   macro avg       1.00      0.99      0.99     20131
+weighted avg       1.00      1.00      1.00     20131
+
+</pre></div></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>Logistic Regression models the probability of class membership using a linear combination of features.</p></li>
+<li><p>Suitable for binary classification problems like normal vs attack detection.</p></li>
+<li><p>Standardizing features improves convergence and performance.</p></li>
+</ul>
+</section>
+<section id="Gaussian-Naive-Bayes">
+<h3>Gaussian Naive Bayes<a class="headerlink" href="#Gaussian-Naive-Bayes" title="Link to this heading"></a></h3>
+<p>Gaussian Naive Bayes is a classic supervised learning algorithm based on <strong>Bayes’ theorem</strong> and the assumption that features are conditionally independent given the class label.</p>
+<p><strong>Mathematical Idea:</strong></p>
+<p>For a feature vector <span class="math notranslate nohighlight">\(\mathbf{x} = [x_1, x_2, \dots, x_d]\)</span> and a class <span class="math notranslate nohighlight">\(y \in \{0,1\}\)</span>, Gaussian Naive Bayes models the class conditional probability as:</p>
+<p><span class="math notranslate nohighlight">\(P(\mathbf{x} \mid y) = \prod_{j=1}^{d} P(x_j \mid y)\)</span></p>
+<p>Assuming each feature <span class="math notranslate nohighlight">\(x_j\)</span> follows a Gaussian distribution for class <span class="math notranslate nohighlight">\(y\)</span>:</p>
+<p><span class="math notranslate nohighlight">\(P(x_j \mid y) = \frac{1}{\sqrt{2 \pi \sigma_{y,j}^2}}\exp\left(-\frac{(x_j - \mu_{y,j})^2}{2 \sigma_{y,j}^2}\right)\)</span></p>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mu_{y,j}\)</span> is the mean of feature <span class="math notranslate nohighlight">\(x_j\)</span> for class <span class="math notranslate nohighlight">\(y\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma_{y,j}^2\)</span> is the variance of feature <span class="math notranslate nohighlight">\(x_j\)</span> for class <span class="math notranslate nohighlight">\(y\)</span>.</p></li>
+</ul>
+<p>The predicted class <span class="math notranslate nohighlight">\(\hat{y}\)</span> is obtained using Bayes’ theorem:</p>
+<p><span class="math notranslate nohighlight">\(\hat{y} = \arg\max_y P(y) \prod_{j=1}^{d} P(x_j \mid y)\)</span></p>
+<p>Gaussian Naive Bayes is particularly fast and works well for high-dimensional numeric data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train Gaussian Naive Bayes</span>
+<span class="n">gnb</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+<span class="n">gnb</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predictions</span>
+<span class="n">y_pred_gnb</span> <span class="o">=</span> <span class="n">gnb</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Confusion matrix</span>
+<span class="n">cm_gnb</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_gnb</span><span class="p">)</span>
+<span class="n">disp_gnb</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="o">=</span><span class="n">cm_gnb</span><span class="p">,</span> <span class="n">display_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="s2">&quot;Attack&quot;</span><span class="p">])</span>
+<span class="n">disp_gnb</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Greens&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix – Gaussian Naive Bayes&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Classification report</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_gnb</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="s2">&quot;Attack&quot;</span><span class="p">]))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_29_0.png" src="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_29_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              precision    recall  f1-score   support
+
+      Normal       1.00      1.00      1.00     19456
+      Attack       0.88      0.98      0.93       675
+
+    accuracy                           0.99     20131
+   macro avg       0.94      0.99      0.96     20131
+weighted avg       1.00      0.99      0.99     20131
+
+</pre></div></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li><p>Naive Bayes assumes feature independence given the class label.</p></li>
+<li><p>GaussianNB models numeric features as normally distributed.</p></li>
+<li><p>Fast to train and often performs well on high-dimensional datasets.</p></li>
+</ul>
+</section>
+<section id="Support-Vector-Machine-(SVM)">
+<h3>Support Vector Machine (SVM)<a class="headerlink" href="#Support-Vector-Machine-(SVM)" title="Link to this heading"></a></h3>
+<p>Support Vector Machine (SVM) aims to find the optimal hyperplane that best separates the data into different classes.</p>
+<p><strong>Mathematical Idea:</strong></p>
+<p>Given a labeled dataset <span class="math notranslate nohighlight">\((x_i, y_i)\)</span>, where <span class="math notranslate nohighlight">\(x_i \in \mathbb{R}^n\)</span> and <span class="math notranslate nohighlight">\(y_i \in \{-1, +1\}\)</span>, the SVM optimization problem is formulated as:</p>
+<p><span class="math notranslate nohighlight">\(\min_{w, b} \ \frac{1}{2} \|w\|^2\)</span></p>
+<p>subject to:</p>
+<p><span class="math notranslate nohighlight">\(y_i (w \cdot x_i + b) \ge 1, \quad \forall i\)</span></p>
+<p>Here:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(w\)</span> is the weight vector perpendicular to the separating hyperplane.</p></li>
+<li><p><span class="math notranslate nohighlight">\(b\)</span> is the bias term that shifts the hyperplane.</p></li>
+<li><p>The decision boundary is given by <span class="math notranslate nohighlight">\(w \cdot x + b = 0\)</span>.</p></li>
+</ul>
+<p>For non-linearly separable data, SVM uses the <strong>kernel trick</strong> to implicitly map input features into a higher-dimensional space where a linear separation becomes possible.</p>
+<p>Common kernels include:</p>
+<ul class="simple">
+<li><p><strong>Linear kernel:</strong> <span class="math notranslate nohighlight">\(K(x, x') = x \cdot x'\)</span></p></li>
+<li><p><strong>Polynomial kernel:</strong> <span class="math notranslate nohighlight">\(K(x, x') = (x \cdot x' + c)^d\)</span></p></li>
+<li><p><strong>RBF (Gaussian) kernel:</strong> <span class="math notranslate nohighlight">\(K(x, x') = \exp(-\gamma \|x - x'\|^2)\)</span></p></li>
+</ul>
+<p>The predicted class <span class="math notranslate nohighlight">\(\hat{y}\)</span> for a test point <span class="math notranslate nohighlight">\(x\)</span> is given by:</p>
+<p><span class="math notranslate nohighlight">\(\hat{y} = \text{sign}(w \cdot x + b)\)</span></p>
+<p>SVMs are robust to high-dimensional spaces and effective when the number of features exceeds the number of samples.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train SVM with RBF kernel</span>
+<span class="n">svm_clf</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s2">&quot;rbf&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s2">&quot;scale&quot;</span><span class="p">)</span>
+<span class="n">svm_clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># Predictions</span>
+<span class="n">y_pred_svm</span> <span class="o">=</span> <span class="n">svm_clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Confusion matrix</span>
+<span class="n">cm_svm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_svm</span><span class="p">)</span>
+<span class="n">disp_svm</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="o">=</span><span class="n">cm_svm</span><span class="p">,</span> <span class="n">display_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="s2">&quot;Attack&quot;</span><span class="p">])</span>
+<span class="n">disp_svm</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Blues&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix – Support Vector Machine (RBF Kernel)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Classification report</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_svm</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="s2">&quot;Attack&quot;</span><span class="p">]))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_32_0.png" src="../../_images/tutorial_notebooks_getting_started_with_ml_getting_started_with_ml_32_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+              precision    recall  f1-score   support
+
+      Normal       1.00      1.00      1.00     19456
+      Attack       1.00      0.98      0.99       675
+
+    accuracy                           1.00     20131
+   macro avg       1.00      0.99      1.00     20131
+weighted avg       1.00      1.00      1.00     20131
+
+</pre></div></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><strong>SVMs</strong> aim to <strong>maximize the margin</strong> between classes for better generalization.</p></li>
+<li><p>The <strong>RBF kernel</strong> is often effective for <strong>non-linear relationships</strong>.</p></li>
+<li><p><strong>Parameter tuning</strong> (e.g., <code class="docutils literal notranslate"><span class="pre">C</span></code> and <code class="docutils literal notranslate"><span class="pre">gamma</span></code>) can significantly impact performance.</p></li>
+<li><p><strong>SVMs</strong> work well in <strong>high-dimensional spaces</strong>, but training can be <strong>computationally intensive</strong> on very large datasets.</p></li>
+</ul>
+</section>
+</section>
+<section id="Exercises">
+<h2>Exercises<a class="headerlink" href="#Exercises" title="Link to this heading"></a></h2>
+<p>In this exercise, we’ll learn how to fit a Decision Tree classifier and how to evaluate the most important features in the KDD Cup 99 dataset.</p>
+<section id="Exercise-1:-Train-Decision-Tree-Classifier">
+<h3>Exercise 1: Train Decision Tree Classifier<a class="headerlink" href="#Exercise-1:-Train-Decision-Tree-Classifier" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Train a <code class="docutils literal notranslate"><span class="pre">DecisionTreeClassifier</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn.tree</span></code> on the training data. You can find the technikal reference here: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html">DecisionTreeClassifier</a></p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">max_depth=10</span></code> for a manageable tree size.</p></li>
+<li><p>Train the model with the allready imported and scaled data.</p></li>
+<li><p>Evaluate on the test set using a confusion_matrix.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[45]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 1 - Train Decision Tree</span>
+<span class="c1"># TODO: Step 2 - Predict test labels</span>
+<span class="c1"># TODO: Step 3 - Print a confusion_matrix</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Exercise-2:-Visualize-the-Decision-Tree">
+<h3>Exercise 2: Visualize the Decision Tree<a class="headerlink" href="#Exercise-2:-Visualize-the-Decision-Tree" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">plot_tree</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn.tree</span></code> to visualize the tree. You can find the reference here: <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.tree.plot_tree.html">plot_tree</a></p></li>
+<li><p>Limit depth to 3 for better readability.</p></li>
+<li><p>Include feature names and class names.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[46]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 1 - Visualize Decision Tree</span>
+<span class="c1"># TODO: Step 2 - Configure plot_tree</span>
+<span class="c1"># TODO: Step 3 - Show the plot</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Exercise-3:-Feature-Importance">
+<h3>Exercise 3: Feature Importance<a class="headerlink" href="#Exercise-3:-Feature-Importance" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Extract feature importances from the <code class="docutils literal notranslate"><span class="pre">feature_importances_</span></code> atttribut in the trained Decision Tree.</p></li>
+<li><p>Plot the <strong>top 10</strong> features in a bar chart.</p></li>
+<li><p>Interpret which features are most indicative of attacks and why.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[47]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 1 - Get feature importances</span>
+<span class="c1"># TODO: Step 2 - Plot top 10 features</span>
+<span class="c1"># TODO: Step 3 - Interpret results</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Exercise-4:-Parameter-Optimization-for-SVM">
+<h3>Exercise 4: Parameter Optimization for SVM<a class="headerlink" href="#Exercise-4:-Parameter-Optimization-for-SVM" title="Link to this heading"></a></h3>
+<p>In the SVM example above, we initially guessed the hyperparameters <code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">gamma</span></code>, and <code class="docutils literal notranslate"><span class="pre">kernel</span></code> based on experience. In this exercise, we’ll try to find better parameters using <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">GridSearchCV</a>, which performs cross-validated grid-search over a parameter grid using the estimator’s <code class="docutils literal notranslate"><span class="pre">fit</span></code> and <code class="docutils literal notranslate"><span class="pre">score</span></code> methods.</p>
+<ol class="arabic simple">
+<li><p>Familiarize yourself with <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html">GridSearchCV</a> on the scikit-learn documentation.</p></li>
+<li><p>Use the provided <strong>SVM</strong> model and perform a <strong>GridSearchCV</strong> to tune hyperparameters <code class="docutils literal notranslate"><span class="pre">C</span></code>, <code class="docutils literal notranslate"><span class="pre">gamma</span></code>, and <code class="docutils literal notranslate"><span class="pre">kernel</span></code>.</p></li>
+<li><p>Identify and print the <strong>best parameter combination</strong> and <strong>cross-validation accuracy</strong> from the grid search.</p></li>
+<li><p>Re-train the SVM using these optimal parameters and evaluate it on the <strong>test dataset</strong>.</p></li>
+<li><p>Compare the performance (e.g., accuracy, precision, recall) of the optimized model to the default SVM.</p></li>
+<li><p>Discuss how parameter tuning affects the <strong>margin width</strong>, <strong>model capacity</strong>, and <strong>generalization</strong> ability of SVMs.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[48]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 0 - Import necessary libraries</span>
+<span class="c1"># TODO: Step 1 - Define the parameter grid for SVM</span>
+<span class="c1"># TODO: Step 2 - Initialize the SVM classifier</span>
+<span class="c1"># TODO: Step 3 - Create a GridSearchCV object with 5-fold cross-validation</span>
+<span class="c1"># TODO: Step 4 - Fit the GridSearchCV on the training data</span>
+<span class="c1"># TODO: Step 5 - Print the best parameters and best cross-validation score</span>
+<span class="c1"># TODO: Step 6 - Retrieve the best model and make predictions on the test set</span>
+<span class="c1"># TODO: Step 7 - Plot the confusion matrix for the best SVM model</span>
+<span class="c1"># TODO: Step 8 - Print the classification report</span>
+<span class="c1"># TODO: Step 9 - Interpret results</span>
+<span class="c1"># - Compare default vs optimized model performance.</span>
+<span class="c1"># - Discuss how tuning C, gamma, and kernel affected accuracy and generalization.</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>In this tutorial, we applied classic machine learning techniques using scikit-learn to cybersecurity tasks, such as detecting network attacks. By preprocessing data, encoding features, and training models, we gained insights into how to <strong>effectively classify normal and malicious traffic</strong> and how to <strong>identify patterns in network data</strong> to provide actionable insights for cybersecurity.</p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/"><img alt="Star our repository" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=⭐&amp;message=Star%20Our%20Repository&amp;color=yellow" /></a> If you found this tutorial helpful, please <strong>⭐ star our repository</strong> to show your support.</div>
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/issues"><img alt="Ask questions" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=❔&amp;message=Ask%20Questions&amp;color=9cf" /></a> For any <strong>questions</strong>, <strong>typos</strong>, or <strong>bugs</strong>, kindly open an issue on GitHub — we appreciate your feedback!</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../discover_visualize_gain_insights/discover_visualize_gain_insights.html" class="btn btn-neutral float-left" title="Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html" class="btn btn-neutral float-right" title="Getting Started 4: Deep Learning for Cybersecurity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Christoph R. Landolt, Mario Fritz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

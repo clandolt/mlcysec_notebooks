@@ -1,0 +1,3208 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial 2.1: Intrusion Detection System &mdash; CISPA Machine Learning in Cybersecurity v0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=82d01d63" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34cd777e"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tutorial 2.2: Deep Learning based IDS" href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html" />
+    <link rel="prev" title="Getting Started 4: Deep Learning for Cybersecurity" href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CISPA Machine Learning in Cybersecurity
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial 1: Getting started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html">Getting started 1: Working with Jupyter and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../discover_visualize_gain_insights/discover_visualize_gain_insights.html">Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_ml/getting_started_with_ml.html">Getting Started 3: Classic Machine Learning for Cybersecurity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html">Getting Started 4: Deep Learning for Cybersecurity</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 2: Intrusion Detection:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial 2.1: Intrusion Detection System</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Tutorial-Objectives">Tutorial Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#What-is-an-Intrusion-Detection-System?">What is an Intrusion Detection System?</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Host-Based-Intrusion-Detection-System-(HIDS)">Host-Based Intrusion Detection System (HIDS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Network-Based-Intrusion-Detection-System-(NIDS)">Network-Based Intrusion Detection System (NIDS)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Combining-HIDS-and-NIDS">Combining HIDS and NIDS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Anomaly-Detection:-Handling-Rare-and-Diverse-Attacks">Anomaly Detection: Handling Rare and Diverse Attacks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Types-of-Malicious-Behavior">Types of Malicious Behavior</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Intruder-Behaviour-Patterns">Intruder Behaviour Patterns</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#The-Cyber-Kill-Chain">The Cyber Kill Chain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Advanced-Targeted-Attacks-(ATA)-and-Advanced-Persistent-Threats-(APT)">Advanced Targeted Attacks (ATA) and Advanced Persistent Threats (APT)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#The-Importance-of-Early-Detection">The Importance of Early Detection</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#ML-Based-Anomaly-Detection">ML-Based Anomaly Detection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Application-in-Cybersecurity">Application in Cybersecurity</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Isolation-Forest">Isolation Forest</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Train-Test-Split">Step 3: Train-Test Split</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Step-4:-Model-Training-–-Isolation-Forest">Step 4: Model Training – Isolation Forest</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-5:-Visualize-the-Decision-Boundary-(2D-PCA)">Step 5: Visualize the Decision Boundary (2D PCA)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-6:-Make-Predictions-and-Evaluate-the-Model">Step 6: Make Predictions and Evaluate the Model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Robust-Covariance">Robust Covariance</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#What-is-Robust-Covariance?">What is Robust Covariance?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Why-is-it-called-EllipticEnvelope?">Why is it called EllipticEnvelope?</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Mathematical-Idea">Mathematical Idea</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Intuition">Intuition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Notes">Notes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Model-Training-–-EllipticEnvelope">Step 1: Model Training – EllipticEnvelope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-2:-Visualize-the-Decision-Boundary-(2D-PCA)">Step 2: Visualize the Decision Boundary (2D PCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Make-Predictions-and-Evaluate-the-Model">Step 3: Make Predictions and Evaluate the Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#One-Class-SVM">One-Class SVM</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Step-4:-Model-Training-–-One-Class-SVM">Step 4: Model Training – One-Class SVM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Step 5: Visualize the Decision Boundary (2D PCA)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Step 3: Make Predictions and Evaluate the Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises-–-Anomaly-Detection-with-KDDCUP99">Exercises – Anomaly Detection with KDDCUP99</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-1:-Compare-Decision-Boundaries-Between-Anomaly-Detection-Algorithms">Exercise 1: Compare Decision Boundaries Between Anomaly Detection Algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-2:-Runtime-Complexity">Exercise 2: Runtime Complexity</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-3:-Implement-Local-Outlier-Factor-(LOF)-for-Anomaly-Detection">Exercise 3: Implement Local Outlier Factor (LOF) for Anomaly Detection</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html">Tutorial 2.2: Deep Learning based IDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html">Tutorial 2.3: Analyzing Application-Layer Protocols</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CISPA Machine Learning in Cybersecurity</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial 2.1: Intrusion Detection System</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorial_notebooks/tutorial2_anomaly_detection/tutorial2_anomaly_detection.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Tutorial-2.1:-Intrusion-Detection-System">
+<h1>Tutorial 2.1: Intrusion Detection System<a class="headerlink" href="#Tutorial-2.1:-Intrusion-Detection-System" title="Link to this heading"></a></h1>
+<img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Under_Construction&amp;color=orange" />
+<div class="line-block">
+<div class="line"><strong>Open notebook on:</strong> <a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial2_anomaly_detection/tutorial2_anomaly_detection.ipynb"><img alt="View filled on Github" src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" /></a> <a class="reference external" href="https://colab.research.google.com/github/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial2_anomaly_detection/tutorial2_anomaly_detection.ipynb"><img alt="Open filled In Collab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></div>
+<div class="line"><strong>Author:</strong> Christoph R. Landolt</div>
+</div>
+<p>In cybersecurity, we often face the problem that we don’t have enough labeled attack data to train machine learning models for classifying network traffic. This has two main reasons:</p>
+<ol class="arabic simple">
+<li><p>Labeling data is costly.</p></li>
+<li><p>Many attack patterns are unknown, not included in the training set, or related to vulnerabilities that have not yet been discovered.</p></li>
+</ol>
+<p>In this tutorial, we’ll take a look at how to train machine learning models to detect anomalies in network data and flag these anomalies as potential attacks.</p>
+<section id="Tutorial-Objectives">
+<h2>Tutorial Objectives<a class="headerlink" href="#Tutorial-Objectives" title="Link to this heading"></a></h2>
+<p>By the end of this tutorial, you will be able to: After completing this section, you will be able to:</p>
+<ul class="simple">
+<li><p>Understand the role of Intrusion Detection Systems (IDS) in network security.</p></li>
+<li><p>Differentiate between Host-Based and Network-Based IDS.</p></li>
+<li><p>Explain how anomaly-based and signature-based detection techniques work.</p></li>
+<li><p>Describe real-world deployment strategies of hybrid IDS setups.</p></li>
+<li><p>Apply <strong>anomaly detection</strong> algorithms to identify new attack patterns.</p></li>
+</ul>
+</section>
+<section id="What-is-an-Intrusion-Detection-System?">
+<h2>What is an Intrusion Detection System?<a class="headerlink" href="#What-is-an-Intrusion-Detection-System?" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">An <strong>Intrusion Detection System (IDS)</strong> is designed to protect IT systems by enabling the <strong>early detection of attacks</strong> on computer networks.</div>
+<div class="line">In addition, an IDS helps collect information about <strong>new types of attacks</strong>, which can be used to improve the <strong>preventive protection</strong> of computer networks.</div>
+</div>
+<p>Intrusion Detection Systems (IDS) are often divided into <strong>host-based IDS</strong> and <strong>network-based IDS</strong> according to the type of audit data and into <strong>anomaly-based</strong> and <strong>signature-based</strong> according to the analysis technique.</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Classification Basis</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Source of Data</strong></p></td>
+<td><p>Host-Based (HIDS)</p></td>
+<td><p>Monitors logs, file integrity, and system events on individual hosts.</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>Network-Based (NIDS)</p></td>
+<td><p>Monitors network traffic and analyzes packets moving through the network.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Detection Method</strong></p></td>
+<td><p>Signature-Based</p></td>
+<td><p>Detects known attack patterns or signatures.</p></td>
+</tr>
+<tr class="row-odd"><td></td>
+<td><p>Anomaly-Based</p></td>
+<td><p>Learns normal behavior and identifies deviations as potential intrusions.</p></td>
+</tr>
+</tbody>
+</table>
+<section id="Host-Based-Intrusion-Detection-System-(HIDS)">
+<h3>Host-Based Intrusion Detection System (HIDS)<a class="headerlink" href="#Host-Based-Intrusion-Detection-System-(HIDS)" title="Link to this heading"></a></h3>
+<p>A HIDS monitors the security status of individual systems or hosts. These agents, often referred to as sensors, are typically installed on nodes that are considered vulnerable to potential attacks. Since a HIDS is limited to monitoring a single host, a separate instance must be deployed on each device. It collects data about security-related events, usually provided by the operating system through audit trails. These logs contain information about the objects involved in an event, enabling the
+system to determine which process, program, or user may have caused a security breach.</p>
+</section>
+<section id="Network-Based-Intrusion-Detection-System-(NIDS)">
+<h3>Network-Based Intrusion Detection System (NIDS)<a class="headerlink" href="#Network-Based-Intrusion-Detection-System-(NIDS)" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">A NIDS collects its information from the network itself rather than from individual hosts.</div>
+<div class="line">It operates on an <strong>interception basis</strong>, capturing and analyzing data as it moves through a particular network segment.</div>
+<div class="line">The IDS checks for attacks or irregular behavior by examining the content and header information of packets moving through the network.</div>
+<div class="line">In the case of encrypted traffic, only the <strong>header and metadata</strong> of the packets can be analyzed. For unencrypted traffic, many modern NIDS employ <strong>Deep Packet Inspection (DPI)</strong> to enhance detection capabilities. DPI goes beyond simply checking headers and metadata; it analyzes the <strong>protocol fields and the actual payload</strong> of packets.</div>
+</div>
+<p>By examining both the structure and content of network traffic, DPI can:</p>
+<ul class="simple">
+<li><p>Identify malicious or suspicious payloads in protocols such as HTTP, FTP, DNS, and SMTP.</p></li>
+<li><p>Detect anomalies in packet sequences or unusual protocol usage.</p></li>
+<li><p>Enforce security policies, such as blocking specific commands or suspicious patterns.</p></li>
+</ul>
+<p>DPI allows NIDS to <strong>detect attacks that might bypass simple signature-based inspection</strong>, providing more granular visibility into network activity, while encrypted traffic remains limited to header and metadata analysis unless decrypted.</p>
+<p>Placing the sensors of a pure NIDS at <strong>network transition points</strong> (such as gateways or DMZ boundaries) is a proven technique in practice:</p>
+<p><img alt="Network_Based_IDS" class="no-scaled-link" src="../../_images/Network_Based_IDS.jpg" style="width: 600px;" /></p>
+<div class="line-block">
+<div class="line">Network sensors have the advantage of being able to monitor large volumes of traffic and efficiently observe entire network zones.</div>
+<div class="line">However, NIDS cannot inspect the contents of encrypted connections.</div>
+<div class="line">As a result, attackers may transmit malicious content over encrypted protocols such as <strong>HTTPS</strong>.</div>
+<div class="line">To mitigate this limitation, it is often advisable to identify <strong>critical systems</strong> and install host-based IDS agents on them:</div>
+</div>
+<p><img alt="Host_Based_IDS" class="no-scaled-link" src="../../_images/Host_Based_IDS.jpg" style="width: 600px;" /></p>
+</section>
+<section id="Combining-HIDS-and-NIDS">
+<h3>Combining HIDS and NIDS<a class="headerlink" href="#Combining-HIDS-and-NIDS" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">A pure HIDS deployment provides detailed host-level insights but lacks visibility into network-wide activity.</div>
+<div class="line">Contrarily, a pure NIDS can detect traffic anomalies but cannot see events occurring within individual systems.</div>
+<div class="line">For this reason, <strong>a combination of both HIDS and NIDS</strong> is commonly used in practice: NIDS monitors overall network traffic, while HIDS protects the most critical systems.</div>
+</div>
+<p><img alt="IDS-Configuration" class="no-scaled-link" src="../../_images/IDS-Configuration.jpg" style="width: 600px;" /></p>
+</section>
+</section>
+<section id="Anomaly-Detection:-Handling-Rare-and-Diverse-Attacks">
+<h2>Anomaly Detection: Handling Rare and Diverse Attacks<a class="headerlink" href="#Anomaly-Detection:-Handling-Rare-and-Diverse-Attacks" title="Link to this heading"></a></h2>
+<p>In real-world network security, attacks are often <strong>rare, diverse, and unknown</strong>. Unlike normal traffic, malicious behavior may appear in small quantities and differ significantly from each other. This presents challenges for traditional signature-based detection systems, which rely on known patterns.</p>
+<p>Anomaly detection approaches aim to <strong>learn the normal behavior of a system</strong> and flag deviations as potential attacks. These anomalies can indicate previously unseen attack types or unexpected misuse.</p>
+<section id="Types-of-Malicious-Behavior">
+<h3>Types of Malicious Behavior<a class="headerlink" href="#Types-of-Malicious-Behavior" title="Link to this heading"></a></h3>
+<p>Some common categories of anomalous or malicious network behavior include:</p>
+<ul class="simple">
+<li><p><strong>Probing / Reconnaissance:</strong> Scanning networks, ports, or services to gather information about potential targets.</p></li>
+<li><p><strong>Unauthorized Access Attempts:</strong> Attempts to log in or gain privileges without proper authorization.</p></li>
+<li><p><strong>Data Exfiltration:</strong> Moving sensitive data outside the network without permission.</p></li>
+<li><p><strong>Denial of Service (DoS / DDoS):</strong> Overloading resources to disrupt service availability.</p></li>
+<li><p><strong>Malware Communication:</strong> Abnormal traffic generated by infected hosts communicating with command-and-control servers.</p></li>
+<li><p><strong>Payload Attacks:</strong> Injection of malicious content, such as SQL injection, XSS, or buffer overflows.</p></li>
+<li><p><strong>Configuration Exploits:</strong> Attempts to exploit misconfigurations, weak permissions, or default credentials.</p></li>
+<li><p><strong>Policy Violations:</strong> Actions that do not follow the normal behavior of users or applications, e.g., uploading unexpected file types or sending unusually large requests.</p></li>
+</ul>
+<p>By detecting these anomalous behaviors, <strong>anomaly-based IDS</strong> can complement signature-based systems, helping identify both known and previously unseen threats.</p>
+<section id="Intruder-Behaviour-Patterns">
+<h4>Intruder Behaviour Patterns<a class="headerlink" href="#Intruder-Behaviour-Patterns" title="Link to this heading"></a></h4>
+<p>Intruders can be divided into three groups:</p>
+<ul class="simple">
+<li><p><strong>Hackers:</strong> They hack into computers for the thrill.</p></li>
+<li><p><strong>Criminals:</strong> A criminal has a specific target in mind.</p></li>
+<li><p><strong>Insider Attacks:</strong> Insiders can be motivated by revenge or money. They are challenging to detect and have valuable knowledge and access to the systems or to the company network.</p></li>
+<li><p><strong>State actors:</strong> This group has considerable human and financial resources and often pursues geostrategic and military objectives through cyber espionage, disinformation campaigns,and cyber-attacks.</p></li>
+</ul>
+</section>
+<section id="The-Cyber-Kill-Chain">
+<h4>The Cyber Kill Chain<a class="headerlink" href="#The-Cyber-Kill-Chain" title="Link to this heading"></a></h4>
+<p>Lockheed Martin’s Cyber Kill Chain© framework outlines attacker behavior and detection opportunities:</p>
+<ol class="arabic simple">
+<li><p><strong>Reconnaissance:</strong> Identifying targets and exposed internet-facing servers.</p></li>
+<li><p><strong>Weaponization:</strong> Coupling malware with an exploit to create a deliverable.</p></li>
+<li><p><strong>Delivery:</strong> Sending malware to the target (e.g., email, web, USB).</p></li>
+<li><p><strong>Exploitation:</strong> Triggering the exploit to gain access; unknown exploits are “zero-day” attacks.</p></li>
+<li><p><strong>Installation:</strong> Deploying persistent backdoors to maintain long-term access.</p></li>
+<li><p><strong>Command and Control (C2):</strong> Remote management of compromised systems.</p></li>
+<li><p><strong>Actions on Objectives:</strong> Internal reconnaissance, lateral movement, and data exfiltration.</p></li>
+</ol>
+<p><img alt="IDS-Configuration" class="no-scaled-link" src="../../_images/life_cycle_of_advanced_targeted_attacks.jpg" style="width: 600px;" /></p>
+</section>
+<section id="Advanced-Targeted-Attacks-(ATA)-and-Advanced-Persistent-Threats-(APT)">
+<h4>Advanced Targeted Attacks (ATA) and Advanced Persistent Threats (APT)<a class="headerlink" href="#Advanced-Targeted-Attacks-(ATA)-and-Advanced-Persistent-Threats-(APT)" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line">While many attacks, such as probing or DoS attempts, are common and often automated, some threats are far more <strong>sophisticated, rare, and highly targeted</strong>.</div>
+<div class="line">These are categorized as <strong>Advanced Targeted Attacks (ATA)</strong> and <strong>Advanced Persistent Threats (APT)</strong>.</div>
+</div>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>Definition – Advanced Targeted Attack (ATA):</strong></div>
+<div class="line">An ATA is a deliberate, goal-oriented operation against a specific organization, system, or individual.</div>
+<div class="line">ATAs are custom-tailored to exploit particular vulnerabilities and often combine multiple techniques such as reconnaissance, privilege escalation, and data exfiltration. Their behavior can often be modeled using an <strong>Attack Graph (AG)</strong>, which represents the logical sequence of steps and dependencies an attacker may follow to achieve a goal.</div>
+<div class="line">Attack Graphs help visualize how multiple vulnerabilities and system states can be chained together in complex attack paths, supporting the identification of potential weak points and early detection opportunities.</div>
+</div>
+</div></blockquote>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>Definition – Advanced Persistent Threat (APT):</strong></div>
+<div class="line">An APT is a <strong>long-term</strong>, sophisticated intrusion in which attackers establish and maintain unauthorized access within a network over an extended period.</div>
+<div class="line">APT actors use <strong>advanced concealment techniques</strong>, such as rootkits, fileless malware, and living-off-the-land tactics, along with social engineering and custom-built malware, to <strong>remain hidden</strong> while continuously gathering intelligence or exfiltrating sensitive information.</div>
+</div>
+</div></blockquote>
+<div class="line-block">
+<div class="line">ATAs and APTs differ from typical network intrusions in both <strong>frequency</strong> and <strong>complexity</strong>.</div>
+<div class="line">They occur far less often but are much harder to detect because their activities often blend into normal network traffic and user behavior.</div>
+<div class="line">Traditional signature-based detection systems usually fail to recognize these attacks, as they rely on known indicators of compromise (IOCs) that ATAs and APTs deliberately avoid.</div>
+</div>
+<div class="line-block">
+<div class="line">This is where <strong>anomaly-based detection</strong> becomes crucial.</div>
+<div class="line">By learning what constitutes <em>normal behavior</em> within a network, <strong>anomaly detection models</strong> can identify small, unusual deviations that may indicate the early stages of an ATA or APT campaign.</div>
+<div class="line">Detecting such anomalies early in the <strong>Cyber Kill Chain</strong> can prevent escalation and significantly reduce the impact of advanced attacks.</div>
+</div>
+</section>
+<section id="The-Importance-of-Early-Detection">
+<h4>The Importance of Early Detection<a class="headerlink" href="#The-Importance-of-Early-Detection" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line">Early detection is critical for minimizing the impact of cyber attacks such as worms, ransomware, or other self-propagating malware.</div>
+<div class="line">Detecting threats before they reach their <strong>rapid growth phase</strong> can prevent large-scale infections, data loss, and network downtime.</div>
+</div>
+<p>The figure below illustrates different <strong>worm propagation curves</strong> and the importance of the <strong>detection window</strong>:</p>
+<ul class="simple">
+<li><p><strong>Early Detection Window:</strong> The ideal phase for identifying and containing a threat. At this point, only diagnostic variants (initial infections or early forms of the worm) are active, and containment is highly effective.</p></li>
+<li><p><strong>Critical Detection Window:</strong> A short time before exponential growth, where delayed detection still prevents total network compromise but requires more intensive mitigation.</p></li>
+<li><p><strong>Rapid Growth Phase:</strong> The worm spreads quickly across the network, making containment difficult and costly.</p></li>
+<li><p><strong>Saturation Phase:</strong> The attack reaches its peak; most vulnerable systems are compromised.</p></li>
+</ul>
+<p>The three curves represent how detection timing affects propagation:</p>
+<ul class="simple">
+<li><p><strong>Normal Propagation Curve:</strong> Represents uncontrolled worm spread without early detection.</p></li>
+<li><p><strong>Delayed Propagation Curve:</strong> Detection occurs later, slowing but not fully stopping the infection.</p></li>
+<li><p><strong>Intercepted Propagation Curve:</strong> Early detection effectively halts the spread before reaching the critical growth phase.</p></li>
+</ul>
+<p><img alt="IDS-Configuration" class="no-scaled-link" src="../../_images/worm_propagation_model.jpg" style="width: 600px;" /></p>
+<p>In practice, IDS that identify anomalies during the <em>early detection window</em> play a vital role in preventing outbreaks before they can escalate.</p>
+</section>
+</section>
+</section>
+<section id="ML-Based-Anomaly-Detection">
+<h2>ML-Based Anomaly Detection<a class="headerlink" href="#ML-Based-Anomaly-Detection" title="Link to this heading"></a></h2>
+<p>In <strong>Tutorial 1</strong>, we trained <strong>Machine Learning (ML)</strong> classifiers using <em>supervised learning</em> techniques.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>Definition – Supervised Learning</strong></div>
+<div class="line">In a <strong>supervised learning</strong> problem, the task <strong>T</strong> is to learn a mapping <span class="math notranslate nohighlight">\(f: X \rightarrow Y\)</span> from inputs <span class="math notranslate nohighlight">\(x \in X\)</span> to outputs <span class="math notranslate nohighlight">\(y \in Y\)</span>, where:</div>
+</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x\)</span>: the input, also called <strong>features</strong></p></li>
+<li><p><span class="math notranslate nohighlight">\(y\)</span>: the output, also called the <strong>label</strong> or <strong>response</strong> The experience <strong>E</strong> is provided in the form of an <em>N-dimensional training set</em> of input–output pairs: <span class="math notranslate nohighlight">\(D = \{(x_n, y_n)\}_{n=1}^N\)</span></p></li>
+</ul>
+<p>The <strong>performance measure P</strong> depends on the type of output. For many problems, the <strong>Mean Squared Error (MSE)</strong> is commonly used as the performance metric.</p>
+</div></blockquote>
+<p>We also explored <strong>pattern identification</strong> using <em>unsupervised ML techniques</em>.</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><strong>Definition – Unsupervised Learning:</strong></div>
+<div class="line">Unsupervised learning attempts to make sense of data without predefined labels.</div>
+<div class="line">Only the inputs</div>
+<div class="line"><span class="math notranslate nohighlight">\(D = \{x_n : n = 1, \ldots, N\}\)</span></div>
+<div class="line">are considered, without the corresponding outputs <span class="math notranslate nohighlight">\(y_n\)</span>.</div>
+</div>
+</div></blockquote>
+<p>From a <strong>probabilistic perspective</strong>, unsupervised learning can be viewed as fitting an <em>unconditional model</em> of the form <span class="math notranslate nohighlight">\(p(x)\)</span>. This model describes the data distribution and can be used to <strong>generate new data</strong> <span class="math notranslate nohighlight">\(x\)</span> or to <strong>detect anomalies</strong> by identifying observations that deviate from the learned normal pattern.</p>
+<section id="Application-in-Cybersecurity">
+<h3>Application in Cybersecurity<a class="headerlink" href="#Application-in-Cybersecurity" title="Link to this heading"></a></h3>
+<p>In cybersecurity, <strong>supervised ML methods</strong> are useful when labeled datasets are available — for example, for:</p>
+<ul class="simple">
+<li><p><strong>Malware classification</strong></p></li>
+<li><p><strong>Spam detection</strong></p></li>
+<li><p><strong>Intrusion detection with labeled attack data</strong></p></li>
+</ul>
+<div class="line-block">
+<div class="line">However, labeled attack data are often scarce or incomplete.</div>
+<div class="line">In such cases, <strong>unsupervised learning</strong> techniques are applied in:</div>
+</div>
+<ul class="simple">
+<li><p><strong>Network traffic analysis</strong></p></li>
+<li><p><strong>Anomaly detection</strong></p></li>
+<li><p><strong>Digital forensics</strong></p></li>
+<li><p><strong>Threat hunting</strong></p></li>
+</ul>
+<p>By using unsupervised learning methods to identify patterns in data (as explored in Tutorial 1), analysts often had to <strong>manually interpret</strong> the discovered clusters or structures to spot abnormal behavior.</p>
+<div class="line-block">
+<div class="line">In this tutorial, we will focus on a special class of unsupervised learning techniques known as <strong>anomaly detection</strong>.</div>
+<div class="line">These models <strong>do not require labeled data</strong> for training; instead, they rely on the <strong>inherent structure of the data</strong> to isolate and identify anomalous observations that differ significantly from the normal pattern.</div>
+</div>
+</section>
+</section>
+<section id="Isolation-Forest">
+<h2>Isolation Forest<a class="headerlink" href="#Isolation-Forest" title="Link to this heading"></a></h2>
+<p>To illustrate the advantage of anomaly detection algorithms for IDS, we’re working again with the <a class="reference external" href="http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html">KDDCUP99 dataset</a>, which you are familiar with from Tutorial 1.</p>
+<p>In this example, we’ll use an <strong>Isolation Forest</strong>, a data anomaly detection algorithm based on binary trees. It has linear time complexity and low memory usage, which makes it suitable for high-volume anomaly detection, such as in network traffic to detect potential cyber attacks. The algorithm is based on the assumption that anomalies (in our case, cyber attacks) are few and different from normal data, so they can be isolated using few partitions.</p>
+<p><strong>Mathematical Idea:</strong> Isolation Forest isolates points by recursively partitioning the data using random splits. For a dataset of <span class="math notranslate nohighlight">\(n\)</span> points <span class="math notranslate nohighlight">\(\{x_1, ..., x_n\}\)</span>, the <strong>path length</strong> <span class="math notranslate nohighlight">\(h(x)\)</span> of a point <span class="math notranslate nohighlight">\(x\)</span> is the number of edges traversed from the root of a tree until <span class="math notranslate nohighlight">\(x\)</span> is isolated in a leaf node.</p>
+<p>An estimate of the <strong>anomaly score</strong> for a given instance <span class="math notranslate nohighlight">\(x\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[s(x, n) = 2^{-\frac{E(h(x))}{c(n)}}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(h(x)\)</span>: path length of <span class="math notranslate nohighlight">\(x\)</span> in a single tree.</p></li>
+<li><p><span class="math notranslate nohighlight">\(E(h(x))\)</span>: average path length of <span class="math notranslate nohighlight">\(x\)</span> across all trees in the forest.</p></li>
+<li><p><span class="math notranslate nohighlight">\(c(n)\)</span>: normalization factor, the expected path length of a point in a tree of size <span class="math notranslate nohighlight">\(n\)</span>, defined piecewise as:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[\begin{split}c(n) =
+\begin{cases}
+2 H(n-1) - \frac{2(n-1)}{n} &amp; \text{for } n &gt; 2 \\[1mm]
+1 &amp; \text{for } n = 2 \\[1mm]
+0 &amp; \text{otherwise}
+\end{cases}\end{split}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(H(i)\)</span>: the <span class="math notranslate nohighlight">\(i\)</span>-th harmonic number, <span class="math notranslate nohighlight">\(H(i) = 1 + \frac12 + \frac13 + \dots + \frac{1}{i}\)</span>.</p></li>
+<li><p><span class="math notranslate nohighlight">\(n\)</span>: the number of points in the subsample used to build each tree.</p></li>
+</ul>
+<p><strong>Intuition:</strong></p>
+<ul class="simple">
+<li><p>The normalization by <span class="math notranslate nohighlight">\(c(n)\)</span> ensures the anomaly score is <strong>independent of tree size</strong>.</p></li>
+<li><p>The harmonic number appears because <span class="math notranslate nohighlight">\(c(n)\)</span> represents the <strong>expected path length of a point in a random binary search tree</strong>; it grows roughly like <span class="math notranslate nohighlight">\(\ln(n)\)</span> for large <span class="math notranslate nohighlight">\(n\)</span> and provides a reference for “normal” path lengths.</p></li>
+<li><p>Anomalies are isolated in <strong>shorter paths</strong>, so they get <strong>higher scores</strong>.</p></li>
+<li><p>Normal points take longer to isolate, giving <strong>lower scores</strong>.</p></li>
+</ul>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><strong>Isolation Forest</strong> isolates anomalies instead of modeling normal points.</p></li>
+<li><p>Trees are built using random feature splits on random subsamples.</p></li>
+<li><p>Higher scores (<span class="math notranslate nohighlight">\(s(x, n) \to 1\)</span>) indicate likely outliers.</p></li>
+<li><p>Requires specifying the number of trees and subsample size.</p></li>
+</ul>
+<p>We start by loading the required libraries for this lab:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[92]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Importing required libraries</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">IsolationForest</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">OneClassSVM</span>
+<span class="kn">from</span> <span class="nn">sklearn.covariance</span> <span class="kn">import</span> <span class="n">EllipticEnvelope</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.utils</span> <span class="kn">import</span> <span class="n">resample</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<p>First, we’ll load the <code class="docutils literal notranslate"><span class="pre">SA</span></code> subset of the <strong>KDDCUP99 dataset</strong> to keep computation manageable. Then we’ll explore and visualize the data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[93]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1"># ### Step 1: Load and Explore the KDDCUP99 Dataset</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_kddcup99</span><span class="p">(</span>
+    <span class="n">subset</span><span class="o">=</span><span class="s2">&quot;SA&quot;</span><span class="p">,</span>             <span class="c1"># Use the &#39;SA&#39; subset (smaller sample)</span>
+    <span class="n">percent10</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>          <span class="c1"># Use 10% of the full dataset for efficiency</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>         <span class="c1"># Ensure reproducibility</span>
+    <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>         <span class="c1"># Return data and labels separately</span>
+    <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span>            <span class="c1"># Load as pandas DataFrame</span>
+<span class="p">)</span>
+
+<span class="c1"># Convert binary label: 1 = attack, 0 = normal</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">!=</span> <span class="sa">b</span><span class="s2">&quot;normal.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+<span class="c1"># Take only 10% of the data for quick demonstration</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Display dataset stats</span>
+<span class="n">n_samples</span><span class="p">,</span> <span class="n">anomaly_frac</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2"> datapoints with </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> anomalies (</span><span class="si">{</span><span class="n">anomaly_frac</span><span class="si">:</span><span class="s2">.02%</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot label distribution</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of Labels&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+10065 datapoints with 338 anomalies (3.36%)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_7_1.png" src="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_7_1.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>The histogram provides a visual overview of <strong>class imbalance</strong> in the dataset. In the KDDCUP99 subset, normal traffic far outnumbers attack events.</p></li>
+<li><p>This imbalance is <strong>typical in cybersecurity datasets</strong>, reflecting real-world conditions where attacks are rare relative to benign activity.</p></li>
+<li><p>From a theoretical perspective, Intrusion Detection Systems (IDS) face two main challenges in such imbalanced environments:</p>
+<ol class="arabic simple">
+<li><p><strong>Scarcity of labeled attack data</strong>: Many attack patterns are unknown, costly to label, or represent vulnerabilities not yet exploited.</p></li>
+<li><p><strong>Diversity of attack types</strong>: Attacks can range from common automated probes to sophisticated Advanced Persistent Threats (APT) and Advanced Targeted Attacks (ATA), which occur rarely and blend into normal traffic.</p></li>
+</ol>
+</li>
+<li><p>Therefore, the observed class imbalance in the histogram <strong>justifies the use of unsupervised anomaly detection models</strong> (such as Isolation Forest), which do not rely on balanced labeled datasets but exploit the intrinsic structure of the data to detect deviations.</p></li>
+</ul>
+<p>Before training, categorical (non-numeric) features must be converted into numerical form. We’ll use <strong>one-hot encoding</strong> with <code class="docutils literal notranslate"><span class="pre">pandas.get_dummies()</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert categorical variables to numerical format</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Feature matrix shape after encoding: </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Feature matrix shape after encoding: (10065, 6536)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[94]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>duration_0</th>
+      <th>duration_1</th>
+      <th>duration_2</th>
+      <th>duration_3</th>
+      <th>duration_4</th>
+      <th>duration_5</th>
+      <th>duration_6</th>
+      <th>duration_7</th>
+      <th>duration_8</th>
+      <th>duration_9</th>
+      <th>...</th>
+      <th>dst_host_srv_rerror_rate_0.91</th>
+      <th>dst_host_srv_rerror_rate_0.92</th>
+      <th>dst_host_srv_rerror_rate_0.93</th>
+      <th>dst_host_srv_rerror_rate_0.94</th>
+      <th>dst_host_srv_rerror_rate_0.95</th>
+      <th>dst_host_srv_rerror_rate_0.96</th>
+      <th>dst_host_srv_rerror_rate_0.97</th>
+      <th>dst_host_srv_rerror_rate_0.98</th>
+      <th>dst_host_srv_rerror_rate_0.99</th>
+      <th>dst_host_srv_rerror_rate_1.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>26890</th>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>35471</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>37027</th>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>80164</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>73649</th>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 6536 columns</p>
+</div></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>Many columns in KDDCUP99 are categorical (e.g., protocol type, service, flag).</p></li>
+<li><p>One-hot encoding converts these categories into binary vectors, making them compatible with ML models.</p></li>
+</ul>
+<section id="Step-3:-Train-Test-Split">
+<h3>Step 3: Train-Test Split<a class="headerlink" href="#Step-3:-Train-Test-Split" title="Link to this heading"></a></h3>
+<p>We split the dataset into <strong>training (80%)</strong> and <strong>testing (20%)</strong> subsets.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[95]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># Keep only normal samples in the training set</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training only on normal points: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="si">}</span><span class="s2"> samples&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing samples:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Training only on normal points: 7784 samples
+Testing samples: 2013
+</pre></div></div>
+</div>
+<section id="Step-4:-Model-Training-–-Isolation-Forest">
+<h4>Step 4: Model Training – Isolation Forest<a class="headerlink" href="#Step-4:-Model-Training-–-Isolation-Forest" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line">We use <strong>Isolation Forest</strong>, a classic unsupervised anomaly detection algorithm.</div>
+<div class="line">It identifies unusual data points (potential attacks) by isolating them in a decision tree ensemble.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train Isolation Forest for anomaly detection</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">max_samples</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">bootstrap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[96]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<style>#sk-container-id-20 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-20 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-20 pre {
+  padding: 0;
+}
+
+#sk-container-id-20 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-20 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-20 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-20 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-20 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-20 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-20 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-20 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-20 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-20 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-20 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-20 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-20 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-20 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-20 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-20 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-20 div.sk-toggleable__content {
+  display: none;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-20 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-20 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-20 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-20 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+#sk-container-id-20 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-20 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-20 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-20 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-20 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-20 div.sk-label label.sk-toggleable__label,
+#sk-container-id-20 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-20 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-20 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-20 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-20 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-20 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-20 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-20 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-20 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-20 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-20 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-20 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-20 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+
+.estimator-table summary {
+    padding: .5rem;
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.estimator-table details[open] {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    padding-bottom: 0.3rem;
+}
+
+.estimator-table .parameters-table {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.estimator-table .parameters-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.estimator-table .parameters-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.estimator-table .parameters-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+.estimator-table table td {
+    border: 1px solid rgba(106, 105, 104, 0.232);
+}
+
+.user-set td {
+    color:rgb(255, 94, 0);
+    text-align: left;
+}
+
+.user-set td.value pre {
+    color:rgb(255, 94, 0) !important;
+    background-color: transparent !important;
+}
+
+.default td {
+    color: black;
+    text-align: left;
+}
+
+.user-set td i,
+.default td i {
+    color: black;
+}
+
+.copy-paste-icon {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+</style><body><div id="sk-container-id-20" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>IsolationForest(bootstrap=True, contamination=0.04, n_estimators=200,
+                random_state=42)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-20" type="checkbox" checked><label for="sk-estimator-id-20" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>IsolationForest</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.7/modules/generated/sklearn.ensemble.IsolationForest.html">?<span>Documentation for IsolationForest</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                <table class="parameters-table">
+                  <tbody>
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('n_estimators',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">n_estimators&nbsp;</td>
+            <td class="value">200</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('max_samples',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">max_samples&nbsp;</td>
+            <td class="value">&#x27;auto&#x27;</td>
+        </tr>
+
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('contamination',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">contamination&nbsp;</td>
+            <td class="value">0.04</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('max_features',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">max_features&nbsp;</td>
+            <td class="value">1.0</td>
+        </tr>
+
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('bootstrap',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">bootstrap&nbsp;</td>
+            <td class="value">True</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('n_jobs',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">n_jobs&nbsp;</td>
+            <td class="value">None</td>
+        </tr>
+
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('random_state',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">random_state&nbsp;</td>
+            <td class="value">42</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('verbose',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">verbose&nbsp;</td>
+            <td class="value">0</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('warm_start',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">warm_start&nbsp;</td>
+            <td class="value">False</td>
+        </tr>
+
+                  </tbody>
+                </table>
+            </details>
+        </div>
+    </div></div></div></div></div><script>function copyToClipboard(text, element) {
+    // Get the parameter prefix from the closest toggleable content
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
+
+    const originalStyle = element.style;
+    const computedStyle = window.getComputedStyle(element);
+    const originalWidth = computedStyle.width;
+    const originalHTML = element.innerHTML.replace('Copied!', '');
+
+    navigator.clipboard.writeText(fullParamName)
+        .then(() => {
+            element.style.width = originalWidth;
+            element.style.color = 'green';
+            element.innerHTML = "Copied!";
+
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'red';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        });
+    return false;
+}
+
+document.querySelectorAll('.fa-regular.fa-copy').forEach(function(element) {
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const paramName = element.parentElement.nextElementSibling.textContent.trim();
+    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
+
+    element.setAttribute('title', fullParamName);
+});
+</script></body></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">contamination</span></code> specifies the expected proportion of anomalies in the dataset. Here, <code class="docutils literal notranslate"><span class="pre">0.04</span></code> means the model assumes roughly 4% of the data are anomalous.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_estimators</span></code> controls the number of trees in the forest; more trees improve stability but increase computation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_samples='auto'</span></code> lets the algorithm use all training samples for each tree (or a default value if too large).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bootstrap=True</span></code> enables sampling with replacement when building trees, which can improve robustness.</p></li>
+</ul>
+</section>
+<section id="Step-5:-Visualize-the-Decision-Boundary-(2D-PCA)">
+<h4>Step 5: Visualize the Decision Boundary (2D PCA)<a class="headerlink" href="#Step-5:-Visualize-the-Decision-Boundary-(2D-PCA)" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[97]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reduce features to 2D for visualization</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train_2d</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="c1"># Retrain Isolation Forest on 2D data</span>
+<span class="n">clf_2d</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">clf_2d</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">)</span>
+
+<span class="c1"># Create a meshgrid for plotting</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">clf_2d</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Plot decision boundary</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot training points</span>
+<span class="n">y_pred_train</span> <span class="o">=</span> <span class="n">clf_2d</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;#377eb8&quot;</span><span class="p">,</span> <span class="s2">&quot;#ff7f00&quot;</span><span class="p">])</span>  <span class="c1"># Blue: normal, Orange: anomaly</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[(</span><span class="n">y_pred_train</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Isolation Forest Decision Boundary (Training Data, 2D PCA)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;PCA Component 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;PCA Component 2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_18_0.png" src="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_18_0.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>PCA reduces features to 2D for visualization only.</p></li>
+<li><p>Contour line shows boundary between normal points and anomalies.</p></li>
+<li><p>Blue points are considered normal, orange are predicted anomalies.</p></li>
+</ul>
+</section>
+<section id="Step-6:-Make-Predictions-and-Evaluate-the-Model">
+<h4>Step 6: Make Predictions and Evaluate the Model<a class="headerlink" href="#Step-6:-Make-Predictions-and-Evaluate-the-Model" title="Link to this heading"></a></h4>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[98]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict outliers in the test set</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Convert predictions to binary format (0 = normal, 1 = anomaly)</span>
+<span class="c1"># The isolation forest outputs -1 for anomalies and 1 for normal points</span>
+<span class="n">y_pred_binary</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">pred</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">y_pred</span><span class="p">]</span>
+
+<span class="c1"># Generate confusion matrix</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_binary</span><span class="p">)</span>
+
+<span class="c1"># Plot heatmap</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Actual&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Compute accuracy</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_binary</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_21_0.png" src="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_21_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Accuracy: 93.19%
+</pre></div></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>The confusion matrix shows <strong>true positives</strong>, <strong>false positives</strong>, <strong>true negatives</strong>, and <strong>false negatives</strong>.</p></li>
+<li><p>A perfect model would have all predictions along the diagonal.</p></li>
+<li><p>Since this is an anomaly detection model, some misclassifications are expected.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="Robust-Covariance">
+<h2>Robust Covariance<a class="headerlink" href="#Robust-Covariance" title="Link to this heading"></a></h2>
+<p>While <strong>Isolation Forest</strong> isolates anomalies without assuming a particular data distribution, another approach is to explicitly model the structure of normal data and detect points that deviate from it. For this, we continue working with the <a class="reference external" href="http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html">KDDCUP99 dataset</a>.</p>
+<p>In this example, we’ll use <strong>Robust Covariance estimation</strong>, specifically the <strong>EllipticEnvelope</strong> method. This approach models the central location and covariance of the data assuming a Gaussian distribution, but it is <strong>robust to outliers</strong>, making it suitable for detecting rare anomalies in network traffic. The parameter <code class="docutils literal notranslate"><span class="pre">contamination</span></code> allows specifying the expected proportion of outliers, helping the algorithm distinguish normal behavior from anomalies.</p>
+<section id="What-is-Robust-Covariance?">
+<h3>What is Robust Covariance?<a class="headerlink" href="#What-is-Robust-Covariance?" title="Link to this heading"></a></h3>
+<p><strong>Robust Covariance</strong> estimates the mean and covariance of a dataset in a way that is <strong>resistant to outliers</strong>. Unlike classical covariance, which can be heavily influenced by extreme values, robust covariance captures the “core structure” of the data, representing where most points lie. This is particularly useful in anomaly detection, where outliers should <strong>not distort the model of normal behavior</strong>.</p>
+</section>
+<section id="Why-is-it-called-EllipticEnvelope?">
+<h3>Why is it called EllipticEnvelope?<a class="headerlink" href="#Why-is-it-called-EllipticEnvelope?" title="Link to this heading"></a></h3>
+<p>The method is called <strong>EllipticEnvelope</strong> because it effectively fits an <strong>elliptical boundary</strong> around the bulk of the data in feature space:</p>
+<ul class="simple">
+<li><p>If the data were perfectly Gaussian, the contour of constant Mahalanobis distance would form an ellipse (or ellipsoid in higher dimensions).</p></li>
+<li><p>The algorithm estimates a robust mean and covariance matrix, then considers the <strong>ellipse that contains most of the data</strong> as the “normal region.”</p></li>
+<li><p>Points outside this ellipse are flagged as anomalies.</p></li>
+</ul>
+<p>In short: <strong>EllipticEnvelope = robust estimation of an elliptical region that encloses normal points</strong>. It is “robust” because extreme points (outliers) do not pull the ellipse away from the core data.</p>
+</section>
+<section id="Mathematical-Idea">
+<h3>Mathematical Idea<a class="headerlink" href="#Mathematical-Idea" title="Link to this heading"></a></h3>
+<p>EllipticEnvelope computes the <strong>Mahalanobis distance</strong> for each point (x):</p>
+<div class="math notranslate nohighlight">
+\[D_M(x) = \sqrt{(x - \mu)^T \Sigma^{-1} (x - \mu)}\]</div>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(x\)</span>: a data point</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mu\)</span>: estimated robust mean</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Sigma\)</span>: estimated robust covariance</p></li>
+</ul>
+<p>Points with a Mahalanobis distance above a threshold derived from the contamination fraction are considered <strong>anomalies</strong>.</p>
+</section>
+<section id="Intuition">
+<h3>Intuition<a class="headerlink" href="#Intuition" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Robust covariance ensures the mean and covariance estimates are <strong>not overly influenced by outliers</strong>.</p></li>
+<li><p>Points far from the “elliptical envelope” formed by the bulk of the data are <strong>flagged as outliers</strong>.</p></li>
+<li><p>Useful when normal data roughly follows a Gaussian distribution but occasional anomalies occur.</p></li>
+</ul>
+</section>
+<section id="Notes">
+<h3>Notes<a class="headerlink" href="#Notes" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>Requires specifying <code class="docutils literal notranslate"><span class="pre">contamination</span></code>, the expected fraction of outliers.</p></li>
+<li><p>Random state can be set for reproducibility.</p></li>
+<li><p>Works best for moderate-dimensional data and assumes roughly <strong>elliptical clusters</strong> for normal data.</p></li>
+</ul>
+<p>We start by loading the required libraries for this example:</p>
+</section>
+<section id="Step-1:-Model-Training-–-EllipticEnvelope">
+<h3>Step 1: Model Training – EllipticEnvelope<a class="headerlink" href="#Step-1:-Model-Training-–-EllipticEnvelope" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">We use <strong>EllipticEnvelope</strong>, a robust covariance-based anomaly detection method.</div>
+<div class="line">It models the core data distribution with a robust mean and covariance, then identifies points that fall outside the estimated elliptical region as anomalies.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Subsample 10000 points</span>
+<span class="n">X_train_sub</span> <span class="o">=</span> <span class="n">resample</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="c1"># Apply PCA to reduce to 10 dimensions for better performance -&gt; EllipticEnvelope is computationally expensive</span>
+<span class="n">X_train_sub_pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train_sub</span><span class="p">)</span>
+<span class="c1"># Train EllipticEnvelope for anomaly detection</span>
+<span class="n">outliers_fraction</span> <span class="o">=</span> <span class="mf">0.04</span>  <span class="c1"># expected fraction of anomalies</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">EllipticEnvelope</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="n">outliers_fraction</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_sub_pca</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[99]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<style>#sk-container-id-21 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-21 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-21 pre {
+  padding: 0;
+}
+
+#sk-container-id-21 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-21 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-21 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-21 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-21 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-21 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-21 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-21 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-21 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-21 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-21 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-21 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-21 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-21 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-21 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-21 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-21 div.sk-toggleable__content {
+  display: none;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-21 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-21 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-21 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-21 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+#sk-container-id-21 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-21 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-21 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-21 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-21 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-21 div.sk-label label.sk-toggleable__label,
+#sk-container-id-21 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-21 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-21 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-21 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-21 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-21 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-21 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-21 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-21 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-21 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-21 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-21 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-21 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+
+.estimator-table summary {
+    padding: .5rem;
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.estimator-table details[open] {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    padding-bottom: 0.3rem;
+}
+
+.estimator-table .parameters-table {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.estimator-table .parameters-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.estimator-table .parameters-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.estimator-table .parameters-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+.estimator-table table td {
+    border: 1px solid rgba(106, 105, 104, 0.232);
+}
+
+.user-set td {
+    color:rgb(255, 94, 0);
+    text-align: left;
+}
+
+.user-set td.value pre {
+    color:rgb(255, 94, 0) !important;
+    background-color: transparent !important;
+}
+
+.default td {
+    color: black;
+    text-align: left;
+}
+
+.user-set td i,
+.default td i {
+    color: black;
+}
+
+.copy-paste-icon {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+</style><body><div id="sk-container-id-21" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>EllipticEnvelope(contamination=0.04, random_state=42)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-21" type="checkbox" checked><label for="sk-estimator-id-21" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>EllipticEnvelope</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.7/modules/generated/sklearn.covariance.EllipticEnvelope.html">?<span>Documentation for EllipticEnvelope</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                <table class="parameters-table">
+                  <tbody>
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('store_precision',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">store_precision&nbsp;</td>
+            <td class="value">True</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('assume_centered',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">assume_centered&nbsp;</td>
+            <td class="value">False</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('support_fraction',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">support_fraction&nbsp;</td>
+            <td class="value">None</td>
+        </tr>
+
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('contamination',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">contamination&nbsp;</td>
+            <td class="value">0.04</td>
+        </tr>
+
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('random_state',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">random_state&nbsp;</td>
+            <td class="value">42</td>
+        </tr>
+
+                  </tbody>
+                </table>
+            </details>
+        </div>
+    </div></div></div></div></div><script>function copyToClipboard(text, element) {
+    // Get the parameter prefix from the closest toggleable content
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
+
+    const originalStyle = element.style;
+    const computedStyle = window.getComputedStyle(element);
+    const originalWidth = computedStyle.width;
+    const originalHTML = element.innerHTML.replace('Copied!', '');
+
+    navigator.clipboard.writeText(fullParamName)
+        .then(() => {
+            element.style.width = originalWidth;
+            element.style.color = 'green';
+            element.innerHTML = "Copied!";
+
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'red';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        });
+    return false;
+}
+
+document.querySelectorAll('.fa-regular.fa-copy').forEach(function(element) {
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const paramName = element.parentElement.nextElementSibling.textContent.trim();
+    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
+
+    element.setAttribute('title', fullParamName);
+});
+</script></body></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">contamination</span></code> specifies the expected proportion of outliers.</p></li>
+<li><p>Robust covariance ensures the estimated ellipse is not distorted by extreme points.</p></li>
+<li><p>Points outside the elliptical envelope are flagged as anomalies.</p></li>
+</ul>
+</section>
+<section id="Step-2:-Visualize-the-Decision-Boundary-(2D-PCA)">
+<h3>Step 2: Visualize the Decision Boundary (2D PCA)<a class="headerlink" href="#Step-2:-Visualize-the-Decision-Boundary-(2D-PCA)" title="Link to this heading"></a></h3>
+<p>We reduce features to 2D using PCA and visualize the elliptical boundary.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[100]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reduce features to 2D for visualization</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train_2d</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train_sub</span><span class="p">)</span>
+
+<span class="c1"># Retrain EllipticEnvelope on 2D data</span>
+<span class="n">clf_2d</span> <span class="o">=</span> <span class="n">EllipticEnvelope</span><span class="p">(</span><span class="n">contamination</span><span class="o">=</span><span class="n">outliers_fraction</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">clf_2d</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">)</span>
+
+<span class="c1"># Create a meshgrid for plotting (zoomed out)</span>
+<span class="n">buffer_x</span> <span class="o">=</span> <span class="mi">5</span>  <span class="c1"># increase to zoom out more</span>
+<span class="n">buffer_y</span> <span class="o">=</span> <span class="mi">15</span>  <span class="c1"># increase to zoom out more</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="n">buffer_x</span><span class="p">,</span> <span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="n">buffer_x</span><span class="p">,</span> <span class="mi">300</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="n">buffer_y</span><span class="p">,</span> <span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="n">buffer_y</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">clf_2d</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Plot decision boundary</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot training points</span>
+<span class="n">y_pred_train</span> <span class="o">=</span> <span class="n">clf_2d</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;#377eb8&quot;</span><span class="p">,</span> <span class="s2">&quot;#ff7f00&quot;</span><span class="p">])</span>  <span class="c1"># Blue: normal, Orange: anomaly</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[(</span><span class="n">y_pred_train</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="c1"># Set axis limits to match meshgrid</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">xx</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">yy</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;EllipticEnvelope Decision Boundary (Training Data, 2D PCA)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;PCA Component 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;PCA Component 2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_28_0.png" src="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_28_0.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>PCA reduces features to 2D for visualization only.</p></li>
+<li><p>The contour line shows the boundary of the elliptical envelope.</p></li>
+<li><p>Blue points are considered normal, orange points are predicted anomalies.</p></li>
+</ul>
+</section>
+<section id="Step-3:-Make-Predictions-and-Evaluate-the-Model">
+<h3>Step 3: Make Predictions and Evaluate the Model<a class="headerlink" href="#Step-3:-Make-Predictions-and-Evaluate-the-Model" title="Link to this heading"></a></h3>
+<p>We predict outliers on the test set and evaluate performance.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[101]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict outliers in the test set</span>
+<span class="n">X_test_pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_pca</span><span class="p">)</span>
+
+<span class="c1"># Convert predictions to binary format (0 = normal, 1 = anomaly)</span>
+<span class="c1"># EllipticEnvelope outputs -1 for anomalies and 1 for normal points</span>
+<span class="n">y_pred_binary</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">pred</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">y_pred</span><span class="p">]</span>
+
+<span class="c1"># Generate confusion matrix</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_binary</span><span class="p">)</span>
+
+<span class="c1"># Plot heatmap</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Actual&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Compute accuracy</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_binary</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_31_0.png" src="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_31_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Accuracy: 93.39%
+</pre></div></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>The confusion matrix shows true positives, false positives, true negatives, and false negatives.</p></li>
+<li><p>Some misclassifications are expected because anomalies are rare and sometimes overlap with normal data.</p></li>
+<li><p>PCA visualization helps see how normal and anomalous points are separated by the elliptical boundary.</p></li>
+<li><p>Points are colored by prediction: normal (blue) and attack (orange).</p></li>
+</ul>
+</section>
+</section>
+<section id="One-Class-SVM">
+<h2>One-Class SVM<a class="headerlink" href="#One-Class-SVM" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">After exploring <strong>EllipticEnvelope</strong>, which models normal data with a robust Gaussian assumption, we now consider a more flexible approach using <strong>One-Class Support Vector Machines (SVM)</strong>.</div>
+<div class="line">Like EllipticEnvelope, One-Class SVM is designed for <strong>unsupervised anomaly detection</strong>, but instead of assuming a specific distribution, it learns a <strong>decision boundary that encloses normal points</strong> in a high-dimensional feature space. This makes it suitable for complex, non-linear patterns in network traffic.</div>
+</div>
+<p>In this example, we’ll continue working with the <a class="reference external" href="http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html">KDDCUP99 dataset</a>.</p>
+<div class="line-block">
+<div class="line"><strong>Mathematical Idea:</strong> One-Class SVM maps the data into a high-dimensional space using a kernel function, then finds the <strong>smallest region that contains most of the data points</strong>.</div>
+<div class="line">For a dataset of <span class="math notranslate nohighlight">\(n\)</span> points <span class="math notranslate nohighlight">\(\{x_1, ..., x_n\}\)</span>, it solves the optimization problem:</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\min_{\mathbf{w},\rho,\xi_i} \frac{1}{2} \|\mathbf{w}\|^2 + \frac{1}{\nu n} \sum_{i=1}^{n} \xi_i - \rho\]</div>
+<p>subject to:</p>
+<div class="math notranslate nohighlight">
+\[(\mathbf{w} \cdot \phi(x_i)) \ge \rho - \xi_i, \quad \xi_i \ge 0\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\phi(x_i)\)</span>: the feature mapping of <span class="math notranslate nohighlight">\(x_i\)</span> into the kernel space</p></li>
+<li><p><span class="math notranslate nohighlight">\(\mathbf{w}\)</span>: normal vector defining the decision boundary</p></li>
+<li><p><span class="math notranslate nohighlight">\(\rho\)</span>: offset controlling the boundary</p></li>
+<li><p><span class="math notranslate nohighlight">\(\xi_i\)</span>: slack variables allowing some points to lie outside the boundary</p></li>
+<li><p><span class="math notranslate nohighlight">\(\nu \in (0,1]\)</span>: upper bound on the fraction of anomalies and lower bound on the fraction of support vectors</p></li>
+</ul>
+<p><strong>Intuition:</strong></p>
+<ul class="simple">
+<li><p>One-Class SVM tries to <strong>enclose the majority of normal points</strong> while leaving anomalies outside the learned boundary.</p></li>
+<li><p>The kernel function (e.g., RBF) allows the boundary to be <strong>non-linear</strong>, capturing complex patterns.</p></li>
+<li><p>The parameter <span class="math notranslate nohighlight">\(\nu\)</span> roughly controls the <strong>expected fraction of outliers</strong>.</p></li>
+</ul>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>Unlike EllipticEnvelope, One-Class SVM does <strong>not assume Gaussianity</strong>.</p></li>
+<li><p>Can handle high-dimensional and non-linearly separable data.</p></li>
+<li><p>Points outside the learned boundary are flagged as anomalies.</p></li>
+<li><p>Requires specifying the kernel type and the <span class="math notranslate nohighlight">\(\nu\)</span> parameter.</p></li>
+</ul>
+<p>We start by loading the required libraries for this lab:</p>
+<section id="Step-4:-Model-Training-–-One-Class-SVM">
+<h3>Step 4: Model Training – One-Class SVM<a class="headerlink" href="#Step-4:-Model-Training-–-One-Class-SVM" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">We use <strong>One-Class SVM</strong>, an unsupervised anomaly detection algorithm.</div>
+<div class="line">It identifies unusual data points (potential attacks) by learning a decision boundary that encloses the majority of normal data in a high-dimensional space.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train One-Class SVM for anomaly detection</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">OneClassSVM</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;scale&#39;</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[102]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<style>#sk-container-id-22 {
+  /* Definition of color scheme common for light and dark mode */
+  --sklearn-color-text: #000;
+  --sklearn-color-text-muted: #666;
+  --sklearn-color-line: gray;
+  /* Definition of color scheme for unfitted estimators */
+  --sklearn-color-unfitted-level-0: #fff5e6;
+  --sklearn-color-unfitted-level-1: #f6e4d2;
+  --sklearn-color-unfitted-level-2: #ffe0b3;
+  --sklearn-color-unfitted-level-3: chocolate;
+  /* Definition of color scheme for fitted estimators */
+  --sklearn-color-fitted-level-0: #f0f8ff;
+  --sklearn-color-fitted-level-1: #d4ebff;
+  --sklearn-color-fitted-level-2: #b3dbfd;
+  --sklearn-color-fitted-level-3: cornflowerblue;
+
+  /* Specific color for light theme */
+  --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, white)));
+  --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, black)));
+  --sklearn-color-icon: #696969;
+
+  @media (prefers-color-scheme: dark) {
+    /* Redefinition of color scheme for dark theme */
+    --sklearn-color-text-on-default-background: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-background: var(--sg-background-color, var(--theme-background, var(--jp-layout-color0, #111)));
+    --sklearn-color-border-box: var(--sg-text-color, var(--theme-code-foreground, var(--jp-content-font-color1, white)));
+    --sklearn-color-icon: #878787;
+  }
+}
+
+#sk-container-id-22 {
+  color: var(--sklearn-color-text);
+}
+
+#sk-container-id-22 pre {
+  padding: 0;
+}
+
+#sk-container-id-22 input.sk-hidden--visually {
+  border: 0;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+#sk-container-id-22 div.sk-dashed-wrapped {
+  border: 1px dashed var(--sklearn-color-line);
+  margin: 0 0.4em 0.5em 0.4em;
+  box-sizing: border-box;
+  padding-bottom: 0.4em;
+  background-color: var(--sklearn-color-background);
+}
+
+#sk-container-id-22 div.sk-container {
+  /* jupyter's `normalize.less` sets `[hidden] { display: none; }`
+     but bootstrap.min.css set `[hidden] { display: none !important; }`
+     so we also need the `!important` here to be able to override the
+     default hidden behavior on the sphinx rendered scikit-learn.org.
+     See: https://github.com/scikit-learn/scikit-learn/issues/21755 */
+  display: inline-block !important;
+  position: relative;
+}
+
+#sk-container-id-22 div.sk-text-repr-fallback {
+  display: none;
+}
+
+div.sk-parallel-item,
+div.sk-serial,
+div.sk-item {
+  /* draw centered vertical line to link estimators */
+  background-image: linear-gradient(var(--sklearn-color-text-on-default-background), var(--sklearn-color-text-on-default-background));
+  background-size: 2px 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+/* Parallel-specific style estimator block */
+
+#sk-container-id-22 div.sk-parallel-item::after {
+  content: "";
+  width: 100%;
+  border-bottom: 2px solid var(--sklearn-color-text-on-default-background);
+  flex-grow: 1;
+}
+
+#sk-container-id-22 div.sk-parallel {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background-color: var(--sklearn-color-background);
+  position: relative;
+}
+
+#sk-container-id-22 div.sk-parallel-item {
+  display: flex;
+  flex-direction: column;
+}
+
+#sk-container-id-22 div.sk-parallel-item:first-child::after {
+  align-self: flex-end;
+  width: 50%;
+}
+
+#sk-container-id-22 div.sk-parallel-item:last-child::after {
+  align-self: flex-start;
+  width: 50%;
+}
+
+#sk-container-id-22 div.sk-parallel-item:only-child::after {
+  width: 0;
+}
+
+/* Serial-specific style estimator block */
+
+#sk-container-id-22 div.sk-serial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--sklearn-color-background);
+  padding-right: 1em;
+  padding-left: 1em;
+}
+
+
+/* Toggleable style: style used for estimator/Pipeline/ColumnTransformer box that is
+clickable and can be expanded/collapsed.
+- Pipeline and ColumnTransformer use this feature and define the default style
+- Estimators will overwrite some part of the style using the `sk-estimator` class
+*/
+
+/* Pipeline and ColumnTransformer style (default) */
+
+#sk-container-id-22 div.sk-toggleable {
+  /* Default theme specific background. It is overwritten whether we have a
+  specific estimator or a Pipeline/ColumnTransformer */
+  background-color: var(--sklearn-color-background);
+}
+
+/* Toggleable label */
+#sk-container-id-22 label.sk-toggleable__label {
+  cursor: pointer;
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0.5em;
+  box-sizing: border-box;
+  text-align: center;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+#sk-container-id-22 label.sk-toggleable__label .caption {
+  font-size: 0.6rem;
+  font-weight: lighter;
+  color: var(--sklearn-color-text-muted);
+}
+
+#sk-container-id-22 label.sk-toggleable__label-arrow:before {
+  /* Arrow on the left of the label */
+  content: "▸";
+  float: left;
+  margin-right: 0.25em;
+  color: var(--sklearn-color-icon);
+}
+
+#sk-container-id-22 label.sk-toggleable__label-arrow:hover:before {
+  color: var(--sklearn-color-text);
+}
+
+/* Toggleable content - dropdown */
+
+#sk-container-id-22 div.sk-toggleable__content {
+  display: none;
+  text-align: left;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-22 div.sk-toggleable__content.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-22 div.sk-toggleable__content pre {
+  margin: 0.2em;
+  border-radius: 0.25em;
+  color: var(--sklearn-color-text);
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-22 div.sk-toggleable__content.fitted pre {
+  /* unfitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+#sk-container-id-22 input.sk-toggleable__control:checked~div.sk-toggleable__content {
+  /* Expand drop-down */
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+#sk-container-id-22 input.sk-toggleable__control:checked~label.sk-toggleable__label-arrow:before {
+  content: "▾";
+}
+
+/* Pipeline/ColumnTransformer-specific style */
+
+#sk-container-id-22 div.sk-label input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-22 div.sk-label.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator-specific style */
+
+/* Colorize estimator box */
+#sk-container-id-22 div.sk-estimator input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-22 div.sk-estimator.fitted input.sk-toggleable__control:checked~label.sk-toggleable__label {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+#sk-container-id-22 div.sk-label label.sk-toggleable__label,
+#sk-container-id-22 div.sk-label label {
+  /* The background is the default theme color */
+  color: var(--sklearn-color-text-on-default-background);
+}
+
+/* On hover, darken the color of the background */
+#sk-container-id-22 div.sk-label:hover label.sk-toggleable__label {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+/* Label box, darken color on hover, fitted */
+#sk-container-id-22 div.sk-label.fitted:hover label.sk-toggleable__label.fitted {
+  color: var(--sklearn-color-text);
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Estimator label */
+
+#sk-container-id-22 div.sk-label label {
+  font-family: monospace;
+  font-weight: bold;
+  display: inline-block;
+  line-height: 1.2em;
+}
+
+#sk-container-id-22 div.sk-label-container {
+  text-align: center;
+}
+
+/* Estimator-specific */
+#sk-container-id-22 div.sk-estimator {
+  font-family: monospace;
+  border: 1px dotted var(--sklearn-color-border-box);
+  border-radius: 0.25em;
+  box-sizing: border-box;
+  margin-bottom: 0.5em;
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-0);
+}
+
+#sk-container-id-22 div.sk-estimator.fitted {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-0);
+}
+
+/* on hover */
+#sk-container-id-22 div.sk-estimator:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-2);
+}
+
+#sk-container-id-22 div.sk-estimator.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-2);
+}
+
+/* Specification for estimator info (e.g. "i" and "?") */
+
+/* Common style for "i" and "?" */
+
+.sk-estimator-doc-link,
+a:link.sk-estimator-doc-link,
+a:visited.sk-estimator-doc-link {
+  float: right;
+  font-size: smaller;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1em;
+  height: 1em;
+  width: 1em;
+  text-decoration: none !important;
+  margin-left: 0.5em;
+  text-align: center;
+  /* unfitted */
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+  color: var(--sklearn-color-unfitted-level-1);
+}
+
+.sk-estimator-doc-link.fitted,
+a:link.sk-estimator-doc-link.fitted,
+a:visited.sk-estimator-doc-link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+div.sk-estimator:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover,
+div.sk-label-container:hover .sk-estimator-doc-link:hover,
+.sk-estimator-doc-link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+div.sk-estimator.fitted:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover,
+div.sk-label-container:hover .sk-estimator-doc-link.fitted:hover,
+.sk-estimator-doc-link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+/* Span, style for the box shown on hovering the info icon */
+.sk-estimator-doc-link span {
+  display: none;
+  z-index: 9999;
+  position: relative;
+  font-weight: normal;
+  right: .2ex;
+  padding: .5ex;
+  margin: .5ex;
+  width: min-content;
+  min-width: 20ex;
+  max-width: 50ex;
+  color: var(--sklearn-color-text);
+  box-shadow: 2pt 2pt 4pt #999;
+  /* unfitted */
+  background: var(--sklearn-color-unfitted-level-0);
+  border: .5pt solid var(--sklearn-color-unfitted-level-3);
+}
+
+.sk-estimator-doc-link.fitted span {
+  /* fitted */
+  background: var(--sklearn-color-fitted-level-0);
+  border: var(--sklearn-color-fitted-level-3);
+}
+
+.sk-estimator-doc-link:hover span {
+  display: block;
+}
+
+/* "?"-specific style due to the `<a>` HTML tag */
+
+#sk-container-id-22 a.estimator_doc_link {
+  float: right;
+  font-size: 1rem;
+  line-height: 1em;
+  font-family: monospace;
+  background-color: var(--sklearn-color-background);
+  border-radius: 1rem;
+  height: 1rem;
+  width: 1rem;
+  text-decoration: none;
+  /* unfitted */
+  color: var(--sklearn-color-unfitted-level-1);
+  border: var(--sklearn-color-unfitted-level-1) 1pt solid;
+}
+
+#sk-container-id-22 a.estimator_doc_link.fitted {
+  /* fitted */
+  border: var(--sklearn-color-fitted-level-1) 1pt solid;
+  color: var(--sklearn-color-fitted-level-1);
+}
+
+/* On hover */
+#sk-container-id-22 a.estimator_doc_link:hover {
+  /* unfitted */
+  background-color: var(--sklearn-color-unfitted-level-3);
+  color: var(--sklearn-color-background);
+  text-decoration: none;
+}
+
+#sk-container-id-22 a.estimator_doc_link.fitted:hover {
+  /* fitted */
+  background-color: var(--sklearn-color-fitted-level-3);
+}
+
+.estimator-table summary {
+    padding: .5rem;
+    font-family: monospace;
+    cursor: pointer;
+}
+
+.estimator-table details[open] {
+    padding-left: 0.1rem;
+    padding-right: 0.1rem;
+    padding-bottom: 0.3rem;
+}
+
+.estimator-table .parameters-table {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.estimator-table .parameters-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.estimator-table .parameters-table tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.estimator-table .parameters-table tr:hover {
+    background-color: #e0e0e0;
+}
+
+.estimator-table table td {
+    border: 1px solid rgba(106, 105, 104, 0.232);
+}
+
+.user-set td {
+    color:rgb(255, 94, 0);
+    text-align: left;
+}
+
+.user-set td.value pre {
+    color:rgb(255, 94, 0) !important;
+    background-color: transparent !important;
+}
+
+.default td {
+    color: black;
+    text-align: left;
+}
+
+.user-set td i,
+.default td i {
+    color: black;
+}
+
+.copy-paste-icon {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNy4yIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjUgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTIwOCAwTDMzMi4xIDBjMTIuNyAwIDI0LjkgNS4xIDMzLjkgMTQuMWw2Ny45IDY3LjljOSA5IDE0LjEgMjEuMiAxNC4xIDMzLjlMNDQ4IDMzNmMwIDI2LjUtMjEuNSA0OC00OCA0OGwtMTkyIDBjLTI2LjUgMC00OC0yMS41LTQ4LTQ4bDAtMjg4YzAtMjYuNSAyMS41LTQ4IDQ4LTQ4ek00OCAxMjhsODAgMCAwIDY0LTY0IDAgMCAyNTYgMTkyIDAgMC0zMiA2NCAwIDAgNDhjMCAyNi41LTIxLjUgNDgtNDggNDhMNDggNTEyYy0yNi41IDAtNDgtMjEuNS00OC00OEwwIDE3NmMwLTI2LjUgMjEuNS00OCA0OC00OHoiLz48L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
+    background-position: 0;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+</style><body><div id="sk-container-id-22" class="sk-top-container"><div class="sk-text-repr-fallback"><pre>OneClassSVM(nu=0.04)</pre><b>In a Jupyter environment, please rerun this cell to show the HTML representation or trust the notebook. <br />On GitHub, the HTML representation is unable to render, please try loading this page with nbviewer.org.</b></div><div class="sk-container" hidden><div class="sk-item"><div class="sk-estimator fitted sk-toggleable"><input class="sk-toggleable__control sk-hidden--visually" id="sk-estimator-id-22" type="checkbox" checked><label for="sk-estimator-id-22" class="sk-toggleable__label fitted sk-toggleable__label-arrow"><div><div>OneClassSVM</div></div><div><a class="sk-estimator-doc-link fitted" rel="noreferrer" target="_blank" href="https://scikit-learn.org/1.7/modules/generated/sklearn.svm.OneClassSVM.html">?<span>Documentation for OneClassSVM</span></a><span class="sk-estimator-doc-link fitted">i<span>Fitted</span></span></div></label><div class="sk-toggleable__content fitted" data-param-prefix="">
+        <div class="estimator-table">
+            <details>
+                <summary>Parameters</summary>
+                <table class="parameters-table">
+                  <tbody>
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('kernel',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">kernel&nbsp;</td>
+            <td class="value">&#x27;rbf&#x27;</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('degree',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">degree&nbsp;</td>
+            <td class="value">3</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('gamma',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">gamma&nbsp;</td>
+            <td class="value">&#x27;scale&#x27;</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('coef0',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">coef0&nbsp;</td>
+            <td class="value">0.0</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('tol',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">tol&nbsp;</td>
+            <td class="value">0.001</td>
+        </tr>
+
+
+        <tr class="user-set">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('nu',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">nu&nbsp;</td>
+            <td class="value">0.04</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('shrinking',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">shrinking&nbsp;</td>
+            <td class="value">True</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('cache_size',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">cache_size&nbsp;</td>
+            <td class="value">200</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('verbose',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">verbose&nbsp;</td>
+            <td class="value">False</td>
+        </tr>
+
+
+        <tr class="default">
+            <td><i class="copy-paste-icon"
+                 onclick="copyToClipboard('max_iter',
+                          this.parentElement.nextElementSibling)"
+            ></i></td>
+            <td class="param">max_iter&nbsp;</td>
+            <td class="value">-1</td>
+        </tr>
+
+                  </tbody>
+                </table>
+            </details>
+        </div>
+    </div></div></div></div></div><script>function copyToClipboard(text, element) {
+    // Get the parameter prefix from the closest toggleable content
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const fullParamName = paramPrefix ? `${paramPrefix}${text}` : text;
+
+    const originalStyle = element.style;
+    const computedStyle = window.getComputedStyle(element);
+    const originalWidth = computedStyle.width;
+    const originalHTML = element.innerHTML.replace('Copied!', '');
+
+    navigator.clipboard.writeText(fullParamName)
+        .then(() => {
+            element.style.width = originalWidth;
+            element.style.color = 'green';
+            element.innerHTML = "Copied!";
+
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        })
+        .catch(err => {
+            console.error('Failed to copy:', err);
+            element.style.color = 'red';
+            element.innerHTML = "Failed!";
+            setTimeout(() => {
+                element.innerHTML = originalHTML;
+                element.style = originalStyle;
+            }, 2000);
+        });
+    return false;
+}
+
+document.querySelectorAll('.fa-regular.fa-copy').forEach(function(element) {
+    const toggleableContent = element.closest('.sk-toggleable__content');
+    const paramPrefix = toggleableContent ? toggleableContent.dataset.paramPrefix : '';
+    const paramName = element.parentElement.nextElementSibling.textContent.trim();
+    const fullParamName = paramPrefix ? `${paramPrefix}${paramName}` : paramName;
+
+    element.setAttribute('title', fullParamName);
+});
+</script></body></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nu</span></code> is an upper bound on the fraction of anomalies and a lower bound on the fraction of support vectors.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kernel</span></code> specifies the function used to map data into a higher-dimensional space; RBF allows non-linear boundaries.</p></li>
+<li><p>Points outside the learned boundary are flagged as anomalies.</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>Step 5: Visualize the Decision Boundary (2D PCA)<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>We reduce features to 2D using PCA and visualize the boundary learned by One-Class SVM.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[103]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Reduce features to 2D for visualization</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">X_train_2d</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+
+<span class="c1"># Retrain One-Class SVM on 2D data</span>
+<span class="n">clf_2d</span> <span class="o">=</span> <span class="n">OneClassSVM</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="s1">&#39;scale&#39;</span><span class="p">)</span>
+<span class="n">clf_2d</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">)</span>
+
+<span class="c1"># Create a meshgrid for plotting</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">150</span><span class="p">),</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">150</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">Z</span> <span class="o">=</span> <span class="n">clf_2d</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Plot decision boundary</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="c1"># Plot training points</span>
+<span class="n">y_pred_train</span> <span class="o">=</span> <span class="n">clf_2d</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">)</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;#377eb8&quot;</span><span class="p">,</span> <span class="s2">&quot;#ff7f00&quot;</span><span class="p">])</span>  <span class="c1"># Blue: normal, Orange: anomaly</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_train_2d</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[(</span><span class="n">y_pred_train</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;One-Class SVM Decision Boundary (Training Data, 2D PCA)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;PCA Component 1&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;PCA Component 2&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_38_0.png" src="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_38_0.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>PCA reduces features to 2D for visualization only.</p></li>
+<li><p>The contour line shows the boundary separating normal points from anomalies.</p></li>
+<li><p>Blue points are predicted normal, orange points are predicted anomalies.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Step 3: Make Predictions and Evaluate the Model<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>We predict outliers on the test set and evaluate performance.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[104]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict outliers in the test set</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># Convert predictions to binary format (0 = normal, 1 = anomaly)</span>
+<span class="c1"># One-Class SVM outputs -1 for anomalies and 1 for normal points</span>
+<span class="n">y_pred_binary</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">pred</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">pred</span> <span class="ow">in</span> <span class="n">y_pred</span><span class="p">]</span>
+
+<span class="c1"># Generate confusion matrix</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_binary</span><span class="p">)</span>
+
+<span class="c1"># Plot heatmap</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Actual&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># Compute accuracy</span>
+<span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred_binary</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">acc</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_41_0.png" src="../../_images/tutorial_notebooks_tutorial2_anomaly_detection_tutorial2_anomaly_detection_41_0.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Accuracy: 93.14%
+</pre></div></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>The confusion matrix shows true positives, false positives, true negatives, and false negatives.</p></li>
+<li><p>Some misclassifications are expected because anomalies may overlap with normal data.</p></li>
+<li><p>PCA visualization helps see how the non-linear boundary separates normal and anomalous points.</p></li>
+<li><p>Points are colored by prediction: normal (blue) and attack (orange).</p></li>
+</ul>
+</section>
+</section>
+<section id="Exercises-–-Anomaly-Detection-with-KDDCUP99">
+<h2>Exercises – Anomaly Detection with KDDCUP99<a class="headerlink" href="#Exercises-–-Anomaly-Detection-with-KDDCUP99" title="Link to this heading"></a></h2>
+<p>In this exercise, we’ll learn how to compare, implement, and evaluate different anomaly detection algorithms for cybersecurity using the <a class="reference external" href="http://kdd.ics.uci.edu/databases/kddcup99/kddcup99.html">KDDCUP99 dataset</a>. We’ll focus on Isolation Forest, EllipticEnvelope (Robust Covariance), One-Class SVM, and Local Outlier Factor (LOF).</p>
+<section id="Exercise-1:-Compare-Decision-Boundaries-Between-Anomaly-Detection-Algorithms">
+<h3>Exercise 1: Compare Decision Boundaries Between Anomaly Detection Algorithms<a class="headerlink" href="#Exercise-1:-Compare-Decision-Boundaries-Between-Anomaly-Detection-Algorithms" title="Link to this heading"></a></h3>
+<p><strong>Objective:</strong> Understand how different algorithms separate normal points from anomalies.</p>
+<p><strong>Tasks:</strong></p>
+<ol class="arabic simple">
+<li><p>Compare the shapes and coverage of the decision boundaries in the examples above:</p>
+<ul class="simple">
+<li><p>Which algorithm produces linear vs. non-linear boundaries?</p></li>
+<li><p>Which boundaries are tight around the normal points and which are more spread out?</p></li>
+</ul>
+</li>
+<li><p><strong>Theory Questions:</strong></p>
+<ul class="simple">
+<li><p>Explain why the Isolation Forest boundary might look irregular compared to EllipticEnvelope.</p></li>
+<li><p>Why does One-Class SVM often capture complex non-linear patterns better than Robust Covariance?</p></li>
+<li><p>How does the assumption about data distribution influence the boundary shape for each algorithm?</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="Exercise-2:-Runtime-Complexity">
+<h3>Exercise 2: Runtime Complexity<a class="headerlink" href="#Exercise-2:-Runtime-Complexity" title="Link to this heading"></a></h3>
+<p><strong>Objective:</strong> Compare the computational efficiency of different anomaly detection algorithms.</p>
+<p><strong>Tasks:</strong></p>
+<ol class="arabic simple">
+<li><p>Measure the execution time of <strong>training</strong> and <strong>prediction</strong> for:</p>
+<ul class="simple">
+<li><p>Isolation Forest</p></li>
+<li><p>EllipticEnvelope</p></li>
+<li><p>One-Class SVM
+Use the Python <code class="docutils literal notranslate"><span class="pre">time</span></code> module or <code class="docutils literal notranslate"><span class="pre">%timeit</span></code> magic in Jupyter. Implement this directly in the code sections of the examples above.</p></li>
+</ul>
+</li>
+<li><p>Discuss:</p>
+<ul class="simple">
+<li><p>Which algorithm is fastest during training? During testing? Explain why.</p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="Exercise-3:-Implement-Local-Outlier-Factor-(LOF)-for-Anomaly-Detection">
+<h3>Exercise 3: Implement Local Outlier Factor (LOF) for Anomaly Detection<a class="headerlink" href="#Exercise-3:-Implement-Local-Outlier-Factor-(LOF)-for-Anomaly-Detection" title="Link to this heading"></a></h3>
+<p><strong>Objective:</strong> Apply a density-based anomaly detection algorithm to network traffic data.</p>
+<div class="line-block">
+<div class="line"><strong>Background:</strong></div>
+<div class="line">In Tutorial 1, we encountered the density-based clustering algorithm <strong>DBSCAN</strong>. In this exercise, we will implement an anomaly detection algorithm based on a similar density principle: the <strong>Local Outlier Factor (LOF)</strong>. LOF identifies anomalies by comparing the local density of a point to the densities of its neighbors.</div>
+</div>
+<p><strong>Resources:</strong></p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Local_outlier_factor">Local Outlier Factor (LOF) Wikipedia</a></p></li>
+<li><p><a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.LocalOutlierFactor.html">scikit-learn LocalOutlierFactor class</a></p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[105]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Tasks:</span>
+<span class="c1"># 1. Load and preprocess the KDDCUP99 dataset as in the examples.</span>
+<span class="c1"># 2. Train a LocalOutlierFactor model using only normal points.</span>
+<span class="c1"># 3. Predict anomalies on the test set.</span>
+<span class="c1"># 4. Visualize the decision boundary using 2D PCA.</span>
+<span class="c1"># 5. Visualize the results a confusion matrix.</span>
+<span class="c1"># 6. Compare the LOF results with those obtained from:</span>
+<span class="c1">#    - Isolation Forest</span>
+<span class="c1">#    - EllipticEnvelope</span>
+<span class="c1">#    - One-Class SVM</span>
+<span class="c1"># 6. Theory Questions:</span>
+<span class="c1">#    - How does LOF differ from Isolation Forest in identifying anomalies?</span>
+<span class="c1">#    - Why is LOF considered a density-based method rather than a boundary-based method?</span>
+<span class="c1">#    - What are the strengths and limitations of LOF for intrusion detection in cybersecurity?</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>In this tutorial, we explored how classic machine learning techniques can be used to detect anomalies in network traffic, a critical task in cybersecurity where labeled attack data are scarce. By applying algorithms such as Isolation Forest, EllipticEnvelope, One-Class SVM, and Local Outlier Factor to the KDDCUP99 dataset, we gained practical insights into how different models identify unusual behavior in network data.</p>
+<p>Isolation Forest efficiently isolates anomalies without explicitly modeling normal data, making it well-suited for high-volume traffic where attacks are rare and diverse. EllipticEnvelope, on the other hand, constructs a robust statistical representation of normal behavior and flags deviations as potential threats. However, it is computationally expensive, particularly in high-dimensional datasets, which can limit scalability. One-Class SVM demonstrates the power of non-linear boundaries in
+high-dimensional feature spaces, capturing complex patterns that other methods may overlook. LOF, as a density-based method, emphasizes local context by identifying points that deviate from the density of their immediate neighborhood rather than from a global model of normality.</p>
+<p>Through visualization, evaluation, and runtime analysis, we observed how algorithmic assumptions impact both detection performance and computational feasibility. Anomaly detection provides insight into previously unseen or evolving cyber threats, enabling early intervention and complementing traditional signature-based systems. This tutorial illustrates that a deep understanding of both the data and the strengths and limitations of different algorithms is essential for designing robust intrusion
+detection strategies that proactively anticipate attacks rather than merely reacting to them.</p>
+<p><strong>For practical implementation of ML-based anomaly detection methods, we must ask critical questions:</strong> How often do zero-day attacks occur that cannot be captured by signature-based systems? What is the volume of network traffic, and which algorithm can handle this amount of data efficiently? What is the cost of false positives to the organization? What is the cost of false negatives? How can we handle this balance?</p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/"><img alt="Star our repository" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=⭐&amp;message=Star%20Our%20Repository&amp;color=yellow" /></a> If you found this tutorial helpful, please <strong>⭐ star our repository</strong> to show your support.</div>
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/issues"><img alt="Ask questions" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=❔&amp;message=Ask%20Questions&amp;color=9cf" /></a> For any <strong>questions</strong>, <strong>typos</strong>, or <strong>bugs</strong>, kindly open an issue on GitHub — we appreciate your feedback!</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html" class="btn btn-neutral float-left" title="Getting Started 4: Deep Learning for Cybersecurity" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html" class="btn btn-neutral float-right" title="Tutorial 2.2: Deep Learning based IDS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Christoph R. Landolt, Mario Fritz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

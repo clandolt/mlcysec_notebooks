@@ -1,0 +1,1408 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started 4: Deep Learning for Cybersecurity &mdash; CISPA Machine Learning in Cybersecurity v0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=82d01d63" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34cd777e"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tutorial 2.1: Intrusion Detection System" href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html" />
+    <link rel="prev" title="Getting Started 3: Classic Machine Learning for Cybersecurity" href="../getting_started_with_ml/getting_started_with_ml.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CISPA Machine Learning in Cybersecurity
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial 1: Getting started:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html">Getting started 1: Working with Jupyter and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../discover_visualize_gain_insights/discover_visualize_gain_insights.html">Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_ml/getting_started_with_ml.html">Getting Started 3: Classic Machine Learning for Cybersecurity</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started 4: Deep Learning for Cybersecurity</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Tutorial-Objectives">Tutorial Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Getting-Started-with-PyTorch">Getting Started with PyTorch</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Tensors">Tensors</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Initialization-of-PyTorch-Tensors">Initialization of PyTorch Tensors</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#PyTorch-Tensor-Operations">PyTorch Tensor Operations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Anomaly-Detection-using-a-Neural-Network-with-the-KDDCUP99-Dataset">Anomaly Detection using a Neural Network with the KDDCUP99 Dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Data-Loading-and-Preprocessing">Data Loading and Preprocessing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#PyTorch-Tensors-and-DataLoaders">PyTorch Tensors and DataLoaders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#The-Model-(nn.Module)">The Model (<code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Instantiating-the-Model">Instantiating the Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Loss-Function-and-Optimizer">Loss Function and Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Training-Loop">Training Loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Plotting-Training-and-Test-Loss">Plotting Training and Test Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Final-Evaluation-and-Accuracy">Final Evaluation and Accuracy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Confusion-Matrix">Confusion Matrix</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Unsupervised-Dimensionality-Reduction-with-Autoencoders-on-KDD-Cup-99">Unsupervised Dimensionality Reduction with Autoencoders on KDD Cup 99</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#The-Autoencoder-Model-(nn.Module)">The Autoencoder Model (<code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Instantiating the Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Loss Function and Optimizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Training Loop</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Plotting Training and Test Loss</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Visualizing-the-2D-Latent-Space-(Dimensionality-Reduction)">Visualizing the 2D Latent Space (Dimensionality Reduction)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises">Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-1:-Simple-Classifier-Network">Exercise 1: Simple Classifier Network</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#References">References</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 2: Intrusion Detection:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html">Tutorial 2.1: Intrusion Detection System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html">Tutorial 2.2: Deep Learning based IDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html">Tutorial 2.3: Analyzing Application-Layer Protocols</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CISPA Machine Learning in Cybersecurity</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started 4: Deep Learning for Cybersecurity</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorial_notebooks/getting_started_with_deep_learning/getting_started_with_deep_learning.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Getting-Started-4:-Deep-Learning-for-Cybersecurity">
+<h1>Getting Started 4: Deep Learning for Cybersecurity<a class="headerlink" href="#Getting-Started-4:-Deep-Learning-for-Cybersecurity" title="Link to this heading"></a></h1>
+<img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Open&amp;color=blue" />
+<div class="line-block">
+<div class="line"><strong>Open notebook on:</strong> <a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/getting_started_with_deep_learning/getting_started_with_deep_learning.ipynb"><img alt="View filled on Github" src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" /></a> <a class="reference external" href="https://colab.research.google.com/github/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/getting_started_with_deep_learning/getting_started_with_deep_learning.ipynb"><img alt="Open filled In Collab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></div>
+<div class="line"><strong>Author:</strong> Christoph R. Landolt</div>
+</div>
+<p>In this tutorial, we will use <strong>Neural Networks</strong> to analyze the same dataset as in <em>Getting Started 3</em>, aiming to improve detection and insights into cyber attacks.</p>
+<section id="Tutorial-Objectives">
+<h2>Tutorial Objectives<a class="headerlink" href="#Tutorial-Objectives" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Become familiar with <strong>PyTorch basics</strong></p></li>
+<li><p>Prepare to <strong>implement Neural Networks</strong> using PyTorch</p></li>
+</ul>
+</section>
+<section id="Getting-Started-with-PyTorch">
+<h2>Getting Started with PyTorch<a class="headerlink" href="#Getting-Started-with-PyTorch" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">PyTorch is an open-source machine learning framework that allows you to <strong>build, train, and optimize neural networks</strong> efficiently.</div>
+<div class="line">We start with PyTorch because it is currently the most widely used framework in academia and research.</div>
+</div>
+<p>Although other frameworks such as <a class="reference external" href="https://www.tensorflow.org/">TensorFlow</a>, <a class="reference external" href="https://docs.jax.dev/en/latest/">JAX</a>, <a class="reference external" href="https://flax.readthedocs.io/en/stable/">Flax</a>, and <a class="reference external" href="https://caffe.berkeleyvision.org/">Caffe</a> also exist, we recommend mastering one framework deeply (preferably PyTorch). Once you understand its concepts well, switching to another framework becomes much easier.</p>
+<p>Even though there are high-level interfaces built on top of some machine learning frameworks—such as <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">PyTorch Lightning</a> or <a class="reference external" href="https://lightning.ai/docs/pytorch/stable/">Keras</a>—we recommend sticking to the core framework when learning. This helps you develop a deeper understanding of the underlying concepts and mechanisms.</p>
+<p>We begin by importing the PyTorch library and checking the installed version.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[54]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using torch&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using torch 2.9.0
+</pre></div></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li><p><strong>torch</strong> is the core PyTorch package providing tensors, automatic differentiation, and neural network building blocks.</p></li>
+<li><p>Printing the version helps ensure compatibility with other libraries and code examples.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span> <span class="c1"># Setting the seed</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[55]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;torch._C.Generator at 0x12a166cf0&gt;
+</pre></div></div>
+</div>
+<p>Notes:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.manual_seed(42)</span></code> sets the random seed for PyTorch’s random number generators.</p></li>
+<li><p>This ensures reproducibility, meaning the same model initialization and results can be reproduced across runs.</p></li>
+<li><p>Common practice in research and experiments to make results consistent.</p></li>
+</ul>
+<section id="Tensors">
+<h3>Tensors<a class="headerlink" href="#Tensors" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">A <strong>tensor</strong> is a fundamental algebraic object that can be represented as a multi-dimensional array.</div>
+<div class="line">In PyTorch, tensors are similar to NumPy arrays but come with the <strong>added advantage of GPU acceleration</strong>, enabling efficient computation on large datasets.</div>
+</div>
+<p>Working with tensors is likely familiar, as they generalize concepts you already know:</p>
+<ul class="simple">
+<li><p>A <strong>scalar</strong> is a tensor of order 0</p></li>
+<li><p>A <strong>vector</strong> is a tensor of order 1</p></li>
+<li><p>A <strong>matrix</strong> is a tensor of order 2</p></li>
+</ul>
+<p>Many functions available in NumPy also exist in PyTorch, and you can easily <strong>convert between NumPy arrays and PyTorch tensors</strong>.</p>
+<section id="Initialization-of-PyTorch-Tensors">
+<h4>Initialization of PyTorch Tensors<a class="headerlink" href="#Initialization-of-PyTorch-Tensors" title="Link to this heading"></a></h4>
+<div class="line-block">
+<div class="line">Let’s explore different ways to create tensors in PyTorch.</div>
+<div class="line">There are multiple options — the simplest one is to call <code class="docutils literal notranslate"><span class="pre">torch.Tensor()</span></code> and pass the desired shape or data as an argument:</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[56]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creating a tensor with uninitialized values of shape (2, 2, 3)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tensor([[[0., 0., 0.],
+         [0., 0., 0.]],
+
+        [[0., 0., 0.],
+         [0., 0., 0.]]])
+</pre></div></div>
+</div>
+<div class="line-block">
+<div class="line">The function <code class="docutils literal notranslate"><span class="pre">torch.Tensor()</span></code> allocates memory for the desired tensor but does <strong>not initialize</strong> its values (it may reuse whatever data happens to be in memory).</div>
+<div class="line">To create tensors with explicitly defined values, PyTorch provides several convenient functions:</div>
+</div>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Function</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">torch.zeros(shape)</span></code></p></td>
+<td><p>Creates a tensor filled with zeros</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">torch.ones(shape)</span></code></p></td>
+<td><p>Creates a tensor filled with ones</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">torch.rand(shape)</span></code></p></td>
+<td><p>Creates a tensor with random values uniformly sampled between 0 and 1</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">torch.randn(shape)</span></code></p></td>
+<td><p>Creates a tensor with random values sampled from a normal distribution (mean = 0, variance = 1)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">torch.arange(start,</span> <span class="pre">end,</span> <span class="pre">step)</span></code></p></td>
+<td><p>Creates a tensor containing evenly spaced values within a given interval</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">torch.Tensor([list])</span></code></p></td>
+<td><p>Creates a tensor directly from a Python list of values</p></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><p>Note: Call <code class="docutils literal notranslate"><span class="pre">torch.manual_seed()</span></code> before creating random tensors to ensure reproducibility.</p>
+</div></blockquote>
+<p>You can also create a tensor from a python list:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[57]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Creating a tensor with defined values from a Python list</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Accessing tensor properties as in numpy</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Shape:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># Accessing the size of the tensor</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+tensor([[1., 2.],
+        [3., 4.]])
+Shape: torch.Size([2, 2])
+Size: torch.Size([2, 2])
+</pre></div></div>
+</div>
+<p>You can convert a NumPy array to a PyTorch tensor using <code class="docutils literal notranslate"><span class="pre">torch.from_numpy(np_arr)</span></code> and convert it back to a NumPy array using <code class="docutils literal notranslate"><span class="pre">tensor.numpy()</span></code>, as shown below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[58]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Create a NumPy array</span>
+<span class="n">np_arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+
+<span class="c1"># Convert to PyTorch tensor</span>
+<span class="n">tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np_arr</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;NumPy array:&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">np_arr</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PyTorch tensor:&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">tensor</span><span class="p">))</span>
+
+<span class="c1"># Convert back to NumPy array</span>
+<span class="n">np_arr2</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Converted back to NumPy array:&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">np_arr2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+NumPy array: &lt;class &#39;numpy.ndarray&#39;&gt;
+PyTorch tensor: &lt;class &#39;torch.Tensor&#39;&gt;
+Converted back to NumPy array: &lt;class &#39;numpy.ndarray&#39;&gt;
+</pre></div></div>
+</div>
+</section>
+<section id="PyTorch-Tensor-Operations">
+<h4>PyTorch Tensor Operations<a class="headerlink" href="#PyTorch-Tensor-Operations" title="Link to this heading"></a></h4>
+<p>Many operations available in NumPy also exist in PyTorch, which provides a rich set of functions for tensor operations.</p>
+<ul class="simple">
+<li><p><strong>1. Addition — ``torch.add()`` or ``+``</strong> Performs element-wise addition of two tensors of the same shape.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[59]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># creating two tensors for addition</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="c1"># Element-wise addition</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a + b =&quot;</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+
+<span class="c1"># or simply</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;a + b =&quot;</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+a + b = tensor([5, 7, 9])
+a + b = tensor([5, 7, 9])
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>2. Reshaping</strong> — <code class="docutils literal notranslate"><span class="pre">tensor.view()</span></code> Changes the shape of a tensor without altering its data. The number of elements must remain the same.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[60]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a tensor with values from 0 to 11</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+<span class="c1"># Reshape the tensor to shape (3, 4)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Original:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Reshaped (3x4):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Original: tensor([ 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11])
+Reshaped (3x4):
+ tensor([[ 0,  1,  2,  3],
+        [ 4,  5,  6,  7],
+        [ 8,  9, 10, 11]])
+</pre></div></div>
+</div>
+<blockquote>
+<div><p>Note: <code class="docutils literal notranslate"><span class="pre">.view()</span></code> requires the tensor to be contiguous in memory, meaning its elements are stored in a continuous block according to the logical order of the tensor’s dimensions; otherwise, use <code class="docutils literal notranslate"><span class="pre">.reshape()</span></code>.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><strong>3. Range Creation</strong> — <code class="docutils literal notranslate"><span class="pre">torch.arange()</span></code> Creates evenly spaced values within a given interval.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[61]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a tensor with values from 0 to 10 with a step of 2</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;arange tensor:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+arange tensor: tensor([0, 2, 4, 6, 8])
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>4. Dimension Permutation</strong> — <code class="docutils literal notranslate"><span class="pre">tensor.permute()</span></code> Reorders the dimensions of a tensor (useful for image or sequence data).</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[62]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a random tensor of shape [2, 3, 4]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># shape [batch, height, width]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>    <span class="c1"># swap height and width</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Original shape:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Permuted shape:&quot;</span><span class="p">,</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Original shape: torch.Size([2, 3, 4])
+Permuted shape: torch.Size([2, 4, 3])
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>5. Matrix Multiplication</strong> in PyTorch PyTorch provides several functions for performing matrix multiplication depending on the dimensionality and use case.</p>
+<ul>
+<li><p><strong>5.1 General Matrix Multiplication</strong> — <code class="docutils literal notranslate"><span class="pre">torch.matmul()</span></code> or <code class="docutils literal notranslate"><span class="pre">&#64;</span></code> Performs matrix multiplication between 2D tensors or higher-dimensional tensors with broadcasting.</p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[63]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define two 2D tensors (matrices)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">]])</span>
+
+<span class="c1"># Using matmul</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+
+<span class="c1"># Equivalent shorthand</span>
+<span class="n">D</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">B</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Result:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Result:
+ tensor([[19, 22],
+        [43, 50]])
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>5.2. 2D Matrix Multiplication</strong> — <code class="docutils literal notranslate"><span class="pre">torch.mm()</span></code> Equivalent to torch.matmul() but restricted to 2D matrices only.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[64]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Using mm for 2D matrix multiplication</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mm</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2D matrix product shape:&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2D matrix product shape: torch.Size([2, 2])
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>5.3. Batch Matrix Multiplication</strong> — <code class="docutils literal notranslate"><span class="pre">torch.bmm()</span></code> Performs matrix multiplication for a batch of matrices.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[65]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define two batches of matrices</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>  <span class="c1"># batch of 10 matrices (3x4)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># batch of 10 matrices (4x5)</span>
+
+<span class="c1"># Batch matrix multiplication</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bmm</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Batch matrix product shape:&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Batch matrix product shape: torch.Size([10, 3, 5])
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>6. Einstein Summation</strong> — <code class="docutils literal notranslate"><span class="pre">torch.einsum()</span></code> <code class="docutils literal notranslate"><span class="pre">torch.einsum()</span></code> is a powerful function that allows expressing complex tensor operations such as tensor contractions, transpositions, and reductions using index notation.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[66]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define two matrices</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Einstein summation: &#39;ik,kj-&gt;ij&#39; means: sum over index k, resulting in indices i and j.</span>
+<span class="c1"># Operation: Matrix multiplication (sum over the shared index k)</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ik,kj-&gt;ij&#39;</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="c1"># This is equivalent to torch.matmul(A, B) but generalized for more complex tensor operations.</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Einstein summation result shape:&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Einstein summation result shape: torch.Size([2, 4])
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>7. Flattening</strong> — <code class="docutils literal notranslate"><span class="pre">torch.flatten()</span></code> Flattens a tensor into one dimension.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[67]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Create a 2D tensor</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]])</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Flattened tensor:&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Flattened tensor: tensor([1, 2, 3, 4])
+</pre></div></div>
+</div>
+<ul class="simple">
+<li><p><strong>8. Dot Product</strong> — <code class="docutils literal notranslate"><span class="pre">torch.dot()</span></code> Computes the dot product between two 1D tensors (vectors).</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[68]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define two 1D tensors (vectors)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+
+<span class="c1"># Compute the dot product</span>
+<span class="n">dot</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dot product:&quot;</span><span class="p">,</span> <span class="n">dot</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Dot product: tensor(32)
+</pre></div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="Anomaly-Detection-using-a-Neural-Network-with-the-KDDCUP99-Dataset">
+<h2>Anomaly Detection using a Neural Network with the KDDCUP99 Dataset<a class="headerlink" href="#Anomaly-Detection-using-a-Neural-Network-with-the-KDDCUP99-Dataset" title="Link to this heading"></a></h2>
+<p>In this example, we get started with neural networks in PyTorch and will train a simple model to detect anomalies, which correspond to potential cyber attacks.</p>
+<div class="line-block">
+<div class="line">The biggest advantage of using neural networks instead of classic machine learning approaches is their ability to discover and learn new features that might be overlooked by manual feature engineering.</div>
+<div class="line">Multilayer neural networks can perform feature learning by learning a representation of their input at the hidden layer(s), which is then used for classification or regression at the output layer.</div>
+</div>
+<p><img alt="Simple_Classifier" class="no-scaled-link" src="../../_images/Simple_Classifier.jpg" style="width: 400px;" /></p>
+<p>In the next steps, we will demonstrate how to implement a simple neural network for classification to detect potential cyber attacks.</p>
+<p>Let’s start by importing all the necessary libraries:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[69]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">TensorDataset</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">ConfusionMatrixDisplay</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+<section id="Data-Loading-and-Preprocessing">
+<h3>Data Loading and Preprocessing<a class="headerlink" href="#Data-Loading-and-Preprocessing" title="Link to this heading"></a></h3>
+<p>The first crucial step in any machine learning project is preparing your data. Here, we’ll load a subset of the KDD Cup 99 dataset, preprocess it, and split it into training and testing sets.</p>
+<p>We use <code class="docutils literal notranslate"><span class="pre">sklearn.datasets.fetch_kddcup99</span></code> to load the dataset. We specify subset=”SA” to get a simplified version of the dataset, percent10=True to use a 10% subset (for faster execution in a tutorial), and as_frame=True to load it as a Pandas DataFrame.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[70]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the KDDCUP99 dataset (subset: SA) from sklearn</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_kddcup99</span><span class="p">(</span>
+    <span class="n">subset</span><span class="o">=</span><span class="s2">&quot;SA&quot;</span><span class="p">,</span>
+    <span class="n">percent10</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The original labels are byte strings (e.g., b”normal.”, b”smurf.”). We convert them into a binary format:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code> for any type of attack</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code> for normal connections.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[71]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert binary label: 1 = attack, 0 = normal</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">!=</span> <span class="sa">b</span><span class="s2">&quot;normal.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The KDD Cup 99 dataset contains categorical features. Neural networks typically work best with numerical inputs, so we use <code class="docutils literal notranslate"><span class="pre">pd.get_dummies</span></code> to perform one-hot encoding, converting these categorical columns into numerical binary features.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[72]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># One-hot encode categorical columns</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Numerical features often have different scales, which can make training neural networks difficult. <code class="docutils literal notranslate"><span class="pre">StandardScaler</span></code> standardizes features by removing the mean and scaling to unit variance, ensuring all features contribute equally to the model’s learning.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[73]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scale numeric features</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">),</span> <span class="n">columns</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We split the preprocessed data into training (80%) and testing (20%) sets using train_test_split. random_state ensures reproducibility, and <code class="docutils literal notranslate"><span class="pre">stratify=y</span></code> ensures that the proportion of normal and attack samples is preserved in both the training and test sets.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Split into training and test sets</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="PyTorch-Tensors-and-DataLoaders">
+<h3>PyTorch Tensors and DataLoaders<a class="headerlink" href="#PyTorch-Tensors-and-DataLoaders" title="Link to this heading"></a></h3>
+<p>For PyTorch models, data needs to be in torch.Tensor format. We also use DataLoader for efficient batching and shuffling of data during training.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert to PyTorch tensors</span>
+<span class="n">X_train_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y_train_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># shape (N,1)</span>
+<span class="n">X_test_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y_test_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Create DataLoader</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_train_tensor</span><span class="p">,</span> <span class="n">y_train_tensor</span><span class="p">)</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_test_tensor</span><span class="p">,</span> <span class="n">y_test_tensor</span><span class="p">)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">torch.tensor(...,</span> <span class="pre">dtype=torch.float32)</span></code>: Converts our NumPy arrays (from Pandas DataFrames) into PyTorch tensors, specifying float32 as the data type.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.unsqueeze(1)</span></code>: The labels y are initially a 1D array. For binary classification with nn.BCELoss, PyTorch expects the target to have a shape of (N, 1) where N is the batch size, so we add an extra dimension.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TensorDataset</span></code>: Combines our input features (X_train_tensor) and corresponding labels (y_train_tensor) into a single dataset object.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>: Creates an iterable over our datasets.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">batch_size=64</span></code>: The number of samples processed at once.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shuffle=True</span></code> (for training): Randomizes the order of data points in each epoch, which helps the model generalize better and prevents it from memorizing the order of samples.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shuffle=False</span></code> (for testing): We don’t need to shuffle the test data; we just want to iterate through it once.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="The-Model-(nn.Module)">
+<h3>The Model (<code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>)<a class="headerlink" href="#The-Model-(nn.Module)" title="Link to this heading"></a></h3>
+<p>In PyTorch, neural networks are built by extending the <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> class. This class provides the fundamental building blocks for all neural network architectures.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+</pre></div>
+</div>
+</div>
+<p>The torch.nn package defines a series of useful classes like linear network layers, activation functions, loss functions, and more. It’s the core for defining your network’s architecture.</p>
+<p><strong>``nn.Module`` Basics</strong></p>
+<p>Every neural network in PyTorch inherits from <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>. It has two main methods you need to implement:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__init__(self,</span> <span class="pre">...)</span></code>: This is where you define the layers and components of your network.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forward(self,</span> <span class="pre">x)</span></code>: This method defines how the input x flows through the layers defined in <code class="docutils literal notranslate"><span class="pre">__init__</span></code> to produce an output.</p></li>
+</ul>
+<p><strong>Defining KDDNet</strong> Let’s define our specific neural network for KDD Cup 99 classification.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Define the neural network ---</span>
+<span class="k">class</span> <span class="nc">KDDNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">KDDNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>  <span class="c1"># For binary classification</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">super(KDDNet,</span> <span class="pre">self).__init__()</span></code>: Always call the constructor of the parent class <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.model</span> <span class="pre">=</span> <span class="pre">nn.Sequential(...)</span></code>: This is a convenient way to stack layers sequentially.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Linear(input_dim,</span> <span class="pre">128)</span></code>: The first fully connected (linear) layer. It takes <code class="docutils literal notranslate"><span class="pre">input_dim</span></code> features from our data and transforms them into 128 output features.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Tanh()</span></code>: The hyperbolic tangent activation function, which outputs values in the range <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code> and introduces non-linearity.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Dropout(0.3)</span></code>: A regularization technique that randomly sets 30% of the input features to zero during training. This helps prevent overfitting by making the network less reliant on specific neurons.</p></li>
+<li><p>The pattern of <code class="docutils literal notranslate"><span class="pre">Linear</span> <span class="pre">-&gt;</span> <span class="pre">Tanh</span> <span class="pre">-&gt;</span> <span class="pre">Dropout</span></code> is repeated for a second hidden layer (<code class="docutils literal notranslate"><span class="pre">128</span></code> to <code class="docutils literal notranslate"><span class="pre">64</span></code> neurons).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Linear(64,</span> <span class="pre">1)</span></code>: The output layer. Since this is binary classification, we want a single output neuron.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Sigmoid()</span></code>: This activation function squashes the output of the final linear layer into a range between 0 and 1, which can be interpreted as a probability for the positive class (attack).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="Instantiating-the-Model">
+<h3>Instantiating the Model<a class="headerlink" href="#Instantiating-the-Model" title="Link to this heading"></a></h3>
+<p>We determine <code class="docutils literal notranslate"><span class="pre">input_dim</span></code> from the number of features in our training data (<code class="docutils literal notranslate"><span class="pre">X_train.shape[1]</span></code>) and then create an instance of our KDDNet model.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instantiate the model</span>
+<span class="n">input_dim</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">KDDNet</span><span class="p">(</span><span class="n">input_dim</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+KDDNet(
+  (model): Sequential(
+    (0): Linear(in_features=18751, out_features=128, bias=True)
+    (1): Tanh()
+    (2): Dropout(p=0.3, inplace=False)
+    (3): Linear(in_features=128, out_features=64, bias=True)
+    (4): Tanh()
+    (5): Dropout(p=0.3, inplace=False)
+    (6): Linear(in_features=64, out_features=1, bias=True)
+    (7): Sigmoid()
+  )
+)
+</pre></div></div>
+</div>
+</section>
+<section id="Loss-Function-and-Optimizer">
+<h3>Loss Function and Optimizer<a class="headerlink" href="#Loss-Function-and-Optimizer" title="Link to this heading"></a></h3>
+<p>Now that we have our model, we need to define how we’ll measure its performance (the loss function) and how it will learn (the optimizer).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loss and optimizer</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>  <span class="c1"># Binary Cross-Entropy Loss</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">criterion</span> <span class="pre">=</span> <span class="pre">nn.BCELoss()</span></code>: For binary classification problems where the model’s output is already passed through a sigmoid function (producing probabilities between 0 and 1), Binary Cross-Entropy Loss is a standard choice. It measures the difference between the predicted probabilities and the true binary labels.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer</span> <span class="pre">=</span> <span class="pre">optim.Adam(model.parameters(),</span> <span class="pre">lr=0.001)</span></code>: The optimizer is responsible for updating the model’s parameters (weights and biases) during training to minimize the loss.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">model.parameters()</span></code>: This tells the optimizer which parameters it needs to update.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lr=0.001</span></code>: The learning rate, a crucial hyperparameter that determines the step size at each iteration while moving toward a minimum of the loss function. Adam is an adaptive learning rate optimizer that generally performs well.</p></li>
+</ul>
+</li>
+<li><p>The optimizer provides two important functions for the training loop:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer.zero_grad()</span></code>: Sets the gradients of all optimized <code class="docutils literal notranslate"><span class="pre">torch.Tensor</span></code>s to zero. This is essential before <code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code> because PyTorch accumulates gradients by default.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer.step()</span></code>: Performs a single optimization step (parameter update).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="Training-Loop">
+<h3>Training Loop<a class="headerlink" href="#Training-Loop" title="Link to this heading"></a></h3>
+<p>The training loop is where the model learns from the data over multiple epochs. An epoch refers to one full pass through the entire training dataset.</p>
+<p><strong>Inside the Training Loop:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">model.train()</span></code>: Sets the model to training mode. This is important because certain layers (like <code class="docutils literal notranslate"><span class="pre">Dropout</span></code> and <code class="docutils literal notranslate"><span class="pre">BatchNorm</span></code>) behave differently during training and evaluation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">running_loss</span> <span class="pre">=</span> <span class="pre">0.0</span></code>: Initializes a variable to accumulate the loss over all batches in the current epoch.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">X_batch,</span> <span class="pre">y_batch</span> <span class="pre">in</span> <span class="pre">train_loader:</span></code>: Iterates through batches of data from the <code class="docutils literal notranslate"><span class="pre">train_loader</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer.zero_grad()</span></code>: Clears the gradients from the previous iteration.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputs</span> <span class="pre">=</span> <span class="pre">model(X_batch)</span></code>: Performs a forward pass, feeding the input batch through the model to get predictions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss</span> <span class="pre">=</span> <span class="pre">criterion(outputs,</span> <span class="pre">y_batch)</span></code>: Calculates the loss between the model’s predictions (<code class="docutils literal notranslate"><span class="pre">outputs</span></code>) and the true labels (<code class="docutils literal notranslate"><span class="pre">y_batch</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code>: Computes the gradients of the loss with respect to all learnable parameters in the model.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer.step()</span></code>: Updates the model’s parameters using the calculated gradients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">running_loss</span> <span class="pre">+=</span> <span class="pre">loss.item()</span> <span class="pre">*</span> <span class="pre">X_batch.size(0)</span></code>: Accumulates the loss for the epoch. <code class="docutils literal notranslate"><span class="pre">loss.item()</span></code> gets the scalar value of the loss, and we multiply by <code class="docutils literal notranslate"><span class="pre">X_batch.size(0)</span></code> to account for the batch size.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epoch_train_loss</span></code>: Calculates the average training loss for the current epoch.</p></li>
+</ul>
+<p><strong>Inside the Evaluation Step (within the loop):</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">model.eval()</span></code>: Sets the model to evaluation mode. This disables <code class="docutils literal notranslate"><span class="pre">Dropout</span></code> and ensures layers like <code class="docutils literal notranslate"><span class="pre">BatchNorm</span></code> use their trained statistics.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">torch.no_grad():</span></code>: Disables gradient calculations. This saves memory and speeds up computations because we don’t need to compute gradients during evaluation.</p></li>
+<li><p>The process for calculating <code class="docutils literal notranslate"><span class="pre">running_test_loss</span></code> is similar to the training loss, but without gradient calculations or parameter updates.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">epoch_test_loss</span></code>: Calculates the average test loss for the current epoch.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">print(...)</span></code>: Provides real-time feedback on the training and test loss for each epoch.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Training loop with loss tracking ---</span>
+<span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">train_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+    <span class="c1"># --- Training ---</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span> <span class="c1"># Set model to training mode</span>
+    <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span> <span class="c1"># Zero the gradients</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_batch</span><span class="p">)</span> <span class="c1"># Forward pass</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span> <span class="c1"># Calculate loss</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span> <span class="c1"># Backpropagation</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span> <span class="c1"># Update weights</span>
+        <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">epoch_train_loss</span> <span class="o">=</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">train_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epoch_train_loss</span><span class="p">)</span>
+
+    <span class="c1"># --- Evaluation on test set ---</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span> <span class="c1"># Set model to evaluation mode</span>
+    <span class="n">running_test_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span> <span class="c1"># Disable gradient calculation for efficiency</span>
+        <span class="k">for</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_batch</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span>
+            <span class="n">running_test_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">epoch_test_loss</span> <span class="o">=</span> <span class="n">running_test_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">test_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epoch_test_loss</span><span class="p">)</span>
+
+    <span class="c1"># Optional: print progress</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_epochs</span><span class="si">}</span><span class="s2"> - Train Loss: </span><span class="si">{</span><span class="n">epoch_train_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> - Test Loss: </span><span class="si">{</span><span class="n">epoch_test_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch 1/20 - Train Loss: 0.1041 - Test Loss: 0.0155
+Epoch 2/20 - Train Loss: 0.0158 - Test Loss: 0.0130
+Epoch 3/20 - Train Loss: 0.0126 - Test Loss: 0.0113
+Epoch 4/20 - Train Loss: 0.0091 - Test Loss: 0.0079
+Epoch 5/20 - Train Loss: 0.0071 - Test Loss: 0.0076
+Epoch 6/20 - Train Loss: 0.0070 - Test Loss: 0.0067
+Epoch 7/20 - Train Loss: 0.0046 - Test Loss: 0.0056
+Epoch 8/20 - Train Loss: 0.0030 - Test Loss: 0.0065
+Epoch 9/20 - Train Loss: 0.0033 - Test Loss: 0.0049
+Epoch 10/20 - Train Loss: 0.0024 - Test Loss: 0.0040
+Epoch 11/20 - Train Loss: 0.0020 - Test Loss: 0.0042
+Epoch 12/20 - Train Loss: 0.0024 - Test Loss: 0.0030
+Epoch 13/20 - Train Loss: 0.0024 - Test Loss: 0.0039
+Epoch 14/20 - Train Loss: 0.0023 - Test Loss: 0.0046
+Epoch 15/20 - Train Loss: 0.0027 - Test Loss: 0.0053
+Epoch 16/20 - Train Loss: 0.0025 - Test Loss: 0.0046
+Epoch 17/20 - Train Loss: 0.0025 - Test Loss: 0.0052
+Epoch 18/20 - Train Loss: 0.0024 - Test Loss: 0.0063
+Epoch 19/20 - Train Loss: 0.0030 - Test Loss: 0.0055
+Epoch 20/20 - Train Loss: 0.0026 - Test Loss: 0.0070
+</pre></div></div>
+</div>
+</section>
+<section id="Plotting-Training-and-Test-Loss">
+<h3>Plotting Training and Test Loss<a class="headerlink" href="#Plotting-Training-and-Test-Loss" title="Link to this heading"></a></h3>
+<p>Visualizing the loss over epochs is crucial for understanding how well your model is learning and to detect issues like overfitting.</p>
+<p>This code generates a line plot showing the training loss and test loss across all epochs. Ideally, both losses should decrease, and the test loss should stay close to the training loss to indicate good generalization. If the training loss continues to decrease but the test loss starts to increase, it’s a sign of overfitting.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[81]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Plot train and test loss ---</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">train_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Train Loss&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">test_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test Loss&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Training and Test Loss over Epochs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_deep_learning_getting_started_with_deep_learning_61_0.png" src="../../_images/tutorial_notebooks_getting_started_with_deep_learning_getting_started_with_deep_learning_61_0.png" />
+</div>
+</div>
+</section>
+<section id="Final-Evaluation-and-Accuracy">
+<h3>Final Evaluation and Accuracy<a class="headerlink" href="#Final-Evaluation-and-Accuracy" title="Link to this heading"></a></h3>
+<p>After training, we perform a final evaluation on the test set to get the overall accuracy.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[82]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Final evaluation ---</span>
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span> <span class="c1"># Set model to evaluation mode</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_test_tensor</span><span class="p">)</span> <span class="c1"># Get raw predictions</span>
+    <span class="n">y_pred_label</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="c1"># Convert probabilities to binary labels (0 or 1)</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred_label</span> <span class="o">==</span> <span class="n">y_test_tensor</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="c1"># Calculate accuracy</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final Test Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Final Test Accuracy: 0.9987
+</pre></div></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">y_pred</span> <span class="pre">=</span> <span class="pre">model(X_test_tensor)</span></code>: We pass the entire test set through the trained model to get its probability predictions.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">y_pred_label</span> <span class="pre">=</span> <span class="pre">(y_pred</span> <span class="pre">&gt;=</span> <span class="pre">0.5).float()</span></code>: Since our model outputs probabilities (due to the <code class="docutils literal notranslate"><span class="pre">Sigmoid</span></code> layer), we convert these probabilities into binary class labels. Any probability of 0.5 or greater is classified as <code class="docutils literal notranslate"><span class="pre">1</span></code> (attack), otherwise <code class="docutils literal notranslate"><span class="pre">0</span></code> (normal).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">accuracy</span> <span class="pre">=</span> <span class="pre">(y_pred_label</span> <span class="pre">==</span> <span class="pre">y_test_tensor).float().mean().item()</span></code>: We compare the predicted binary labels with the true test labels to calculate the accuracy. <code class="docutils literal notranslate"><span class="pre">mean()</span></code> gives the proportion of correct predictions.</p></li>
+</ul>
+</section>
+<section id="Confusion-Matrix">
+<h3>Confusion Matrix<a class="headerlink" href="#Confusion-Matrix" title="Link to this heading"></a></h3>
+<p>A confusion matrix provides a more detailed breakdown of the model’s performance than just accuracy, especially useful in imbalanced datasets. The confusion matrix will show you:</p>
+<ul class="simple">
+<li><p><strong>True Negatives (TN):</strong> Correctly predicted normal connections.</p></li>
+<li><p><strong>False Positives (FP):</strong> Normal connections incorrectly predicted as attacks.</p></li>
+<li><p><strong>False Negatives (FN):</strong> Attack connections incorrectly predicted as normal.</p></li>
+<li><p><strong>True Positives (TP):</strong> Correctly predicted attack connections. This comprehensive evaluation helps in understanding not just how accurate the model is, but also where it makes errors.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[83]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Confusion Matrix ---</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test_tensor</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">y_pred_label</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+<span class="n">disp</span> <span class="o">=</span> <span class="n">ConfusionMatrixDisplay</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="o">=</span><span class="n">cm</span><span class="p">,</span> <span class="n">display_labels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="s2">&quot;Attack&quot;</span><span class="p">])</span>
+<span class="n">disp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Blues</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_deep_learning_getting_started_with_deep_learning_66_0.png" src="../../_images/tutorial_notebooks_getting_started_with_deep_learning_getting_started_with_deep_learning_66_0.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">confusion_matrix(y_test_tensor.numpy(),</span> <span class="pre">y_pred_label.numpy())</span></code>: This function from <code class="docutils literal notranslate"><span class="pre">sklearn.metrics</span></code> calculates the confusion matrix using the true labels and the predicted labels. We convert PyTorch tensors to NumPy arrays for compatibility.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ConfusionMatrixDisplay(...)</span></code>: This class helps in visualizing the confusion matrix.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">display_labels=[&quot;Normal&quot;,</span> <span class="pre">&quot;Attack&quot;]</span></code>: Assigns meaningful names to our classes.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">disp.plot(cmap=plt.cm.Blues)</span></code>: Plots the confusion matrix with a blue colormap.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plt.title(&quot;Confusion</span> <span class="pre">Matrix&quot;)</span></code>: Sets the title of the plot.</p></li>
+</ul>
+</section>
+</section>
+<section id="Unsupervised-Dimensionality-Reduction-with-Autoencoders-on-KDD-Cup-99">
+<h2>Unsupervised Dimensionality Reduction with Autoencoders on KDD Cup 99<a class="headerlink" href="#Unsupervised-Dimensionality-Reduction-with-Autoencoders-on-KDD-Cup-99" title="Link to this heading"></a></h2>
+<p>In this tutorial, we will delve into <strong>Autoencoders (AEs)</strong>, a type of neural network designed for unsupervised dimensionality reduction. An Autoencoder comprises two primary components: an <strong>encoder</strong> that compresses input data into a lower-dimensional feature vector (known as the “bottleneck” or latent space), and a <strong>decoder</strong> that reconstructs the original input data from this compressed representation. The network is trained by minimizing the discrepancy between the input and its
+reconstruction, compelling the latent space to capture the most salient features of the data.</p>
+<p><img alt="Autoencoder" class="no-scaled-link" src="../../_images/Autoencoder.jpg" style="width: 600px;" /></p>
+<p>This approach is highly valuable for:</p>
+<ul class="simple">
+<li><p>Dimensionality Reduction: Compressing high-dimensional datasets into a more concise and manageable form.</p></li>
+<li><p>Feature Learning: Automatically discovering meaningful data features without requiring explicit labels. We will implement a classical autoencoder and apply it to the KDD Cup 99 dataset to demonstrate its capability in reducing data dimensionality.</p></li>
+</ul>
+<p>As the libraries and the dataset is allready imported in this notebook, we’ll directly start with the implementation of the autoencoder.</p>
+<section id="The-Autoencoder-Model-(nn.Module)">
+<h3>The Autoencoder Model (<code class="docutils literal notranslate"><span class="pre">nn.Module</span></code>)<a class="headerlink" href="#The-Autoencoder-Model-(nn.Module)" title="Link to this heading"></a></h3>
+<p>An autoencoder’s architecture is inherently symmetrical: an encoder compresses the input, and a decoder then expands this compressed representation back to the original input dimension. We define both parts within a single nn.Module class.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[84]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Define the Autoencoder Network ---</span>
+<span class="k">class</span> <span class="nc">Autoencoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Autoencoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Encoder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">()</span> <span class="c1"># Use Tanh for activation</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Decoder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">)</span>
+            <span class="c1"># No activation on the output layer for reconstruction, especially with StandardScaler normalized data</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">encoded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">decoded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">decoded</span><span class="p">,</span> <span class="n">encoded</span> <span class="c1"># Return both decoded output and latent representation</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">super(Autoencoder,</span> <span class="pre">self).__init__()</span></code>: Calls the constructor of the base <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> class.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.encoder</span> <span class="pre">=</span> <span class="pre">nn.Sequential(...)</span></code>: This defines the encoding part of the autoencoder. It consists of several <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code> (fully connected) layers interspersed with <code class="docutils literal notranslate"><span class="pre">nn.Tanh()</span></code> activation functions. <code class="docutils literal notranslate"><span class="pre">nn.Tanh()</span></code> (Hyperbolic Tangent) is an activation function that squashes values between -1 and 1, which can be effective when input data is normalized around zero. The final <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code> layer in the encoder reduces the features to <code class="docutils literal notranslate"><span class="pre">latent_dim</span></code>, representing the compressed data.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Linear(input_dim,</span> <span class="pre">128)</span></code>: Maps the high-dimensional input to 128 features.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Tanh()</span></code>: The activation function applied after each linear transformation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Linear(64,</span> <span class="pre">latent_dim)</span></code>: Compresses the features down to the specified <code class="docutils literal notranslate"><span class="pre">latent_dim</span></code>.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.decoder</span> <span class="pre">=</span> <span class="pre">nn.Sequential(...)</span></code>: This defines the decoding part, which mirrors the encoder’s structure. It takes the <code class="docutils literal notranslate"><span class="pre">latent_dim</span></code> representation and expands it back to the <code class="docutils literal notranslate"><span class="pre">input_dim</span></code> of the original data using <code class="docutils literal notranslate"><span class="pre">nn.Linear</span></code> layers and <code class="docutils literal notranslate"><span class="pre">nn.Tanh()</span></code> activations.</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Linear(latent_dim,</span> <span class="pre">64)</span></code>: Expands the latent representation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nn.Linear(128,</span> <span class="pre">input_dim)</span></code>: The final layer reconstructs the data to its original dimension. No activation is typically applied here, as our input data (and thus the desired output) is standardized and can contain negative values.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">forward(self,</span> <span class="pre">x)</span></code>: Specifies the forward pass logic. The input <code class="docutils literal notranslate"><span class="pre">x</span></code> is first processed by the <code class="docutils literal notranslate"><span class="pre">encoder</span></code> to obtain <code class="docutils literal notranslate"><span class="pre">encoded</span></code> (the latent representation), and then this <code class="docutils literal notranslate"><span class="pre">encoded</span></code> representation is fed to the <code class="docutils literal notranslate"><span class="pre">decoder</span></code> to produce <code class="docutils literal notranslate"><span class="pre">decoded</span></code> (the reconstruction). Both <code class="docutils literal notranslate"><span class="pre">decoded</span></code> and <code class="docutils literal notranslate"><span class="pre">encoded</span></code> outputs are returned.</p></li>
+</ul>
+</section>
+<section id="id1">
+<h3>Instantiating the Model<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
+<p>We determine the <code class="docutils literal notranslate"><span class="pre">input_dim</span></code> from the number of features in our training data (<code class="docutils literal notranslate"><span class="pre">X_train.shape[1]</span></code>). For straightforward visualization of the compressed data, we set <code class="docutils literal notranslate"><span class="pre">latent_dim</span></code> to 2.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[85]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Instantiate Autoencoder</span>
+<span class="n">input_dim</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">latent_dim</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1"># Keeping latent_dim small for 2D visualization</span>
+<span class="n">autoencoder</span> <span class="o">=</span> <span class="n">Autoencoder</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">autoencoder</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Autoencoder(
+  (encoder): Sequential(
+    (0): Linear(in_features=18751, out_features=128, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=128, out_features=64, bias=True)
+    (3): Tanh()
+    (4): Linear(in_features=64, out_features=2, bias=True)
+    (5): Tanh()
+  )
+  (decoder): Sequential(
+    (0): Linear(in_features=2, out_features=64, bias=True)
+    (1): Tanh()
+    (2): Linear(in_features=64, out_features=128, bias=True)
+    (3): Tanh()
+    (4): Linear(in_features=128, out_features=18751, bias=True)
+  )
+)
+</pre></div></div>
+</div>
+</section>
+<section id="id2">
+<h3>Loss Function and Optimizer<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
+<p>For a classical autoencoder, the training objective is to minimize the difference between the input data and its reconstructed version. The Mean Squared Error (MSE) is a standard choice for this reconstruction loss.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[86]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loss and optimizer</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span> <span class="c1"># Mean Squared Error Loss for reconstruction</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">autoencoder</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">criterion</span> <span class="pre">=</span> <span class="pre">nn.MSELoss()</span></code>: Calculates the mean squared difference between corresponding elements of the input and its reconstructed output. Minimizing this loss encourages the autoencoder to produce highly accurate reproductions of the original inputs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer</span> <span class="pre">=</span> <span class="pre">optim.Adam(autoencoder.parameters(),</span> <span class="pre">lr=0.001)</span></code>: The Adam optimizer is employed to update the model’s parameters (weights and biases) during training. <code class="docutils literal notranslate"><span class="pre">autoencoder.parameters()</span></code> specifies which parameters the optimizer should adjust, and <code class="docutils literal notranslate"><span class="pre">lr</span></code> sets the learning rate.</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Training Loop<a class="headerlink" href="#id3" title="Link to this heading"></a></h3>
+<p>The training loop iterates through the dataset for a defined number of epochs, performing the forward pass, calculating the loss, executing backpropagation, and updating the model’s parameters.</p>
+<p><strong>Inside the Training Loop:</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">autoencoder.train()</span></code>: Sets the model to training mode, which affects certain layers if present (though not <code class="docutils literal notranslate"><span class="pre">nn.Tanh</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">X_batch</span> <span class="pre">=</span> <span class="pre">X_batch_tuple[0]</span></code>: Extracts the actual data tensor from the tuple returned by the <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer.zero_grad()</span></code>: Clears any accumulated gradients from previous iterations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">recon_X,</span> <span class="pre">_</span> <span class="pre">=</span> <span class="pre">autoencoder(X_batch)</span></code>: Performs a forward pass, feeding the input batch through the autoencoder. We obtain <code class="docutils literal notranslate"><span class="pre">recon_X</span></code> (the reconstructed input) and discard the latent representation (<code class="docutils literal notranslate"><span class="pre">_</span></code>) for loss calculation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss</span> <span class="pre">=</span> <span class="pre">criterion(recon_X,</span> <span class="pre">X_batch)</span></code>: Calculates the reconstruction loss between the <code class="docutils literal notranslate"><span class="pre">recon_X</span></code> and the original <code class="docutils literal notranslate"><span class="pre">X_batch</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">loss.backward()</span></code>: Computes the gradients of the loss with respect to all learnable parameters.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer.step()</span></code>: Updates the model’s parameters using the calculated gradients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">running_train_loss</span></code>: Accumulates the loss across all batches for the current epoch.</p></li>
+</ol>
+<p><strong>Inside the Evaluation Step:</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">autoencoder.eval()</span></code>: Sets the model to evaluation mode, ensuring consistent behavior (e.g., no dropout, if used).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">with</span> <span class="pre">torch.no_grad()</span></code>: Disables gradient computations, saving memory and speeding up the process, as gradients are not needed during evaluation.</p></li>
+<li><p>Similar to the training loop, the reconstruction loss is calculated on the <code class="docutils literal notranslate"><span class="pre">test_loader</span></code> to monitor the model’s generalization performance on unseen data.</p></li>
+</ol>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[87]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Training loop ---</span>
+<span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">20</span> <span class="c1"># Number of epochs</span>
+<span class="n">train_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+    <span class="c1"># Training</span>
+    <span class="n">autoencoder</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">running_train_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">X_batch_tuple</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">X_batch</span> <span class="o">=</span> <span class="n">X_batch_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Dataloader returns a tuple even with single tensor</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">recon_X</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">autoencoder</span><span class="p">(</span><span class="n">X_batch</span><span class="p">)</span> <span class="c1"># We only need the reconstructed output for loss</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">recon_X</span><span class="p">,</span> <span class="n">X_batch</span><span class="p">)</span> <span class="c1"># Compare reconstructed with original input</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">running_train_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">epoch_train_loss</span> <span class="o">=</span> <span class="n">running_train_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">train_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epoch_train_loss</span><span class="p">)</span>
+
+    <span class="c1"># Evaluation</span>
+    <span class="n">autoencoder</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">running_test_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">X_batch_tuple</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+            <span class="n">X_batch</span> <span class="o">=</span> <span class="n">X_batch_tuple</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">recon_X</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">autoencoder</span><span class="p">(</span><span class="n">X_batch</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">recon_X</span><span class="p">,</span> <span class="n">X_batch</span><span class="p">)</span>
+            <span class="n">running_test_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">epoch_test_loss</span> <span class="o">=</span> <span class="n">running_test_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">test_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">epoch_test_loss</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_epochs</span><span class="si">}</span><span class="s2"> - Train Recon Loss: </span><span class="si">{</span><span class="n">epoch_train_loss</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> - Test Recon Loss: </span><span class="si">{</span><span class="n">epoch_test_loss</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch 1/20 - Train Recon Loss: 0.994356 - Test Recon Loss: 1.016511
+Epoch 2/20 - Train Recon Loss: 0.993207 - Test Recon Loss: 1.015919
+Epoch 3/20 - Train Recon Loss: 0.992491 - Test Recon Loss: 1.015310
+Epoch 4/20 - Train Recon Loss: 0.992117 - Test Recon Loss: 1.015369
+Epoch 5/20 - Train Recon Loss: 0.991908 - Test Recon Loss: 1.014952
+Epoch 6/20 - Train Recon Loss: 0.991775 - Test Recon Loss: 1.014898
+Epoch 7/20 - Train Recon Loss: 0.991700 - Test Recon Loss: 1.014829
+Epoch 8/20 - Train Recon Loss: 0.991661 - Test Recon Loss: 1.014875
+Epoch 9/20 - Train Recon Loss: 0.991642 - Test Recon Loss: 1.014824
+Epoch 10/20 - Train Recon Loss: 0.991621 - Test Recon Loss: 1.014817
+Epoch 11/20 - Train Recon Loss: 0.991592 - Test Recon Loss: 1.014856
+Epoch 12/20 - Train Recon Loss: 0.991555 - Test Recon Loss: 1.014864
+Epoch 13/20 - Train Recon Loss: 0.991516 - Test Recon Loss: 1.014790
+Epoch 14/20 - Train Recon Loss: 0.991476 - Test Recon Loss: 1.014700
+Epoch 15/20 - Train Recon Loss: 0.991417 - Test Recon Loss: 1.014630
+Epoch 16/20 - Train Recon Loss: 0.991334 - Test Recon Loss: 1.014594
+Epoch 17/20 - Train Recon Loss: 0.991261 - Test Recon Loss: 1.014473
+Epoch 18/20 - Train Recon Loss: 0.991236 - Test Recon Loss: 1.014503
+Epoch 19/20 - Train Recon Loss: 0.991216 - Test Recon Loss: 1.014515
+Epoch 20/20 - Train Recon Loss: 0.991201 - Test Recon Loss: 1.014457
+</pre></div></div>
+</div>
+</section>
+<section id="id4">
+<h3>Plotting Training and Test Loss<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<p>Visualizing the reconstruction loss over epochs is essential for monitoring the training process and diagnosing issues like underfitting or overfitting. This plot displays the Mean Squared Error for both the training and test sets over the course of training. Ideally, both loss curves should decrease steadily, indicating that the autoencoder is learning to reconstruct the data. If the test loss flattens or begins to increase while the training loss continues to fall, it suggests the model might
+be overfitting to the training data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[88]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Plot train and test loss ---</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">train_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Train Reconstruction Loss&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">test_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test Reconstruction Loss&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Mean Squared Error (MSE) Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Autoencoder Training and Test Reconstruction Loss over Epochs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_deep_learning_getting_started_with_deep_learning_80_0.png" src="../../_images/tutorial_notebooks_getting_started_with_deep_learning_getting_started_with_deep_learning_80_0.png" />
+</div>
+</div>
+</section>
+<section id="Visualizing-the-2D-Latent-Space-(Dimensionality-Reduction)">
+<h3>Visualizing the 2D Latent Space (Dimensionality Reduction)<a class="headerlink" href="#Visualizing-the-2D-Latent-Space-(Dimensionality-Reduction)" title="Link to this heading"></a></h3>
+<p>One of the most compelling applications of autoencoders is their ability to perform dimensionality reduction. By setting latent_dim=2, we can directly visualize the compressed representation of our KDD Cup 99 dataset.</p>
+<p>In this section, we extract the latent representations (z) for the entire training set. Each original high-dimensional data point is now represented by just two values (corresponding to Latent Dimension 1 and Latent Dimension 2). We then plot these 2D points, applying color-coding based on their original y_train labels (normal or attack). A successful autoencoder, after learning meaningful features, might show distinct clusters in this 2D latent space. For instance, normal connections might
+group together, while different types of attacks could form separate (or partially overlapping) clusters. This visualization directly demonstrates the autoencoder’s capability to reduce data dimensionality while preserving underlying structural and categorical information.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[89]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Visualize 2D latent space ---</span>
+<span class="n">autoencoder</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">z_train</span> <span class="o">=</span> <span class="n">autoencoder</span><span class="p">(</span><span class="n">X_train_tensor</span><span class="p">)</span> <span class="c1"># Get latent representations</span>
+    <span class="n">z_train_np</span> <span class="o">=</span> <span class="n">z_train</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="c1"># Convert to NumPy for plotting</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">7</span><span class="p">))</span>
+<span class="c1"># Use the original KDD labels for coloring, to see if clusters emerge</span>
+<span class="n">scatter</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">z_train_np</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">z_train_np</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">scatter</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Label (0=Normal, 1=Attack)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Latent Dimension 1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Latent Dimension 2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;2D Latent Space of KDD Cup 99 Data by Autoencoder&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_getting_started_with_deep_learning_getting_started_with_deep_learning_82_0.png" src="../../_images/tutorial_notebooks_getting_started_with_deep_learning_getting_started_with_deep_learning_82_0.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Exercises">
+<h2>Exercises<a class="headerlink" href="#Exercises" title="Link to this heading"></a></h2>
+<p>In this exercise, we will learn how to implement neural networks for classification and feature representation tasks using <code class="docutils literal notranslate"><span class="pre">PyTorch</span></code>.</p>
+<section id="Exercise-1:-Simple-Classifier-Network">
+<h3>Exercise 1: Simple Classifier Network<a class="headerlink" href="#Exercise-1:-Simple-Classifier-Network" title="Link to this heading"></a></h3>
+<ol class="arabic simple">
+<li><p>Implement a simple classifier network with <strong>3 layers</strong>, using the <a class="reference external" href="https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html">ReLU</a> activation function for the hidden layers.</p></li>
+<li><p>Train the network on the preprocessed KDD Cup 99 training data.</p></li>
+<li><p>Evaluate the network on the test data, reporting accuracy and plotting the confusion matrix.</p></li>
+<li><p>Experiment with the <strong>width and depth</strong> of the network. At what point does overfitting start to occur?</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 1 - Define your neural network class (3 layers, ReLU activations)</span>
+<span class="c1"># TODO: Step 2 - Instantiate your model, define criterion and optimizer</span>
+<span class="c1"># TODO: Step 3 - Implement training loop with loss tracking</span>
+<span class="c1"># TODO: Step 4 - Evaluate model on test data</span>
+<span class="c1"># TODO: Step 5 - Plot confusion matrix and report accuracy</span>
+<span class="c1"># TODO: Step 6 - Experiment with network width and depth to observe overfitting</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>In this notebook, we explored how to use tensors in PyTorch and implemented a simple neural network for classification tasks to detect cyber attacks. We then built an autoencoder for unsupervised feature learning and dimensionality reduction.</p>
+<p>After completing Tutorial 1, we now have the technical understanding and practical skills needed to tackle the upcoming exercises in this course.</p>
+<section id="References">
+<h3>References<a class="headerlink" href="#References" title="Link to this heading"></a></h3>
+<p>If you’d like to learn more about Deep Learning with PyTorch and JAX, we highly recommend the following resource:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://uvadlc-notebooks.readthedocs.io/en/latest/">UvA Deep Learning Tutorials</a></p></li>
+</ul>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/"><img alt="Star our repository" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=⭐&amp;message=Star%20Our%20Repository&amp;color=yellow" /></a> If you found this tutorial helpful, please <strong>⭐ star our repository</strong> to show your support.</div>
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/issues"><img alt="Ask questions" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=❔&amp;message=Ask%20Questions&amp;color=9cf" /></a> For any <strong>questions</strong>, <strong>typos</strong>, or <strong>bugs</strong>, kindly open an issue on GitHub — we appreciate your feedback!</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../getting_started_with_ml/getting_started_with_ml.html" class="btn btn-neutral float-left" title="Getting Started 3: Classic Machine Learning for Cybersecurity" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html" class="btn btn-neutral float-right" title="Tutorial 2.1: Intrusion Detection System" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Christoph R. Landolt, Mario Fritz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
