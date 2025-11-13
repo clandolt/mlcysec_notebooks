@@ -43,14 +43,14 @@ The **Exercise Schedule** (below) lists the practical/tutorial sessions associat
 
 | Date | Time | Topic |
 |------|------|-------|
-| **29.10.2025** | 16:15–17:45 | Tutorial: ML Basics / Setup (Reservation: 16:00–18:00) |
-| **05.11.2025** | 16:15–17:45 | Q&A: ML Basics (Reservation: 16:00–18:00) |
-| **12.11.2025** | 16:15–17:45 | Introduction Ex1: Train ML IDS (Reservation: 16:00–18:00) |
-| **03.12.2025** | 16:15–17:45 | Ex1 Review: Train ML IDS (Reservation: 16:00–18:00) |
-| **10.12.2025** | 16:15–17:45 | Introduction Ex2: Evade ML IDS (Reservation: 16:00–18:00) |
-| **07.01.2026** | 16:15–17:45 | Ex2 Review: Evade ML IDS (Reservation: 16:00–18:00) |
-| **14.01.2026** | 16:15–17:45 | Introduction Ex3: AI for CTF (Reservation: 16:00–18:00) |
-| **04.02.2026** | 16:15–17:45 | Ex3 Review: AI for CTF (Reservation: 16:00–18:00) |
+| **29.10.2025** | 16:15–17:45 | Tutorial: ML Basics / Setup |
+| **05.11.2025** | 16:15–17:45 | Q&A: ML Basics |
+| **12.11.2025** | 16:15–17:45 | Introduction Ex1: Train ML IDS |
+| **03.12.2025 (online)** | 16:15–17:45 | Ex1 Review: Train ML IDS |
+| **10.12.2025** | 16:15–17:45 | Introduction Ex2: Evade ML IDS |
+| **07.01.2026** | 16:15–17:45 | Ex2 Review: Evade ML IDS |
+| **14.01.2026** | 16:15–17:45 | Introduction Ex3: AI for CTF |
+| **04.02.2026** | 16:15–17:45 | Ex3 Review: AI for CTF |
 
 ---
 
