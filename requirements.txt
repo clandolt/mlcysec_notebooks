@@ -13,5 +13,9 @@ ipykernel==6.30.1
 jupyter==1.0.0
 transformers==4.57.1
 pyarrow>=22.0.0
-
-
+langchain
+langchain-community
+langchain-ollama
+langgraph
+docker
+nyuctf
