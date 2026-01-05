@@ -129,3 +129,4 @@ If you find the tutorials helpful, please cite this course as:
 .. toctree::
    :maxdepth: 2
    :caption: Tutorial 4: ML in the hands of Attackers (CTF):
+   tutorial_notebooks/tutorial4_1_automated_CTF_solving/tutorial4_1_automated_CTF_solving
