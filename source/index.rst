@@ -123,9 +123,10 @@ If you find the tutorials helpful, please cite this course as:
 
    tutorial_notebooks/tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started
    tutorial_notebooks/tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids
+   tutorial_notebooks/tutorial3_solution/tutorial3_solution
 
 .. toctree::
    :maxdepth: 2
    :caption: Tutorial 4: ML in the hands of Attackers (CTF):
-   
+
    tutorial_notebooks/tutorial4_1_automated_CTF_solving/tutorial4_1_automated_CTF_solving
