@@ -13,7 +13,6 @@ CISPA Machine Learning in Cybersecurity tutorials
 
 | **Course website:** `Course website <https://cms.cispa.saarland/mlcysec_ws25/>`_
 | **Course edition:** Winter term 2025/2026 (Oct 13 – Feb 06)
-| **Recordings:** Will follow
 | **Instructor:** Christoph R. Landolt
 
 ---
