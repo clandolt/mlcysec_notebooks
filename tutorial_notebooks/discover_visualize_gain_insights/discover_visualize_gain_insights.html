@@ -1,0 +1,2698 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis &mdash; CISPA Machine Learning in Cybersecurity v0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=82d01d63" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34cd777e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Getting Started 3: Classic Machine Learning for Cybersecurity" href="../getting_started_with_ml/getting_started_with_ml.html" />
+    <link rel="prev" title="Getting started 1: Working with Jupyter and Python" href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CISPA Machine Learning in Cybersecurity
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial 1: Getting started:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html">Getting started 1: Working with Jupyter and Python</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Tutorial-Objectives">Tutorial Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Notebook-Setup-and-Visualization-Configuration">Notebook Setup and Visualization Configuration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Key-Configuration-Commands">Key Configuration Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Modifying-the-Style-of-Graphs">Modifying the Style of Graphs</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Load-the-Data">Load the Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Data-Inspection-and-Basic-Statistics">Data Inspection and Basic Statistics</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-Cleaning-and-Preparation">Data Cleaning and Preparation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Boolean-Indexing">Boolean Indexing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Aggregation">Aggregation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Individual-Variables-Exploration">Individual Variables Exploration</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises">Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-1:-Distribution-of-Operation-Types">Exercise 1: Distribution of Operation Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-2:-Top-10-Affiliations">Exercise 2: Top 10 Affiliations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-3:-APT-28-Cyber-Attacks-Over-Time">Exercise 3: APT 28 Cyber Attacks Over Time</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Solution---Exercise-1:-Distribution-of-Operation-Types">Solution - Exercise 1: Distribution of Operation Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Solution---Exercise-2:-Top-10-Affiliations">Solution - Exercise 2: Top 10 Affiliations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Solution---Exercise-3:-APT-28-Cyber-Attacks-Over-Time">Solution - Exercise 3: APT 28 Cyber Attacks Over Time</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_ml/getting_started_with_ml.html">Getting Started 3: Classic Machine Learning for Cybersecurity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html">Getting Started 4: Deep Learning for Cybersecurity</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 2: Intrusion Detection:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html">Tutorial 2.1: Intrusion Detection System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html">Tutorial 2.2: Deep Learning based IDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html">Tutorial 2.3: Analyzing Application-Layer Protocols</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 3: Evading ML-IDS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started.html">Tutorial 3.1: Getting started with GANs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids.html">Tutorial 3.2: Evading ML-based IDS using GANs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_solution/tutorial3_solution.html">Tutorial 3: Solutions to Exercises 3.1 &amp; 3.2</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 4: ML in the hands of Attackers (CTF):</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial4_1_automated_CTF_solving/tutorial4_1_automated_CTF_solving.html">Tutorial 4: Automated CTF Solving with LLMs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CISPA Machine Learning in Cybersecurity</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorial_notebooks/discover_visualize_gain_insights/discover_visualize_gain_insights.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Getting-Started-2:-How-to-Load-and-Visualize-Data-for-Cyber-Threat-Intelligence-Analysis">
+<h1>Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis<a class="headerlink" href="#Getting-Started-2:-How-to-Load-and-Visualize-Data-for-Cyber-Threat-Intelligence-Analysis" title="Link to this heading"></a></h1>
+<img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Resolved&amp;color=green" />
+<div class="line-block">
+<div class="line"><strong>Open notebook on:</strong> <a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/discover_visualize_gain_insights/discover_visualize_gain_insights.ipynb"><img alt="View filled on Github" src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" /></a> <a class="reference external" href="https://colab.research.google.com/github/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/discover_visualize_gain_insights/discover_visualize_gain_insights.ipynb"><img alt="Open filled In Collab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></div>
+<div class="line"><strong>Author:</strong> Christoph R. Landolt</div>
+</div>
+<div class="line-block">
+<div class="line">In this tutorial, we will teach you how to conduct an <strong>Exploratory Data Analysis (EDA)</strong> in Python to gain a detailed understanding of a dataset.</div>
+<div class="line">EDA is a fundamental step in any data science workflow. It involves systematically examining the structure, quality, and relationships within the data through data loading, cleaning, statistical analysis, and visualization.</div>
+</div>
+<p>To make this step more engaging, we’ll use a dataset on <strong>State-Sponsored Cyber Operations</strong>. This dataset provides an opportunity to apply EDA techniques to real-world, security-related data, helping to uncover patterns and relationships that may inform further modeling or research.</p>
+<section id="Tutorial-Objectives">
+<h2>Tutorial Objectives<a class="headerlink" href="#Tutorial-Objectives" title="Link to this heading"></a></h2>
+<p>By the end of this tutorial, you will be able to:</p>
+<ul class="simple">
+<li><p>Load, clean, and manipulate data using Pandas DataFrames</p></li>
+<li><p>Perform numerical operations and transformations using NumPy</p></li>
+<li><p>Create informative visualizations using Matplotlib and Seaborn</p></li>
+</ul>
+</section>
+<section id="Notebook-Setup-and-Visualization-Configuration">
+<h2>Notebook Setup and Visualization Configuration<a class="headerlink" href="#Notebook-Setup-and-Visualization-Configuration" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">This section contains standard setup code that will likely be common across all notebooks in this course.</div>
+<div class="line">It imports the required Python packages for data analysis and visualization, and configures the notebook for high-quality plotting.</div>
+</div>
+<section id="Key-Configuration-Commands">
+<h3>Key Configuration Commands<a class="headerlink" href="#Key-Configuration-Commands" title="Link to this heading"></a></h3>
+<ul>
+<li><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">%matplotlib</span> <span class="pre">inline</span></code></div>
+<div class="line">Ensures that all <strong>matplotlib plots</strong> are displayed directly within the notebook cells.</div>
+</div>
+</li>
+<li><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">%config</span> <span class="pre">InlineBackend.figure_format</span></code></div>
+<div class="line">Controls the output format of plots. Different formats are suited for different use cases:</div>
+</div>
+</li>
+</ul>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Format</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+<th class="head"><p><strong>When to Use</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'retina'</span></code></p></td>
+<td><p>High-resolution (2× DPI) PNG output</p></td>
+<td><p>Ideal for high-quality visuals.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'png'</span></code></p></td>
+<td><p>Standard-resolution PNG output</p></td>
+<td><p>Suitable for general use; faster rendering and smaller output size.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'svg'</span></code></p></td>
+<td><p>Scalable Vector Graphics (vector-based)</p></td>
+<td><p>Best for publication-quality plots that scale without losing quality; ideal for LaTeX or web embedding.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">'pdf'</span></code></p></td>
+<td><p>Portable Document Format (vector-based)</p></td>
+<td><p>Useful for exporting plots to reports; less common in notebooks.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">'jpg'</span></code> / <code class="docutils literal notranslate"><span class="pre">'jpeg'</span></code></p></td>
+<td><p>Compressed raster format</p></td>
+<td><p>Rarely used for plots due to lossy compression; generally not recommended for analysis.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[356]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Render our plots inline</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+<span class="o">%</span><span class="k">config</span> InlineBackend.figure_format = &#39;svg&#39;
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[357]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import requiered packages</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Modifying-the-Style-of-Graphs">
+<h3>Modifying the Style of Graphs<a class="headerlink" href="#Modifying-the-Style-of-Graphs" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">Matplotlib provides several built-in styles that can be applied to improve the appearance of plots.</div>
+<div class="line">In this tutorial, we will use a combination of <a class="reference external" href="https://matplotlib.org/stable/gallery/style_sheets/style_sheets_reference.html?utm_source=chatgpt.com">Seaborn-inspired styles</a> to produce clear, professional, and visually appealing figures.</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[358]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modifying the style of the graphs</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">([</span><span class="s1">&#39;seaborn-v0_8-talk&#39;</span><span class="p">,</span> <span class="s1">&#39;seaborn-v0_8-ticks&#39;</span><span class="p">,</span> <span class="s1">&#39;seaborn-v0_8-whitegrid&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Load-the-Data">
+<h2>Load the Data<a class="headerlink" href="#Load-the-Data" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">We can load a CSV file directly from a URL using <strong>pandas</strong>, or upload it from a local directory.</div>
+<div class="line">The <code class="docutils literal notranslate"><span class="pre">pd.read_csv</span></code> function has many options; you can explore them in the <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.io.parsers.read_csv.html">official documentation</a>.</div>
+</div>
+<div class="line-block">
+<div class="line">In this tutorial, we will use the <a class="reference external" href="https://www.kaggle.com/datasets/justin2028/state-sponsored-cyber-operations-2005-present/data">State-Sponsored Cyber Operations (2005-Present)</a> dataset.</div>
+<div class="line">This dataset tracks publicly known state-sponsored cyber operations since 2005 and has been compiled from official sources such as the Council on Foreign Relations.</div>
+</div>
+<p><strong>Features in the Dataset</strong></p>
+<ul class="simple">
+<li><p>Title: Title/Summary of the cyber operation.</p></li>
+<li><p>Date: Date when the cyber operation was conducted.</p></li>
+<li><p>Affiliations: Affiliations behind the cyber operation, if known.</p></li>
+<li><p>Descriptions: Description of the cyber operation conducted.</p></li>
+<li><p>Response: Response of the suspects behind the cyber operation, if any.</p></li>
+<li><p>Victims: Victims that were targeted by the cyber operation, if known.</p></li>
+<li><p>Sponsor: The suspected state sponsor of the cyber operation.</p></li>
+<li><p>Type: Type of cyber operation conducted.</p></li>
+<li><p>Category: Demographic category of the cyber operation’s victims.</p></li>
+<li><p>Sources_1: Source that reported the cyber operation.</p></li>
+<li><p>Sources_2: Source #2 that reported the cyber operation, if any.</p></li>
+<li><p>Sources_3: Source #3 that reported the cyber operation, if any.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[359]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s1">&#39;cyber-operations-incidents.csv&#39;</span><span class="p">,</span>
+    <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>      <span class="c1"># Define a custom separator (default is &#39;,&#39;)</span>
+    <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>           <span class="c1"># Row to use as column names</span>
+    <span class="n">index_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>     <span class="c1"># Column to use as row labels</span>
+    <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;NA&#39;</span><span class="p">],</span>   <span class="c1"># Values to treat as missing</span>
+    <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span>    <span class="c1"># File encoding</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">delimiter</span></code> lets you specify the character separating fields (default is comma <code class="docutils literal notranslate"><span class="pre">,</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">header</span></code> indicates which row to treat as column names.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">index_col</span></code> allows using a column as the DataFrame index.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">na_values</span></code> defines strings to interpret as missing data (<code class="docutils literal notranslate"><span class="pre">NaN</span></code>).</p></li>
+<li><p>Always ensure the encoding matches your file to avoid read errors.</p></li>
+</ul>
+<section id="Data-Inspection-and-Basic-Statistics">
+<h3>Data Inspection and Basic Statistics<a class="headerlink" href="#Data-Inspection-and-Basic-Statistics" title="Link to this heading"></a></h3>
+<p>Before performing detailed analysis, it is important to <strong>inspect the dataset</strong> and understand its structure.</p>
+<p><strong>Preview the first 5 rows</strong> of the dataset:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[360]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[360]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Affiliations</th>
+      <th>Description</th>
+      <th>Response</th>
+      <th>Victims</th>
+      <th>Sponsor</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Sources_1</th>
+      <th>Sources_2</th>
+      <th>Sources_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Targeting of dissidents and opposition politic...</td>
+      <td>1/20/2022</td>
+      <td>Believed to be the work of Ghana's government</td>
+      <td>The Israeli spyware firm NSO Group sold Pegasu...</td>
+      <td>Denial   https://www.haaretz.com/israel-news/t...</td>
+      <td>Political dissidents and opposition leaders in...</td>
+      <td>Ghana</td>
+      <td>Espionage</td>
+      <td>Civil society</td>
+      <td>https://www.haaretz.com/israel-news/tech-news/...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Targeting of Ukrainian state entities</td>
+      <td>3/7/2022</td>
+      <td>UNC1151</td>
+      <td>The Belarusian threat actor UNC1151 targeted m...</td>
+      <td>NaN</td>
+      <td>Ukrainian state entities</td>
+      <td>Belarus</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://cert.gov.ua/article/37626</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Targeting of Russian and Belarusian websites</td>
+      <td>5/4/2022</td>
+      <td>Ukrainian IT Army</td>
+      <td>Ukraine?? IT Army compromised Docker Engine ho...</td>
+      <td>NaN</td>
+      <td>Russian and Belarusian websites were targeted,...</td>
+      <td>Ukraine</td>
+      <td>Denial of service</td>
+      <td>Government, Private sector, Civil society</td>
+      <td>https://www.crowdstrike.com/blog/compromised-d...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Targeting of the Belgian Federal Public Servic...</td>
+      <td>7/18/2022</td>
+      <td>Zirconium</td>
+      <td>Chinese threat actors targeted the Belgian Fed...</td>
+      <td>Denouncement   https://diplomatie.belgium.be/e...</td>
+      <td>Belgian Federal Public Service Interior</td>
+      <td>China</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://diplomatie.belgium.be/en/news/declarat...</td>
+      <td>https://www.bleepingcomputer.com/news/security...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Targeting of Ukrainian government agencies</td>
+      <td>8/11/2022</td>
+      <td>Gamaredon</td>
+      <td>The Computer Emergency Response Team of Ukrain...</td>
+      <td>Confirmation</td>
+      <td>Ukrainian government agencies</td>
+      <td>Russian Federation</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://cert.gov.ua/article/2681855</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>Preview the last 2 rows</strong> of the dataset:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[361]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[361]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Affiliations</th>
+      <th>Description</th>
+      <th>Response</th>
+      <th>Victims</th>
+      <th>Sponsor</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Sources_1</th>
+      <th>Sources_2</th>
+      <th>Sources_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>766</th>
+      <td>Trisis</td>
+      <td>NaN</td>
+      <td>Also known as Triton and Xenotime</td>
+      <td>This threat actor targets the Triconex safety ...</td>
+      <td>Confirmation   https://www.justice.gov/opa/pr/...</td>
+      <td>Saudi Arabia</td>
+      <td>Russian Federation</td>
+      <td>Sabotage</td>
+      <td>Private sector</td>
+      <td>https://www.fireeye.com/blog/threat-research/2...</td>
+      <td>https://www.fireeye.com/blog/threat-research/2...</td>
+      <td>https://dragos.com/blog/trisis/TRISIS-01.pdf</td>
+    </tr>
+    <tr>
+      <th>767</th>
+      <td>Targeting of the Belgian Federal Public Servic...</td>
+      <td>NaN</td>
+      <td>APT 30</td>
+      <td>Chinese threat actors targeted the Belgian Fed...</td>
+      <td>Denouncement   https://diplomatie.belgium.be/e...</td>
+      <td>Belgian Federal Public Service Interior</td>
+      <td>China</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://diplomatie.belgium.be/en/news/declarat...</td>
+      <td>https://www.bleepingcomputer.com/news/security...</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="line-block">
+<div class="line"><strong>Selecting specific rows:</strong> You can extract a subset of rows using slicing.</div>
+<div class="line">For example, to select rows 3 to 6 (inclusive of 3, exclusive of 7):</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[362]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[362]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Affiliations</th>
+      <th>Description</th>
+      <th>Response</th>
+      <th>Victims</th>
+      <th>Sponsor</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Sources_1</th>
+      <th>Sources_2</th>
+      <th>Sources_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>Targeting of the Belgian Federal Public Servic...</td>
+      <td>7/18/2022</td>
+      <td>Zirconium</td>
+      <td>Chinese threat actors targeted the Belgian Fed...</td>
+      <td>Denouncement   https://diplomatie.belgium.be/e...</td>
+      <td>Belgian Federal Public Service Interior</td>
+      <td>China</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://diplomatie.belgium.be/en/news/declarat...</td>
+      <td>https://www.bleepingcomputer.com/news/security...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Targeting of Ukrainian government agencies</td>
+      <td>8/11/2022</td>
+      <td>Gamaredon</td>
+      <td>The Computer Emergency Response Team of Ukrain...</td>
+      <td>Confirmation</td>
+      <td>Ukrainian government agencies</td>
+      <td>Russian Federation</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://cert.gov.ua/article/2681855</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Targeting of Palestinian entities and activists</td>
+      <td>2/2/2022</td>
+      <td>APT-C-23</td>
+      <td>The Hamas-linked threat actor APT-C-23 used ma...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>Espionage</td>
+      <td>Civil society</td>
+      <td>https://www.cyberscoop.com/palestinian-targete...</td>
+      <td>https://blog.talosintelligence.com/2022/02/ari...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Targeting of government agencies in the Europe...</td>
+      <td>4/5/2022</td>
+      <td>Gamaredon</td>
+      <td>Russian threat actor Gamaredon targeted Ukrain...</td>
+      <td>Confirmation   https://cert.gov.ua/article/39086</td>
+      <td>Government agencies of EU member states</td>
+      <td>Russian Federation</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://www.bleepingcomputer.com/news/security...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="line-block">
+<div class="line"><strong>By label using ``df.loc``:</strong> Selects rows and columns by their names or index labels.</div>
+<div class="line">Example: Select rows 3 to 7 and the columns <code class="docutils literal notranslate"><span class="pre">&quot;Title&quot;</span></code>, <code class="docutils literal notranslate"><span class="pre">&quot;Date&quot;</span></code>, and <code class="docutils literal notranslate"><span class="pre">&quot;Sponsor&quot;</span></code>:</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[363]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">7</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Title&quot;</span><span class="p">,</span> <span class="s2">&quot;Date&quot;</span><span class="p">,</span> <span class="s2">&quot;Sponsor&quot;</span><span class="p">]]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[363]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Sponsor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>Targeting of the Belgian Federal Public Servic...</td>
+      <td>7/18/2022</td>
+      <td>China</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Targeting of Ukrainian government agencies</td>
+      <td>8/11/2022</td>
+      <td>Russian Federation</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Targeting of Palestinian entities and activists</td>
+      <td>2/2/2022</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Targeting of government agencies in the Europe...</td>
+      <td>4/5/2022</td>
+      <td>Russian Federation</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>Targeting of Rostec</td>
+      <td>5/19/2022</td>
+      <td>China</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="line-block">
+<div class="line"><strong>By position using ``df.iloc``:</strong> Selects rows and columns by integer index positions.</div>
+<div class="line">Example: Select rows 0, 1, 3, 4, 6 and columns 0 to 2:</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[364]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[364]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Affiliations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Targeting of dissidents and opposition politic...</td>
+      <td>1/20/2022</td>
+      <td>Believed to be the work of Ghana's government</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Targeting of Ukrainian state entities</td>
+      <td>3/7/2022</td>
+      <td>UNC1151</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Targeting of the Belgian Federal Public Servic...</td>
+      <td>7/18/2022</td>
+      <td>Zirconium</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Targeting of Ukrainian government agencies</td>
+      <td>8/11/2022</td>
+      <td>Gamaredon</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>Targeting of government agencies in the Europe...</td>
+      <td>4/5/2022</td>
+      <td>Gamaredon</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>Obtain a concise summary</strong> of the dataset, including column names, non-null counts, and data types:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[365]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 768 entries, 0 to 767
+Data columns (total 12 columns):
+ #   Column        Non-Null Count  Dtype
+---  ------        --------------  -----
+ 0   Title         768 non-null    object
+ 1   Date          753 non-null    object
+ 2   Affiliations  621 non-null    object
+ 3   Description   768 non-null    object
+ 4   Response      186 non-null    object
+ 5   Victims       741 non-null    object
+ 6   Sponsor       728 non-null    object
+ 7   Type          731 non-null    object
+ 8   Category      743 non-null    object
+ 9   Sources_1     763 non-null    object
+ 10  Sources_2     488 non-null    object
+ 11  Sources_3     190 non-null    object
+dtypes: object(12)
+memory usage: 72.1+ KB
+</pre></div></div>
+</div>
+<p><strong>Generate descriptive statistics</strong> for all numeric columns, such as mean, standard deviation, minimum, and maximum values:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[366]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[366]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Affiliations</th>
+      <th>Description</th>
+      <th>Response</th>
+      <th>Victims</th>
+      <th>Sponsor</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Sources_1</th>
+      <th>Sources_2</th>
+      <th>Sources_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>768</td>
+      <td>753</td>
+      <td>621</td>
+      <td>768</td>
+      <td>186</td>
+      <td>741</td>
+      <td>728</td>
+      <td>731</td>
+      <td>743</td>
+      <td>763</td>
+      <td>488</td>
+      <td>190</td>
+    </tr>
+    <tr>
+      <th>unique</th>
+      <td>764</td>
+      <td>603</td>
+      <td>377</td>
+      <td>767</td>
+      <td>128</td>
+      <td>657</td>
+      <td>61</td>
+      <td>12</td>
+      <td>35</td>
+      <td>715</td>
+      <td>470</td>
+      <td>186</td>
+    </tr>
+    <tr>
+      <th>top</th>
+      <td>Targeting of Southeast Asian telecommunication...</td>
+      <td>10/4/2018</td>
+      <td>Lazarus Group</td>
+      <td>Chinese threat actors targeted the Belgian Fed...</td>
+      <td>Unknown</td>
+      <td>United States</td>
+      <td>China</td>
+      <td>Espionage</td>
+      <td>Private sector</td>
+      <td>https://blogs.microsoft.com/on-the-issues/2020...</td>
+      <td>https://www.bleepingcomputer.com/news/security...</td>
+      <td>https://www.fireeye.com/content/dam/fireeye-ww...</td>
+    </tr>
+    <tr>
+      <th>freq</th>
+      <td>2</td>
+      <td>6</td>
+      <td>26</td>
+      <td>2</td>
+      <td>47</td>
+      <td>21</td>
+      <td>263</td>
+      <td>608</td>
+      <td>199</td>
+      <td>5</td>
+      <td>3</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>The dataset contains <strong>768 rows</strong> and <strong>12 columns</strong>:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[367]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[367]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+(768, 12)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[368]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Number of rows/observations - the data numerosity</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[368]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+768
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[369]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Number of features/column/attributes - the data dimensionality</span>
+<span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[369]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+12
+</pre></div></div>
+</div>
+<p>These commands provide a first overview of the data, helping identify missing values, data types, and key summary statistics.</p>
+</section>
+</section>
+<section id="Data-Cleaning-and-Preparation">
+<h2>Data Cleaning and Preparation<a class="headerlink" href="#Data-Cleaning-and-Preparation" title="Link to this heading"></a></h2>
+<p>We can <strong>list all columns</strong> and <strong>check their data types</strong> using:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[370]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[370]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Index([&#39;Title&#39;, &#39;Date&#39;, &#39;Affiliations&#39;, &#39;Description&#39;, &#39;Response&#39;, &#39;Victims&#39;,
+       &#39;Sponsor&#39;, &#39;Type&#39;, &#39;Category&#39;, &#39;Sources_1&#39;, &#39;Sources_2&#39;, &#39;Sources_3&#39;],
+      dtype=&#39;object&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[371]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[371]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Title           object
+Date            object
+Affiliations    object
+Description     object
+Response        object
+Victims         object
+Sponsor         object
+Type            object
+Category        object
+Sources_1       object
+Sources_2       object
+Sources_3       object
+dtype: object
+</pre></div></div>
+</div>
+<ul>
+<li><div class="line-block">
+<div class="line">Columns with the data type <code class="docutils literal notranslate"><span class="pre">object</span></code> are strings.</div>
+</div>
+</li>
+<li><div class="line-block">
+<div class="line">Some columns, such as dates, are better represented in a proper <strong>datetime format</strong>.</div>
+</div>
+</li>
+<li><p>To convert strings to datetime, we can use <code class="docutils literal notranslate"><span class="pre">pd.to_datetime</span></code>. Before doing so, it is important to understand <strong>Python date parsing conventions</strong>. See the <a class="reference external" href="https://docs.python.org/3/library/datetime.html#strftime-and-strptime-behavior">official documentation</a> for reference.</p></li>
+<li><p>Relevant formatting codes include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">%m</span></code> – Month as a zero-padded decimal number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%d</span></code> – Day of the month as a zero-padded decimal number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">%Y</span></code> – Year with century as a decimal number</p></li>
+</ul>
+</li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[372]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;Date&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%m/</span><span class="si">%d</span><span class="s2">/%Y&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[372]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Title                   object
+Date            datetime64[ns]
+Affiliations            object
+Description             object
+Response                object
+Victims                 object
+Sponsor                 object
+Type                    object
+Category                object
+Sources_1               object
+Sources_2               object
+Sources_3               object
+dtype: object
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[373]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[373]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Affiliations</th>
+      <th>Description</th>
+      <th>Response</th>
+      <th>Victims</th>
+      <th>Sponsor</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Sources_1</th>
+      <th>Sources_2</th>
+      <th>Sources_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Targeting of dissidents and opposition politic...</td>
+      <td>2022-01-20</td>
+      <td>Believed to be the work of Ghana's government</td>
+      <td>The Israeli spyware firm NSO Group sold Pegasu...</td>
+      <td>Denial   https://www.haaretz.com/israel-news/t...</td>
+      <td>Political dissidents and opposition leaders in...</td>
+      <td>Ghana</td>
+      <td>Espionage</td>
+      <td>Civil society</td>
+      <td>https://www.haaretz.com/israel-news/tech-news/...</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Targeting of Ukrainian state entities</td>
+      <td>2022-03-07</td>
+      <td>UNC1151</td>
+      <td>The Belarusian threat actor UNC1151 targeted m...</td>
+      <td>NaN</td>
+      <td>Ukrainian state entities</td>
+      <td>Belarus</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://cert.gov.ua/article/37626</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Display all rows in the DataFrame that are identified as <strong>duplicates</strong> based on all columns:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[374]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span><span class="o">==</span><span class="kc">True</span><span class="p">]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[374]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Affiliations</th>
+      <th>Description</th>
+      <th>Response</th>
+      <th>Victims</th>
+      <th>Sponsor</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Sources_1</th>
+      <th>Sources_2</th>
+      <th>Sources_3</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Display all rows where <strong>duplicate values occur in the “Description”</strong> column:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[375]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Description&#39;</span><span class="p">],</span> <span class="n">keep</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[375]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Affiliations</th>
+      <th>Description</th>
+      <th>Response</th>
+      <th>Victims</th>
+      <th>Sponsor</th>
+      <th>Type</th>
+      <th>Category</th>
+      <th>Sources_1</th>
+      <th>Sources_2</th>
+      <th>Sources_3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>3</th>
+      <td>Targeting of the Belgian Federal Public Servic...</td>
+      <td>2022-07-18</td>
+      <td>Zirconium</td>
+      <td>Chinese threat actors targeted the Belgian Fed...</td>
+      <td>Denouncement   https://diplomatie.belgium.be/e...</td>
+      <td>Belgian Federal Public Service Interior</td>
+      <td>China</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://diplomatie.belgium.be/en/news/declarat...</td>
+      <td>https://www.bleepingcomputer.com/news/security...</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>767</th>
+      <td>Targeting of the Belgian Federal Public Servic...</td>
+      <td>NaT</td>
+      <td>APT 30</td>
+      <td>Chinese threat actors targeted the Belgian Fed...</td>
+      <td>Denouncement   https://diplomatie.belgium.be/e...</td>
+      <td>Belgian Federal Public Service Interior</td>
+      <td>China</td>
+      <td>Espionage</td>
+      <td>Government</td>
+      <td>https://diplomatie.belgium.be/en/news/declarat...</td>
+      <td>https://www.bleepingcomputer.com/news/security...</td>
+      <td>NaN</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<section id="Boolean-Indexing">
+<h3>Boolean Indexing<a class="headerlink" href="#Boolean-Indexing" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">Boolean indexing allows us to <strong>filter rows based on one or more conditions</strong>.</div>
+<div class="line">For example, we can select operations conducted by a specific sponsor within a given date range.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[376]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define date range for 2022-2023</span>
+<span class="n">start_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2022-01-01&#39;</span><span class="p">)</span>
+<span class="n">end_date</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s1">&#39;2023-12-31&#39;</span><span class="p">)</span>
+
+<span class="c1"># Boolean condition</span>
+<span class="n">boolean_condition</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Sponsor&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Belarus&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">start_date</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">end_date</span><span class="p">)</span>
+
+<span class="c1"># Filtered DataFrame</span>
+<span class="n">df_filtered</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">boolean_condition</span><span class="p">]</span>
+
+<span class="n">df_filtered</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Number of rows in the filtered DataFrame</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[376]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+2
+</pre></div></div>
+</div>
+</section>
+<section id="Aggregation">
+<h3>Aggregation<a class="headerlink" href="#Aggregation" title="Link to this heading"></a></h3>
+<p>Aggregation allows us to <strong>summarize data by groups</strong>, which is useful to identify patterns and trends in cyber operations.</p>
+<ul class="simple">
+<li><p>For example, we can <strong>count the number of cyber operations conducted by each sponsor</strong></p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[377]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count the number of cyber operations per sponsor</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Sponsor&quot;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;size&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[377]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sponsor</th>
+      <th>size</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>6</th>
+      <td>China</td>
+      <td>263</td>
+    </tr>
+    <tr>
+      <th>37</th>
+      <td>Russian Federation</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Iran (Islamic Republic of)</td>
+      <td>98</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>Korea (Democratic People's Republic of)</td>
+      <td>79</td>
+    </tr>
+    <tr>
+      <th>53</th>
+      <td>United States</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>25</th>
+      <td>Kazakhstan</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Lebanon</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>Myanmar</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>32</th>
+      <td>Netherlands</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>30</th>
+      <td>Morocco</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>61 rows × 2 columns</p>
+</div></div>
+</div>
+<p><strong>Explanation:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">groupby(&quot;Sponsor&quot;)</span></code> groups the data by the <code class="docutils literal notranslate"><span class="pre">Sponsor</span></code> column.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.size()</span></code> counts the number of rows in each group, representing the number of operations.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.sort_values(by='size',</span> <span class="pre">ascending=False)</span></code> sorts the sponsors from <strong>most to least active</strong>.</p></li>
+</ul>
+<p><strong>Sum the number of victims per sponsor</strong> to identify which sponsors have caused the greatest impact:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[378]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Sum the number of victims per sponsor</span>
+<span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;Sponsor&quot;</span><span class="p">,</span> <span class="n">as_index</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="s2">&quot;Victims&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">&quot;Victims&quot;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[378]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Sponsor</th>
+      <th>Victims</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>55</th>
+      <td>United States, Australia, Canada, New Zealand,...</td>
+      <td>Yandex</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>Korea (Republic of)</td>
+      <td>World Health OrganizationNorth Koreans and Nor...</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>Uzbekistan</td>
+      <td>Uzbek activists and dissidents</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>Lebanon</td>
+      <td>United States, Canada, Germany, Lebanon, France</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Belarus</td>
+      <td>Ukrainian state entitiesOver seventy Ukrainian...</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>21</th>
+      <td>Israel</td>
+      <td>An activist in IsraelMayors and other local of...</td>
+    </tr>
+    <tr>
+      <th>52</th>
+      <td>United Kingdom, United States</td>
+      <td>Algeria, Afghanistan, Belgium, Brazil, Fiji, G...</td>
+    </tr>
+    <tr>
+      <th>20</th>
+      <td>Iran (Islamic Republic of)</td>
+      <td>Albanian government networksVMware Horizon ser...</td>
+    </tr>
+    <tr>
+      <th>39</th>
+      <td>Saudi Arabia, United Arab Emirates</td>
+      <td>Al Jazeera employees</td>
+    </tr>
+    <tr>
+      <th>0</th>
+      <td>United Kingdom"</td>
+      <td>Israel</td>
+    </tr>
+  </tbody>
+</table>
+<p>61 rows × 2 columns</p>
+</div></div>
+</div>
+</section>
+<section id="Individual-Variables-Exploration">
+<h3>Individual Variables Exploration<a class="headerlink" href="#Individual-Variables-Exploration" title="Link to this heading"></a></h3>
+<p>Display the number of records per year by extracting the year component from the <code class="docutils literal notranslate"><span class="pre">Date</span></code> column and counting its occurrences, sorted in chronological order:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[379]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[379]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Date
+2005.0      1
+2006.0      3
+2007.0     10
+2008.0      7
+2009.0      4
+2010.0      9
+2011.0     15
+2012.0     12
+2013.0     18
+2014.0     32
+2015.0     34
+2016.0     33
+2017.0     46
+2018.0     80
+2019.0     74
+2020.0    120
+2021.0    108
+2022.0    147
+Name: count, dtype: int64
+</pre></div></div>
+</div>
+<p>Visualize the trend of cyber operations over time by plotting the number of recorded cyber events per year:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[380]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1"># Extract number of cyber operations per year</span>
+<span class="n">cyber_per_year</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+
+<span class="c1"># Set plot style</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;whitegrid&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">cyber_per_year</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">cyber_per_year</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Number of Cyber Events per Year&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cyber Operations&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">cyber_per_year</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>  <span class="c1"># Ensure x-axis shows integer ticks</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_49_0.svg" src="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_49_0.svg" />
+</div>
+</div>
+<p>Display the 15 most frequent affiliations involved in cyber operations, excluding entries labeled as Unknown, to identify the primary actors appearing in the dataset:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[381]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">aff_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Affiliations</span><span class="o">!=</span><span class="s1">&#39;Unknown&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">Affiliations</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">aff_counts</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[381]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Affiliations
+Lazarus Group                                     26
+APT 28                                            15
+Believed to be the work of APT 28                 15
+Sandworm                                          15
+Winnti Umbrella                                   10
+Mustang Panda                                     10
+Gamaredon                                         10
+Ocean Lotus                                        9
+MuddyWater                                         9
+Kimsuky                                            9
+Charming Kitten                                    8
+Believed to be the work of?APT 28                  7
+Turla                                              7
+Believed to be the work of Russia&#39;s government     6
+APT 10                                             6
+Name: count, dtype: int64
+</pre></div></div>
+</div>
+<p>Visualize the top 15 affiliations involved in cyber operations using a bar chart:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[382]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_10_aff</span> <span class="o">=</span> <span class="n">aff_counts</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">top_10_aff</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">top_10_aff</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">containers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Top 10 Affiliations&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Affiliation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_53_0.svg" src="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_53_0.svg" />
+</div>
+</div>
+<p>Display the top 15 state sponsors associated with cyber operations in the dataset:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[383]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">top_15_sponsors</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">Sponsor</span><span class="o">!=</span><span class="s1">&#39;Unknown&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">Sponsor</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">top_15_sponsors</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">top_15_sponsors</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">containers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Top 15 Sponsors&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Sponsor&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_55_0.svg" src="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_55_0.svg" />
+</div>
+</div>
+</section>
+</section>
+<section id="Exercises">
+<h2>Exercises<a class="headerlink" href="#Exercises" title="Link to this heading"></a></h2>
+<p>Answer the following Questions about the Dataset</p>
+<section id="Exercise-1:-Distribution-of-Operation-Types">
+<h3>Exercise 1: Distribution of Operation Types<a class="headerlink" href="#Exercise-1:-Distribution-of-Operation-Types" title="Link to this heading"></a></h3>
+<p>Investigate the distribution of <code class="docutils literal notranslate"><span class="pre">Type</span></code> of state-sponsored cyber operations in the dataset.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[384]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 1 - Remove invalid or unknown Type entries</span>
+<span class="c1"># Hint: Filter out invalid rows</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[385]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 2 - Create the countplot</span>
+<span class="c1"># Hint: Use sns.countplot() with the `order` parameter set to value_counts().index</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[386]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 3 - Annotate counts above each bar</span>
+<span class="c1"># Hint: Use ax.bar_label(ax.containers[0])</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[387]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 4 - Set title and rotate x-axis labels</span>
+<span class="c1"># show the plot</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Exercise-2:-Top-10-Affiliations">
+<h3>Exercise 2: Top 10 Affiliations<a class="headerlink" href="#Exercise-2:-Top-10-Affiliations" title="Link to this heading"></a></h3>
+<p>Some affiliations refer to the same group in different ways (e.g., “APT 28”). Normalize all variations containing “APT 28” into a single value, then display the <strong>top 10 affiliations</strong> using a barplot.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[388]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 1 - Normalize &quot;APT 28&quot; variations</span>
+<span class="c1"># Hint: Some entries refer to the same group differently, e.g.,</span>
+<span class="c1"># &#39;APT 28&#39;, &#39;Believed to be the work of APT 28&#39;, &#39;Believed to be the work of?APT 28&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[389]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 2 - Filter out &#39;Unknown&#39; affiliations</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[390]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 3 - Count affiliations and get top 10</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[391]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 4 - Create a barplot of the top 10 affiliations</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+<section id="Exercise-3:-APT-28-Cyber-Attacks-Over-Time">
+<h3>Exercise 3: APT 28 Cyber Attacks Over Time<a class="headerlink" href="#Exercise-3:-APT-28-Cyber-Attacks-Over-Time" title="Link to this heading"></a></h3>
+<p>Analyze the activity of APT 28 by plotting the number of cyber operations attributed to this group over the years 2010–2020.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[392]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 1 - Filter the dataset for all rows where &#39;Affiliations&#39; contains &quot;APT 28&quot;</span>
+<span class="c1"># Hint: Use str.contains() with case=False and na=False</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[393]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 2 - Extract the year from the &#39;Date&#39; column</span>
+<span class="c1"># Hint: Use .dt.year</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[394]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 3 - Sort the counts by year</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[395]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 4 - Create a line plot showing the number of attacks per year</span>
+<br/></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Solution---Exercise-1:-Distribution-of-Operation-Types">
+<h2>Solution - Exercise 1: Distribution of Operation Types<a class="headerlink" href="#Solution---Exercise-1:-Distribution-of-Operation-Types" title="Link to this heading"></a></h2>
+<p>First, we analyze the current missing values. There are 37 <code class="docutils literal notranslate"><span class="pre">NaN</span></code> entries in the <code class="docutils literal notranslate"><span class="pre">Type</span></code> column:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[396]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1 - Remove invalid or unknown Type entries</span>
+
+<span class="c1"># count NaN values in each column</span>
+<span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[396]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Title             0
+Date             15
+Affiliations    147
+Description       0
+Response        582
+Victims          27
+Sponsor          40
+Type             37
+Category         25
+Sources_1         5
+Sources_2       280
+Sources_3       578
+dtype: int64
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[397]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Delete rows with NaN in the &#39;Type&#39; column</span>
+<span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Verify that all NaNs in &#39;Type&#39; are removed</span>
+<span class="n">df</span><span class="o">.</span><span class="n">isna</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[397]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Title             0
+Date             11
+Affiliations    135
+Description       0
+Response        549
+Victims          18
+Sponsor          35
+Type              0
+Category         12
+Sources_1         4
+Sources_2       270
+Sources_3       552
+dtype: int64
+</pre></div></div>
+</div>
+<p>We analyze all current values in the <code class="docutils literal notranslate"><span class="pre">Type</span></code> column and notice that some entries contain invalid data, such as URLs.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[398]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># show unique values in &#39;Type&#39; column</span>
+<span class="n">df</span><span class="o">.</span><span class="n">Type</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[398]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&#39;Espionage&#39;, &#39;Denial of service&#39;, &#39;Data destruction&#39;,
+       &#39;Financial Theft&#39;, &#39;Sabotage&#39;,
+       &#39;https://blog.talosintelligence.com/2022/03/transparent-tribe-new-campaign.html&#39;,
+       &#39;Defacement&#39;,
+       &#39;https://www.direkt36.hu/en/putyin-hekkerei-is-latjak-a-magyar-kulugy-titkait-az-orban-kormany-evek-ota-nem-birja-elharitani-oket/&#39;,
+       &#39;Private sector&#39;, &#39;Government&#39;, &#39;Government, Military&#39;, &#39;Doxing&#39;],
+      dtype=object)
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[399]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Filter out rows where &#39;Type&#39; is a URL using regular expression</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^https?://&#39;</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># show unique values in &#39;Type&#39; column</span>
+<span class="n">df</span><span class="o">.</span><span class="n">Type</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[399]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&#39;Espionage&#39;, &#39;Denial of service&#39;, &#39;Data destruction&#39;,
+       &#39;Financial Theft&#39;, &#39;Sabotage&#39;, &#39;Defacement&#39;, &#39;Private sector&#39;,
+       &#39;Government&#39;, &#39;Government, Military&#39;, &#39;Doxing&#39;], dtype=object)
+</pre></div></div>
+</div>
+<p>Now we observe that there are two invalid categories in the <code class="docutils literal notranslate"><span class="pre">Type</span></code> column. Therefore, we need to delete the rows containing <code class="docutils literal notranslate"><span class="pre">'Government'</span></code> and <code class="docutils literal notranslate"><span class="pre">'Government,</span> <span class="pre">Military'</span></code> types.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[400]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="c1"># List of types to remove</span>
+<span class="n">types_to_remove</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Government&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Government, Military&#39;</span>
+<span class="p">]</span>
+
+<span class="c1"># Filter the DataFrame</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">types_to_remove</span><span class="p">)]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">Type</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[400]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&#39;Espionage&#39;, &#39;Denial of service&#39;, &#39;Data destruction&#39;,
+       &#39;Financial Theft&#39;, &#39;Sabotage&#39;, &#39;Defacement&#39;, &#39;Private sector&#39;,
+       &#39;Doxing&#39;], dtype=object)
+</pre></div></div>
+</div>
+<p>Create the plot.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[401]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 2 - Create the countplot</span>
+<span class="c1"># Hint: Use sns.countplot() with the `order` parameter set to value_counts().index</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">countplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;Type&#39;</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Distribution of Operation Types&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="c1"># Step 3 - Annotate counts above each bar</span>
+<span class="c1"># Hint: Use ax.bar_label(ax.containers[0])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">containers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+
+<span class="c1"># Step 4 - Set title and rotate x-axis labels</span>
+<span class="c1"># show the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_80_0.svg" src="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_80_0.svg" />
+</div>
+</div>
+</section>
+<section id="Solution---Exercise-2:-Top-10-Affiliations">
+<h2>Solution - Exercise 2: Top 10 Affiliations<a class="headerlink" href="#Solution---Exercise-2:-Top-10-Affiliations" title="Link to this heading"></a></h2>
+<p>We start by printing all unique values in the <code class="docutils literal notranslate"><span class="pre">Affiliations</span></code> column.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[402]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1 - Normalize &quot;APT 28&quot; variations</span>
+<span class="c1"># Hint: Some entries refer to the same group differently, e.g.,</span>
+<span class="c1"># &#39;APT 28&#39;, &#39;Believed to be the work of APT 28&#39;, &#39;Believed to be the work of?APT 28&#39;</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">Affiliations</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[402]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&#34;Believed to be the work of Ghana&#39;s government&#34;, &#39;UNC1151&#39;,
+       &#39;Ukrainian IT Army&#39;, &#39;Zirconium&#39;, &#39;Gamaredon&#39;, &#39;APT-C-23&#39;,
+       &#39;Believed to be the work of the Chinese government&#39;,
+       &#39;Believed to be the work of the Iranian government&#39;,
+       &#39;Lazarus Group&#39;, &#39;APT 35&#39;,
+       &#39;Believed to be the work of the Canadian government&#39;,
+       &#34;Believed to be the work of Israel&#39;s government.&#34;,
+       &#39;Believed to be the work of the Russian government&#39;, &#39;Gallium&#39;,
+       &#39;Mirage&#39;, &#39;Believed to be the work of the Jordanian government&#39;,
+       &#39;Lucky Cat&#39;, &#39;APT 40&#39;, &#39;Sandworm&#39;, &#39;APT 37&#39;,
+       &#34;Believed to be the work of Israel&#39;s government&#34;, &#39;APT 28&#39;, nan,
+       &#39;Believed to be the work of the Iranian government.&#39;, &#39;APT 18&#39;,
+       &#39;Ocean Lotus&#39;, &#39;Mustang Panda&#39;,
+       &#39;Believed to be the work of the government of the Russian Federation.&#39;,
+       &#39;APT 10&#39;, &#39;Kimsuky&#39;, &#39;Charming Kitten&#39;,
+       &#34;Believed to be the work of China&#39;s government.&#34;,
+       &#39;National Security Agency, Tailored Access Operations&#39;, &#39;APT 5&#39;,
+       &#39;Believed to be the work of the Spanish government&#39;,
+       &#39;Believed to be the work of the government of Thailand.&#39;,
+       &#39;Believed to be the work of Hamas.&#39;,
+       &#34;Believed to be the work of China&#39;s government&#34;, &#39;APT 36&#39;,
+       &#34;Believed to be the work of Palestine&#39;s government&#34;,
+       &#39;Iran, APT 35&#39;,
+       &#39;Believed to be the work of the Chinese government\r\n?&#39;,
+       &#39;Confucius&#39;, &#39;Winnti Umbrella&#39;,
+       &#34;Believed to be the work of Russia&#39;s government&#34;, &#39;Konni Group&#39;,
+       &#39;Emissary Panda&#39;, &#39;Patchwork&#39;, &#39;APT 41&#39;, &#39;Turla&#39;, &#39;Poison Carp&#39;,
+       &#39;Hafnium&#39;, &#39;Siamesekitten, OilRig&#39;,
+       &#34;Believed to be the work of El Salvador&#39;s government.&#34;,
+       &#39;The Dukes&#39;, &#39;Prince of Persia&#39;, &#39;Red Menshen&#39;, &#39;MuddyWater&#39;,
+       &#39;Space Pirates&#39;, &#39;Thrip&#39;, &#39;UNC1151?&#39;,
+       &#34;Believed to be the work of Bahrain&#39;s government&#34;,
+       &#39;ModifiedElephant, Pune Police&#39;, &#39;Also known as Space Pirates&#39;,
+       &#39;Believed to be the work of the Mexican government&#39;, &#39;APT 34&#39;,
+       &#39;Believed to be the work of the United Arab Emirates government&#39;,
+       &#39;Also known as PLA Unit 69010.&#39;, &#39;TAG-28&#39;, &#39;Russian Federation&#39;,
+       &#39;APT37&#39;, &#39;China&#39;, &#39;UNC215&#39;, &#39;BlackTech&#39;, &#39;RedFoxTrot&#39;, &#39;Cozy Bear&#39;,
+       &#39;TAG-22, Winnti Umbrella&#39;, &#39;Nobelium&#39;, &#39;Aggah, Gorgon Group&#39;,
+       &#39;TA453, Charming Kitten&#39;, &#39;Domestic Kitten&#39;,
+       &#39;APT 41, Barium, TA415&#39;, &#39;Lazarus Group?&#39;,
+       &#39;APT 31, Hurricane Panda&#39;, &#39;Calypso&#39;,
+       &#39;Law enforcement agencies in the United States, Canada, France, Germany, Lithuania, the Netherlands, Ukraine, and United Kingdom&#39;,
+       &#39;HoneyMyte, Mustang Panda, Bronze President&#39;,
+       &#39;North Korean government&#39;, &#39;Nobelium, APT 29&#39;, &#39;Pakistan&#39;,
+       &#39;Federal Bureau of Investigation, Bulgarian National Investigative Service&#39;,
+       &#39;APT 34, OilRig&#39;, &#39;Tortoiseshell, ?Charming Kitten&#39;, &#39;Sharp Panda&#39;,
+       &#39;APT 37, ScarCruft, Stardust Chollima&#39;, &#39;Emennet Pasargad?&#39;,
+       &#39;Belarus, Ghostwriter.&#39;, &#39;Comment Crew&#39;, &#39;Fancy Bear, APT 28&#39;,
+       &#39;Siamesekitten, Lyceum&#39;, &#39;Chinese government&#39;, &#39;Philippine Army&#39;,
+       &#39;MysterySnail&#39;, &#39;Primitive Bear, Gamaredon&#39;,
+       &#39;Judgement Panda, APT 31&#39;,
+       &#39;Also known as?Lyceum. The group has also been connected to OilRig.&#39;,
+       &#39;IndigoZebra&#39;, &#39;South Sudanese government&#39;, &#39;Tick&#39;,
+       &#39;Naikon, APT 30, Deadringer&#39;, &#39;Charming Kitten?&#39;,
+       &#39;Russian government&#39;, &#39;TA428, Wekby, Dynamite Panda&#39;,
+       &#39;Winnti Umbrella, SparklingGoblin&#39;,
+       &#39;NSA, U.S. Cyber Command, FBI, and partner agencies in several unknown countries.?&#39;,
+       &#39;Emirati government&#39;, &#39;Soft Cell, GALLIUM, Deadringer&#39;,
+       &#39;Believed to be the work of the Saudi Arabian government.&#39;,
+       &#39;Cozy Bear, APT29&#39;, &#39;Winnti Umbrella, Grayfly&#39;,
+       &#34;Believed to be the work of the Islamic Republic of Iran&#39;s government&#34;,
+       &#39;Static Kitten&#39;, &#39;Tonto Team or TA428&#39;, &#39;APT 31, Judgement Panda&#39;,
+       &#39;PLA Unit 69010, RedFoxTrot&#39;, &#39;Mustang Panda, Bronze President&#39;,
+       &#39;Cozy Bear, APT 29&#39;, &#39;APT 36, Mythic Leopard&#39;,
+       &#39;Charming Kitten, Phosphorous&#39;,
+       &#39;Believed to be the work of the Polish government.&#39;, &#39;Israel&#39;,
+       &#39;Saudi and Emirati governments&#39;, &#39;APT 30&#39;,
+       &#39;Believed to be the work of the Chinese government.?&#39;,
+       &#39;Government of China&#39;, &#39;Unknown, suspected Bronze Butler.&#39;,
+       &#39;Iranian government&#39;,
+       &#39;Believed to be the work of the Russian government.?&#39;,
+       &#39;Energetic Bear&#39;, &#39;Also known as APT 31 and Judgement Panda.&#39;,
+       &#39;Zinc&#39;, &#39;Believed to be the work of Togolese security forces.?&#39;,
+       &#39;DarkHotel&#39;, &#39;Greenbug&#39;, &#39;Cerium&#39;, &#39;Lotus Blossom&#39;,
+       &#39;Cobalt Dickens&#39;, &#39;Pirate Panda&#39;, &#39;Also known as Parasite&#39;,
+       &#39;Fox Kitten&#39;, &#39;Also known as Parasite, UNC757, and Fox Kitten.&#39;,
+       &#39;Government of Saudi Arabia&#39;, &#39;Hidden Cobra&#39;, &#39;Pioneer Kitten&#39;,
+       &#39;KINGDOM&#39;, &#39;Syrian Electronic Army&#39;, &#39;KilllSomeOne&#39;,
+       &#39;APT 34, possibly APT 33/APT 39.&#39;, &#39;Cozy Bear,?APT 29&#39;,
+       &#39;U.S. Cyber Command&#39;, &#39;Tonto Team&#39;,
+       &#39;Australian Signals Directorate&#39;, &#39;APT 33&#39;,
+       &#39;Believed to be Lazarus Group&#39;, &#39;Bronze Butler&#39;,
+       &#39;Guangdong State Security Department (GSSD) of China?? Ministry of State Security (MSS)&#39;,
+       &#39;Vicious Panda&#39;, &#39;Crouching Yeti&#39;, &#39;Government of Turkey&#39;,
+       &#39;Ghostwriter&#39;, &#39;Believed to be the work of Fancy Bear.&#39;,
+       &#39;Russian military intelligence agency, known as GRU&#39;, &#39;PKplug&#39;,
+       &#39;Unnamed state-sponsored APT&#39;,
+       &#39;Believed to be the work of APT 10.&#39;, &#39;The Lazarus Group&#39;,
+       &#39;Five Eyes&#39;,
+       &#39;Believed to be the work of Chinese state-sponsored hackers.&#39;,
+       &#39;Phosphorus&#39;, &#39;Government of Egypt&#39;, &#39;Iran&#39;, &#39;Rancor&#39;, &#39;Unknown&#39;,
+       &#39;Also known as Earth Longzhi.&#39;,
+       &#39;Believed to be the work of Leviathan.&#39;,
+       &#39;Believed to be the work of Phosphoros, also known as APT 35&#39;,
+       &#39;Government of Uzbkeistan&#39;, &#39;Government of the United States&#39;,
+       &#39;Government of Morocco&#39;, &#39;Hong Kong police&#39;,
+       &#39;Believed to be the work of Russian and Chinese hackers.&#39;,
+       &#39;Believed to be the work of APT 10 or the Jiangsu Province Ministry of State Security.&#39;,
+       &#39;the Dukes&#39;, &#39;China?? Ministry of State Security&#39;,
+       &#39;Believed to be the work of at least two unnamed APT groups, including Evil Eye&#39;,
+       &#39;APT 3&#39;, &#39;Believed to be the work of Turbine Panda&#39;, &#39;APT 20&#39;,
+       &#39;APTs associated with Beijing&#39;,
+       &#39;Suspected to be the work of Iranian actors.&#39;,
+       &#39;Government of the UAE&#39;, &#39;Iranian Revolutionary Guard&#39;,
+       &#39;Suspected to be the work of the Dukes.?&#39;,
+       &#39;Believed to be the work of Cobalt Dickens.&#39;, &#39;Wicked Panda&#39;,
+       &#39;Believed to be the work of Poison Carp.&#39;,
+       &#39;APT 17 and Bronze Butler&#39;, &#39;Believed to be the work of Winnti.&#39;,
+       &#39;Bronze President&#39;,
+       &#39;Believed to be the work of the UAE government.&#39;,
+       &#39;Also known as Evil Eye&#39;, &#39;Golden Falcon&#39;,
+       &#39;Also known as Billbug and Lotus Blossom.&#39;,
+       &#39;Believed to be associated with the Lazarus Group&#39;,
+       &#39;Believed to be the work of Crouching Yeti&#39;,
+       &#39;Believed to be the work of APT 28&#39;,
+       &#39;Believed to be associated with Sandworm. Also known as VPNFilter.&#39;,
+       &#39;Believed to use similar infrastructure as the NetTraveler, Icefog, and APT 17 threat actors&#39;,
+       &#39;Believed to be the work of Whitefly.?&#39;,
+       &#39;Believed to be the work of TempTick?and Turla&#39;,
+       &#39;Believed to use similar tools as DragonOK&#39;,
+       &#34;China&#39;s Jiangsu Ministry of State Security&#34;,
+       &#39;Believed to be the work of Turla&#39;,
+       &#39;Believed to be the work of APT 10&#39;,
+       &#39;Also known as Phosphoros and Newscaster Team&#39;,
+       &#39;Believed to be the work of the Lazarus Group&#39;,
+       &#39;Suspected to be the work of the Lazarus Group.&#39;,
+       &#34;China&#39;s Tianjin State Security Bureau&#34;,
+       &#39;Believed to be the work of Lazarus Group&#39;,
+       &#39;Suspected to be the work of Chinese military hackers.&#39;,
+       &#39;Believed to be the work of Leviathan&#39;,
+       &#39;Believed to be associated with the Axiom, APT 17, and Mirage threat actors. Believed to share the same tools and infrastructure as the threat actors that carried out Operation Aurora, the 2015 targeting of video game companies, the 2015 targeting of the Thai government, and the 2017 targeting of Chinese-language news websites&#39;,
+       &#39;Believed to use similar tools as the Lazarus Group&#39;,
+       &#39;Possibly linked to an Iran-based group that uses the Shamoon virus to target oil and gas entities with a connection to Saudi Arabia.&#39;,
+       &#39;Also known as Transparent Tribe and C-Major&#39;,
+       &#39;Believed to be the work of?APT 28&#39;,
+       &#39;Believed to be linked to Crouching Yeti&#39;,
+       &#39;Believed to be the work of Gamaredon.&#39;,
+       &#39;Believed to be linked to the Crouching Yeti threat actor&#39;,
+       &#39;Suspected to be the work of North Korean authorities.&#39;,
+       &#39;Also known as Bronze President and?HoneyMyte.?Also known as RedDelta.&#39;,
+       &#34;Linked to Turbine Panda and China&#39;s Ministry of State Security&#34;,
+       &#39;Believed to be the work of the same threat actors behind the alleged Russian compromise of networking equipment&#39;,
+       &#39;Believed to be the work of the Mexican government.&#39;,
+       &#39;Believed to be the work of Russian hacker group Snake.&#39;,
+       &#39;Believed to be the work of Russian state-sponsored group Dragonfly, also known as Energetic Bear&#39;,
+       &#39;Believed to be the work of the same actors behind the compromise of the 2018 Winter Olympics&#39;,
+       &#39;Suspected to be the work of Chinese operatives working for the Ministry of State Security.&#39;,
+       &#39;Believed to be the work of Sandworm.&#39;,
+       &#39;Also known as the Silent Librarian. Believed to be associated with the Mabna Institute.&#39;,
+       &#39;Believed to be associated with the U.S. targeting of the Islamic State Group.&#39;,
+       &#39;Believed to be the work of a Russian hacking group.&#39;,
+       &#39;Believed to be the work of a subset of the Lazarus Group known as Bluenoroff&#39;,
+       &#39;Also known as TEMP.Zagros, Seedworm and Static Kitten.?&#39;,
+       &#39;Believed to be the work of APT 28.?&#39;,
+       &#34;Also known as TEMP.Periscope, Leviathan, and Mudcarp.?Believed to be behind the compromise of Cambodia?? election organizations?and the Target of universities&#39; maritime military secrets.&#34;,
+       &#39;Possibly linked to Sandworm.&#39;, &#39;Possibly linked to APT 30&#39;,
+       &#39;Also known as Tick and RedBaldKnight&#39;,
+       &#39;Also known as Cloud Hopper, Red Apollo, CNVX, Stone Panda, MenuPass, and POTASSIUM.?Believed to be a part of the Tianjin bureau of the Chinese Ministry of State Security.&#39;,
+       &#39;Believed to be the work of the same threat actors who used the?Duqu 2.0 tool.?&#39;,
+       &#39;Possibly linked to OilRig&#39;, &#39;Possibly linked to NetTraveler&#39;,
+       &#39;Believed to be the work of Winnti Umbrella&#39;,
+       &#39;Believed to be the work of the Lazarus Group.&#39;,
+       &#39;Also known as Magnallium and Elfin. Suspected to be linked to the Shamoon malware attacks in 2018.&#39;,
+       &#39;Also known as the Lamberts&#39;,
+       &#39;Also known as Cobalt Gypsy and possibly associated with Rocket Kitten&#39;,
+       &#39;Associated with Turla&#39;, &#39;Believed to be the work of the Dukes&#39;,
+       &#39;Believed to have been partially the work of Chrysene&#39;,
+       &#34;This incident is believed to be the work of APT 28. The Dukes were also found to be in the Democratic National Committee&#39;s networks.&#34;,
+       &#39;Also known as Twisted Kitten and Crambus; possibly related to Magic Hound,?APT 34, and Chrysene.?Believed to use similar tools and infrastructure as Chafer.? The group has also been connected to SiameseKitten.&#39;,
+       &#39;Believed to be associated with the United Kingdom?? cyber operations against the Islamic State, revealed in 2018.&#39;,
+       &#39;Used an evolution of the tools used by Sandworm.&#39;, &#39;Indonesia&#39;,
+       &#39;Believed to be the work of?Winnti Umbrella&#39;,
+       &#39;Same state sponsor as the 2016 breach&#39;,
+       &#39;Believed to be responsible for Dark Seoul, Ten Days of Rain, the Sony Pictures Entertainment attack,?the SWIFT-related bank heists,?WannaCry, and?Operation GhostSecret. Believed to use the same tools as Covellite.?Known to the U.S. government as Hidden Cobra.?Also known as BlueNoroff.&#39;,
+       &#39;Possibly linked to Icefog?and the Dark Seoul compromise&#39;,
+       &#39;Believed to be the work of the Turla group&#39;,
+       &#39;Same state sponsor as the 2014 breach&#39;, &#39;Also known as Strider&#39;,
+       &#39;Possible link to Sandworm.&#39;,
+       &#39;Also known as Naikon, PLA Unit 78020, Lotus Panda. Possibly responsible for the JadeRAT tool.?&#39;,
+       &#39;Believed to be the work of Deep Panda&#39;,
+       &#39;Also known as the Gamaredon Group and?Primitive Bear.&#39;,
+       &#39;Also known as APT 32&#39;,
+       &#39;Associated with Duqu. Believed to have been the tool used to compromise Kaspersky Labs.&#39;,
+       &#39;Believed to use similar tools and infrastructure as OilRig&#39;,
+       &#39;Also known as UPS, Gothic Panda, Buckeye, and Boyusec&#39;,
+       &#39;The government of Uganda&#39;,
+       &#39;Also known as TG-3390, APT 27, TEMP.Hippo, and?LuckyMouse.?Believed to have been responsible for the compromise of a Mongolian data center.&#39;,
+       &#39;Suspected to be the work of APT 28&#39;,
+       &#39;Also known as Deputy Dog and Axiom.?Believed to be associated with Winnti Umbrella&#39;,
+       &#39;Possibly?linked to?Saffron Rose&#39;,
+       &#39;Also known as Tilded Team, it is associated with Flame, Stuxnet, Regin, Gauss, and Duqu.&#39;,
+       &#39;Suspected to be the work of the Dukes&#39;,
+       &#39;Suspected to be the work of Deep Panda&#39;,
+       &#39;Possibly uses the same infrastructure as?Mirage&#39;,
+       &#39;Believed to be the work of the same actors behind Dark Seoul?and possibly linked to Onion Dog&#39;,
+       &#39;This threat actor is believed to have been responsible for the Japan Pension Service incident. It is also known as Emdivi?and Cloudy Omega.&#39;,
+       &#39;Possibly attributed to APT 28&#39;,
+       &#39;Believed to be the work of Saffron Rose&#39;,
+       &#39;Linked to Blue Termite&#39;,
+       &#39;Also known as Charming Kitten, APT 35, Newscaster, Ajax Security Team, Phosphorus, Group 83, and TA453. Possibly linked to Rocket Kitten&#39;,
+       &#39;Uses similar tools as Moafee?and Rancor, possibly indicating a link between the threat actors&#39;,
+       &#39;Uses similar tools as DragonOK,?possibly indicating a link between the two&#39;,
+       &#39;Also known as Spring Dragon and Eslie&#39;,
+       &#39;Also known as Energetic Bear, Dragonfly, Group 24, and Koala Team. Possibly associated with Allanite and Dymalloy.?Believed to be behind the targeting of critical infrastructure entities in the United States and Germany, prompting both countries to issue technical alerts&#39;,
+       &#39;Turla is also known as Snake, Venomous Bear, Uroburos, Group 88, Waterbug, and Turla Team. Estonian intelligence services?associate this group with the Russian federal security service (FSB). Turla is associated with Agent.btz?and believed to be behind the RUAG espionage incident, an attempted compromise of the Swiss defense ministry,?the targeting of diplomatic missions in Eastern Europe, the targeting of South Korean actors prior to the meeting of U.S. President Donald J. Trump and North Korean leader Kim Jong-un, and the compromise of the German?and Finnish foreign ministries.?&#39;,
+       &#39;Believed to be closely linked to, though distinct from, Winnti.&#39;,
+       &#39;Also known as Voodoo Bear, and Electrum. Believed to be responsible for the 2008 DDoS attacks in Georgia and the 2015?Ukraine power grid outage.?Code used by this threat actor was also found in the alleged Russian compromise of networking equipment. There is possible overlap between Black Energy and the threat actor behind the compromise of the 2018 Winter Olympics.&#39;,
+       &#39;Also known as Dynamite Panda, TG-0416, and TA428&#39;,
+       &#39;Believed to be the work of APT 18&#39;,
+       &#39;Also known as APT 2, PLA Unit 61486, and TG-6952&#39;,
+       &#39;Related to the compromise at the Office of Personnel Management&#39;,
+       &#39;Also known as IXESHE, Numbered Panda, and Group 22&#39;,
+       &#39;Also known as Mask and Ugly Face&#39;, &#39;Animal Farm&#39;,
+       &#39;Believed to be the work of the Equation Group&#39;,
+       &#39;Also known as Flying Kitten, Sayad, Ajax Security Team, and Group 26&#39;,
+       &#39;Also known as Cutting Kitten and Group 41&#39;,
+       &#39;Believed to be responsible for the attempted compromise of U.S. think tanks&#39;,
+       &#39;Mirage is possibly linked to the Hellsing?threat actor. It is also known as Vixen Panda, GREF, APT 15, and Playful Dragon.?Believed to be associated with Winnti Umbrella&#39;,
+       &#39;Also known as APT 29, Cozy Bear, Dark Halo, Nobelium, and Cloaked Ursa.?Estonian intelligence services associate this group with the Russian Federal Security Service (FSB) and Foreign Intelligence Service (SVR).&#39;,
+       &#39;Also known as APT 21&#39;,
+       &#39;Also known as JS Sykipot, Backdoor Sykipot, and Maverick Panda&#39;,
+       &#39;Also known as Dagger Panda and possibly linked to Onion Dog&#39;,
+       &#39;Also known as Shell Crew, Web Masters, APT 19, Kung Fu Kittens, Black Vine, Temp.Avengers, and Group 13&#39;,
+       &#39;Also known as Operation Troy and Dark Seoul&#39;,
+       &#39;Also known as APT 1, Comment Crew, Comment Panda, TG-8223, Group 3, GIF89a, and Byzantine Candor&#39;,
+       &#39;Has links to the Shadow Network?and?SabPub. Also known as TA413.&#39;,
+       &#39;A variant of Lucky Cat for Mac computers&#39;,
+       &#39;This tool is believed to be the work of the Equation Group. The tool Gauss?is believed to be based on the Flame platform.&#39;,
+       &#39;Also known as Operation Ababil&#39;,
+       &#39;Believed to be based on the Flame platform and possibly the work of the Equation Group&#39;,
+       &#39;Believed to be the work of PLA Unit 61398&#39;,
+       &#39;Possibly assisted in Operation Aurora, the RSA incident, and the Joint Strike Fighter Program compromise&#39;,
+       &#39;This is believed be a tool set used by the Equation Group. It is related to Stuxnet?and Flame.&#39;,
+       &#39;Believed to be a tool used by PLA Unit 61398&#39;,
+       &#39;Possibly linked to the Nitro incident&#39;,
+       &#39;Possibly linked to the Mitsubishi Heavy Industries incident.&#39;,
+       &#39;This incident is believed to be the work of Unit 61398 and at least two other Chinese groups, according to the New York Times. The threat actor Sneaky Panda may also have assisted.&#39;,
+       &#39;Believed to be the work of PLA Unit 61398 with possible assistance from Sneaky Panda.?Believed to be associated with Winnti Umbrella&#39;,
+       &#39;Also known as Manganese&#39;,
+       &#39;Codenamed ??lympic Games??and believed to be the work of the Equation Group&#39;,
+       &#39;Has links to Lucky Cat and GhostNet&#39;,
+       &#39;Sneaky Panda is among some of the actors suspected to be behind this incident.&#39;,
+       &#39;Believed to be linked to Sandworm.&#39;,
+       &#39;Believed?to be partially the work of PLA Unit 61398.&#39;, &#39;Antlion&#39;,
+       &#39;Believed to be the work of MuddyWater.&#39;,
+       &#39;Believed to be responsible for the targeting of employees of companies that operate U.S. power plants. Also believed to be linked to Crouching Yeti&#39;,
+       &#39;Believed to be the work of the Ugandan government.&#39;, &#39;RedAlpha&#39;,
+       &#39;Also known as Triton and Xenotime&#39;], dtype=object)
+</pre></div></div>
+</div>
+<div class="line-block">
+<div class="line">First, we remove any rows where the <code class="docutils literal notranslate"><span class="pre">Affiliations</span></code> column is <code class="docutils literal notranslate"><span class="pre">NaN</span></code> to ensure we only work with valid entries.</div>
+<div class="line">Then, we use a regular expression (regex) to identify all variations of “APT 28” in the column and normalize them to a single consistent value.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[403]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import re for regular expressions</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="c1"># Drop rows where &#39;Affiliations&#39; is NaN</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Now you can normalize APT 28</span>
+<span class="k">def</span> <span class="nf">normalize_apt28</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\bAPT\s*28\b&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">IGNORECASE</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;APT 28&#39;</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">normalize_apt28</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">Affiliations</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[403]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+array([&#34;Believed to be the work of Ghana&#39;s government&#34;, &#39;UNC1151&#39;,
+       &#39;Ukrainian IT Army&#39;, &#39;Zirconium&#39;, &#39;Gamaredon&#39;, &#39;APT-C-23&#39;,
+       &#39;Believed to be the work of the Chinese government&#39;,
+       &#39;Believed to be the work of the Iranian government&#39;,
+       &#39;Lazarus Group&#39;, &#39;APT 35&#39;,
+       &#39;Believed to be the work of the Canadian government&#39;,
+       &#34;Believed to be the work of Israel&#39;s government.&#34;,
+       &#39;Believed to be the work of the Russian government&#39;, &#39;Gallium&#39;,
+       &#39;Mirage&#39;, &#39;Believed to be the work of the Jordanian government&#39;,
+       &#39;Lucky Cat&#39;, &#39;APT 40&#39;, &#39;Sandworm&#39;, &#39;APT 37&#39;,
+       &#34;Believed to be the work of Israel&#39;s government&#34;, &#39;APT 28&#39;,
+       &#39;Believed to be the work of the Iranian government.&#39;, &#39;APT 18&#39;,
+       &#39;Ocean Lotus&#39;, &#39;Mustang Panda&#39;,
+       &#39;Believed to be the work of the government of the Russian Federation.&#39;,
+       &#39;APT 10&#39;, &#39;Kimsuky&#39;, &#39;Charming Kitten&#39;,
+       &#34;Believed to be the work of China&#39;s government.&#34;,
+       &#39;National Security Agency, Tailored Access Operations&#39;, &#39;APT 5&#39;,
+       &#39;Believed to be the work of the Spanish government&#39;,
+       &#39;Believed to be the work of the government of Thailand.&#39;,
+       &#39;Believed to be the work of Hamas.&#39;,
+       &#34;Believed to be the work of China&#39;s government&#34;, &#39;APT 36&#39;,
+       &#34;Believed to be the work of Palestine&#39;s government&#34;,
+       &#39;Iran, APT 35&#39;,
+       &#39;Believed to be the work of the Chinese government\r\n?&#39;,
+       &#39;Confucius&#39;, &#39;Winnti Umbrella&#39;,
+       &#34;Believed to be the work of Russia&#39;s government&#34;, &#39;Konni Group&#39;,
+       &#39;Emissary Panda&#39;, &#39;Patchwork&#39;, &#39;APT 41&#39;, &#39;Turla&#39;, &#39;Poison Carp&#39;,
+       &#39;Hafnium&#39;, &#39;Siamesekitten, OilRig&#39;,
+       &#34;Believed to be the work of El Salvador&#39;s government.&#34;,
+       &#39;The Dukes&#39;, &#39;Prince of Persia&#39;, &#39;Red Menshen&#39;, &#39;MuddyWater&#39;,
+       &#39;Space Pirates&#39;, &#39;Thrip&#39;, &#39;UNC1151?&#39;,
+       &#34;Believed to be the work of Bahrain&#39;s government&#34;,
+       &#39;ModifiedElephant, Pune Police&#39;, &#39;Also known as Space Pirates&#39;,
+       &#39;Believed to be the work of the Mexican government&#39;, &#39;APT 34&#39;,
+       &#39;Believed to be the work of the United Arab Emirates government&#39;,
+       &#39;Also known as PLA Unit 69010.&#39;, &#39;TAG-28&#39;, &#39;Russian Federation&#39;,
+       &#39;APT37&#39;, &#39;China&#39;, &#39;UNC215&#39;, &#39;BlackTech&#39;, &#39;RedFoxTrot&#39;, &#39;Cozy Bear&#39;,
+       &#39;TAG-22, Winnti Umbrella&#39;, &#39;Nobelium&#39;, &#39;Aggah, Gorgon Group&#39;,
+       &#39;TA453, Charming Kitten&#39;, &#39;Domestic Kitten&#39;,
+       &#39;APT 41, Barium, TA415&#39;, &#39;Lazarus Group?&#39;,
+       &#39;APT 31, Hurricane Panda&#39;, &#39;Calypso&#39;,
+       &#39;Law enforcement agencies in the United States, Canada, France, Germany, Lithuania, the Netherlands, Ukraine, and United Kingdom&#39;,
+       &#39;HoneyMyte, Mustang Panda, Bronze President&#39;,
+       &#39;North Korean government&#39;, &#39;Nobelium, APT 29&#39;, &#39;Pakistan&#39;,
+       &#39;Federal Bureau of Investigation, Bulgarian National Investigative Service&#39;,
+       &#39;APT 34, OilRig&#39;, &#39;Tortoiseshell, ?Charming Kitten&#39;, &#39;Sharp Panda&#39;,
+       &#39;APT 37, ScarCruft, Stardust Chollima&#39;, &#39;Emennet Pasargad?&#39;,
+       &#39;Belarus, Ghostwriter.&#39;, &#39;Comment Crew&#39;, &#39;Siamesekitten, Lyceum&#39;,
+       &#39;Chinese government&#39;, &#39;Philippine Army&#39;, &#39;MysterySnail&#39;,
+       &#39;Primitive Bear, Gamaredon&#39;, &#39;Judgement Panda, APT 31&#39;,
+       &#39;Also known as?Lyceum. The group has also been connected to OilRig.&#39;,
+       &#39;IndigoZebra&#39;, &#39;South Sudanese government&#39;, &#39;Tick&#39;,
+       &#39;Naikon, APT 30, Deadringer&#39;, &#39;Charming Kitten?&#39;,
+       &#39;Russian government&#39;, &#39;TA428, Wekby, Dynamite Panda&#39;,
+       &#39;Winnti Umbrella, SparklingGoblin&#39;,
+       &#39;NSA, U.S. Cyber Command, FBI, and partner agencies in several unknown countries.?&#39;,
+       &#39;Emirati government&#39;, &#39;Soft Cell, GALLIUM, Deadringer&#39;,
+       &#39;Believed to be the work of the Saudi Arabian government.&#39;,
+       &#39;Cozy Bear, APT29&#39;, &#39;Winnti Umbrella, Grayfly&#39;,
+       &#34;Believed to be the work of the Islamic Republic of Iran&#39;s government&#34;,
+       &#39;Static Kitten&#39;, &#39;Tonto Team or TA428&#39;, &#39;APT 31, Judgement Panda&#39;,
+       &#39;PLA Unit 69010, RedFoxTrot&#39;, &#39;Mustang Panda, Bronze President&#39;,
+       &#39;Cozy Bear, APT 29&#39;, &#39;APT 36, Mythic Leopard&#39;,
+       &#39;Charming Kitten, Phosphorous&#39;,
+       &#39;Believed to be the work of the Polish government.&#39;, &#39;Israel&#39;,
+       &#39;Saudi and Emirati governments&#39;, &#39;APT 30&#39;,
+       &#39;Believed to be the work of the Chinese government.?&#39;,
+       &#39;Government of China&#39;, &#39;Unknown, suspected Bronze Butler.&#39;,
+       &#39;Iranian government&#39;,
+       &#39;Believed to be the work of the Russian government.?&#39;,
+       &#39;Energetic Bear&#39;, &#39;Also known as APT 31 and Judgement Panda.&#39;,
+       &#39;Zinc&#39;, &#39;Believed to be the work of Togolese security forces.?&#39;,
+       &#39;DarkHotel&#39;, &#39;Greenbug&#39;, &#39;Cerium&#39;, &#39;Lotus Blossom&#39;,
+       &#39;Cobalt Dickens&#39;, &#39;Pirate Panda&#39;, &#39;Also known as Parasite&#39;,
+       &#39;Fox Kitten&#39;, &#39;Also known as Parasite, UNC757, and Fox Kitten.&#39;,
+       &#39;Government of Saudi Arabia&#39;, &#39;Hidden Cobra&#39;, &#39;Pioneer Kitten&#39;,
+       &#39;KINGDOM&#39;, &#39;Syrian Electronic Army&#39;, &#39;KilllSomeOne&#39;,
+       &#39;APT 34, possibly APT 33/APT 39.&#39;, &#39;Cozy Bear,?APT 29&#39;,
+       &#39;U.S. Cyber Command&#39;, &#39;Tonto Team&#39;,
+       &#39;Australian Signals Directorate&#39;, &#39;APT 33&#39;,
+       &#39;Believed to be Lazarus Group&#39;, &#39;Bronze Butler&#39;,
+       &#39;Guangdong State Security Department (GSSD) of China?? Ministry of State Security (MSS)&#39;,
+       &#39;Vicious Panda&#39;, &#39;Crouching Yeti&#39;, &#39;Government of Turkey&#39;,
+       &#39;Ghostwriter&#39;, &#39;Believed to be the work of Fancy Bear.&#39;,
+       &#39;Russian military intelligence agency, known as GRU&#39;, &#39;PKplug&#39;,
+       &#39;Unnamed state-sponsored APT&#39;,
+       &#39;Believed to be the work of APT 10.&#39;, &#39;The Lazarus Group&#39;,
+       &#39;Five Eyes&#39;,
+       &#39;Believed to be the work of Chinese state-sponsored hackers.&#39;,
+       &#39;Phosphorus&#39;, &#39;Government of Egypt&#39;, &#39;Iran&#39;, &#39;Rancor&#39;, &#39;Unknown&#39;,
+       &#39;Also known as Earth Longzhi.&#39;,
+       &#39;Believed to be the work of Leviathan.&#39;,
+       &#39;Believed to be the work of Phosphoros, also known as APT 35&#39;,
+       &#39;Government of Uzbkeistan&#39;, &#39;Government of the United States&#39;,
+       &#39;Government of Morocco&#39;, &#39;Hong Kong police&#39;,
+       &#39;Believed to be the work of Russian and Chinese hackers.&#39;,
+       &#39;Believed to be the work of APT 10 or the Jiangsu Province Ministry of State Security.&#39;,
+       &#39;the Dukes&#39;, &#39;China?? Ministry of State Security&#39;,
+       &#39;Believed to be the work of at least two unnamed APT groups, including Evil Eye&#39;,
+       &#39;APT 3&#39;, &#39;Believed to be the work of Turbine Panda&#39;, &#39;APT 20&#39;,
+       &#39;APTs associated with Beijing&#39;,
+       &#39;Suspected to be the work of Iranian actors.&#39;,
+       &#39;Government of the UAE&#39;, &#39;Iranian Revolutionary Guard&#39;,
+       &#39;Suspected to be the work of the Dukes.?&#39;,
+       &#39;Believed to be the work of Cobalt Dickens.&#39;, &#39;Wicked Panda&#39;,
+       &#39;Believed to be the work of Poison Carp.&#39;,
+       &#39;APT 17 and Bronze Butler&#39;, &#39;Believed to be the work of Winnti.&#39;,
+       &#39;Bronze President&#39;,
+       &#39;Believed to be the work of the UAE government.&#39;,
+       &#39;Also known as Evil Eye&#39;, &#39;Golden Falcon&#39;,
+       &#39;Also known as Billbug and Lotus Blossom.&#39;,
+       &#39;Believed to be associated with the Lazarus Group&#39;,
+       &#39;Believed to be the work of Crouching Yeti&#39;,
+       &#39;Believed to be associated with Sandworm. Also known as VPNFilter.&#39;,
+       &#39;Believed to use similar infrastructure as the NetTraveler, Icefog, and APT 17 threat actors&#39;,
+       &#39;Believed to be the work of Whitefly.?&#39;,
+       &#39;Believed to be the work of TempTick?and Turla&#39;,
+       &#39;Believed to use similar tools as DragonOK&#39;,
+       &#34;China&#39;s Jiangsu Ministry of State Security&#34;,
+       &#39;Believed to be the work of Turla&#39;,
+       &#39;Believed to be the work of APT 10&#39;,
+       &#39;Also known as Phosphoros and Newscaster Team&#39;,
+       &#39;Believed to be the work of the Lazarus Group&#39;,
+       &#39;Suspected to be the work of the Lazarus Group.&#39;,
+       &#34;China&#39;s Tianjin State Security Bureau&#34;,
+       &#39;Believed to be the work of Lazarus Group&#39;,
+       &#39;Suspected to be the work of Chinese military hackers.&#39;,
+       &#39;Believed to be the work of Leviathan&#39;,
+       &#39;Believed to be associated with the Axiom, APT 17, and Mirage threat actors. Believed to share the same tools and infrastructure as the threat actors that carried out Operation Aurora, the 2015 targeting of video game companies, the 2015 targeting of the Thai government, and the 2017 targeting of Chinese-language news websites&#39;,
+       &#39;Believed to use similar tools as the Lazarus Group&#39;,
+       &#39;Possibly linked to an Iran-based group that uses the Shamoon virus to target oil and gas entities with a connection to Saudi Arabia.&#39;,
+       &#39;Also known as Transparent Tribe and C-Major&#39;,
+       &#39;Believed to be linked to Crouching Yeti&#39;,
+       &#39;Believed to be the work of Gamaredon.&#39;,
+       &#39;Believed to be linked to the Crouching Yeti threat actor&#39;,
+       &#39;Suspected to be the work of North Korean authorities.&#39;,
+       &#39;Also known as Bronze President and?HoneyMyte.?Also known as RedDelta.&#39;,
+       &#34;Linked to Turbine Panda and China&#39;s Ministry of State Security&#34;,
+       &#39;Believed to be the work of the same threat actors behind the alleged Russian compromise of networking equipment&#39;,
+       &#39;Believed to be the work of the Mexican government.&#39;,
+       &#39;Believed to be the work of Russian hacker group Snake.&#39;,
+       &#39;Believed to be the work of Russian state-sponsored group Dragonfly, also known as Energetic Bear&#39;,
+       &#39;Believed to be the work of the same actors behind the compromise of the 2018 Winter Olympics&#39;,
+       &#39;Suspected to be the work of Chinese operatives working for the Ministry of State Security.&#39;,
+       &#39;Believed to be the work of Sandworm.&#39;,
+       &#39;Also known as the Silent Librarian. Believed to be associated with the Mabna Institute.&#39;,
+       &#39;Believed to be associated with the U.S. targeting of the Islamic State Group.&#39;,
+       &#39;Believed to be the work of a Russian hacking group.&#39;,
+       &#39;Believed to be the work of a subset of the Lazarus Group known as Bluenoroff&#39;,
+       &#39;Also known as TEMP.Zagros, Seedworm and Static Kitten.?&#39;,
+       &#34;Also known as TEMP.Periscope, Leviathan, and Mudcarp.?Believed to be behind the compromise of Cambodia?? election organizations?and the Target of universities&#39; maritime military secrets.&#34;,
+       &#39;Possibly linked to Sandworm.&#39;, &#39;Possibly linked to APT 30&#39;,
+       &#39;Also known as Tick and RedBaldKnight&#39;,
+       &#39;Also known as Cloud Hopper, Red Apollo, CNVX, Stone Panda, MenuPass, and POTASSIUM.?Believed to be a part of the Tianjin bureau of the Chinese Ministry of State Security.&#39;,
+       &#39;Believed to be the work of the same threat actors who used the?Duqu 2.0 tool.?&#39;,
+       &#39;Possibly linked to OilRig&#39;, &#39;Possibly linked to NetTraveler&#39;,
+       &#39;Believed to be the work of Winnti Umbrella&#39;,
+       &#39;Believed to be the work of the Lazarus Group.&#39;,
+       &#39;Also known as Magnallium and Elfin. Suspected to be linked to the Shamoon malware attacks in 2018.&#39;,
+       &#39;Also known as the Lamberts&#39;,
+       &#39;Also known as Cobalt Gypsy and possibly associated with Rocket Kitten&#39;,
+       &#39;Associated with Turla&#39;, &#39;Believed to be the work of the Dukes&#39;,
+       &#39;Believed to have been partially the work of Chrysene&#39;,
+       &#39;Also known as Twisted Kitten and Crambus; possibly related to Magic Hound,?APT 34, and Chrysene.?Believed to use similar tools and infrastructure as Chafer.? The group has also been connected to SiameseKitten.&#39;,
+       &#39;Believed to be associated with the United Kingdom?? cyber operations against the Islamic State, revealed in 2018.&#39;,
+       &#39;Used an evolution of the tools used by Sandworm.&#39;, &#39;Indonesia&#39;,
+       &#39;Believed to be the work of?Winnti Umbrella&#39;,
+       &#39;Same state sponsor as the 2016 breach&#39;,
+       &#39;Believed to be responsible for Dark Seoul, Ten Days of Rain, the Sony Pictures Entertainment attack,?the SWIFT-related bank heists,?WannaCry, and?Operation GhostSecret. Believed to use the same tools as Covellite.?Known to the U.S. government as Hidden Cobra.?Also known as BlueNoroff.&#39;,
+       &#39;Possibly linked to Icefog?and the Dark Seoul compromise&#39;,
+       &#39;Believed to be the work of the Turla group&#39;,
+       &#39;Same state sponsor as the 2014 breach&#39;, &#39;Also known as Strider&#39;,
+       &#39;Possible link to Sandworm.&#39;,
+       &#39;Also known as Naikon, PLA Unit 78020, Lotus Panda. Possibly responsible for the JadeRAT tool.?&#39;,
+       &#39;Believed to be the work of Deep Panda&#39;,
+       &#39;Also known as the Gamaredon Group and?Primitive Bear.&#39;,
+       &#39;Also known as APT 32&#39;,
+       &#39;Associated with Duqu. Believed to have been the tool used to compromise Kaspersky Labs.&#39;,
+       &#39;Believed to use similar tools and infrastructure as OilRig&#39;,
+       &#39;Also known as UPS, Gothic Panda, Buckeye, and Boyusec&#39;,
+       &#39;The government of Uganda&#39;,
+       &#39;Also known as TG-3390, APT 27, TEMP.Hippo, and?LuckyMouse.?Believed to have been responsible for the compromise of a Mongolian data center.&#39;,
+       &#39;Also known as Deputy Dog and Axiom.?Believed to be associated with Winnti Umbrella&#39;,
+       &#39;Possibly?linked to?Saffron Rose&#39;,
+       &#39;Also known as Tilded Team, it is associated with Flame, Stuxnet, Regin, Gauss, and Duqu.&#39;,
+       &#39;Suspected to be the work of the Dukes&#39;,
+       &#39;Suspected to be the work of Deep Panda&#39;,
+       &#39;Possibly uses the same infrastructure as?Mirage&#39;,
+       &#39;Believed to be the work of the same actors behind Dark Seoul?and possibly linked to Onion Dog&#39;,
+       &#39;This threat actor is believed to have been responsible for the Japan Pension Service incident. It is also known as Emdivi?and Cloudy Omega.&#39;,
+       &#39;Believed to be the work of Saffron Rose&#39;,
+       &#39;Linked to Blue Termite&#39;,
+       &#39;Also known as Charming Kitten, APT 35, Newscaster, Ajax Security Team, Phosphorus, Group 83, and TA453. Possibly linked to Rocket Kitten&#39;,
+       &#39;Uses similar tools as Moafee?and Rancor, possibly indicating a link between the threat actors&#39;,
+       &#39;Uses similar tools as DragonOK,?possibly indicating a link between the two&#39;,
+       &#39;Also known as Spring Dragon and Eslie&#39;,
+       &#39;Also known as Energetic Bear, Dragonfly, Group 24, and Koala Team. Possibly associated with Allanite and Dymalloy.?Believed to be behind the targeting of critical infrastructure entities in the United States and Germany, prompting both countries to issue technical alerts&#39;,
+       &#39;Turla is also known as Snake, Venomous Bear, Uroburos, Group 88, Waterbug, and Turla Team. Estonian intelligence services?associate this group with the Russian federal security service (FSB). Turla is associated with Agent.btz?and believed to be behind the RUAG espionage incident, an attempted compromise of the Swiss defense ministry,?the targeting of diplomatic missions in Eastern Europe, the targeting of South Korean actors prior to the meeting of U.S. President Donald J. Trump and North Korean leader Kim Jong-un, and the compromise of the German?and Finnish foreign ministries.?&#39;,
+       &#39;Believed to be closely linked to, though distinct from, Winnti.&#39;,
+       &#39;Also known as Voodoo Bear, and Electrum. Believed to be responsible for the 2008 DDoS attacks in Georgia and the 2015?Ukraine power grid outage.?Code used by this threat actor was also found in the alleged Russian compromise of networking equipment. There is possible overlap between Black Energy and the threat actor behind the compromise of the 2018 Winter Olympics.&#39;,
+       &#39;Also known as Dynamite Panda, TG-0416, and TA428&#39;,
+       &#39;Believed to be the work of APT 18&#39;,
+       &#39;Also known as APT 2, PLA Unit 61486, and TG-6952&#39;,
+       &#39;Related to the compromise at the Office of Personnel Management&#39;,
+       &#39;Also known as IXESHE, Numbered Panda, and Group 22&#39;,
+       &#39;Also known as Mask and Ugly Face&#39;, &#39;Animal Farm&#39;,
+       &#39;Believed to be the work of the Equation Group&#39;,
+       &#39;Also known as Flying Kitten, Sayad, Ajax Security Team, and Group 26&#39;,
+       &#39;Also known as Cutting Kitten and Group 41&#39;,
+       &#39;Believed to be responsible for the attempted compromise of U.S. think tanks&#39;,
+       &#39;Mirage is possibly linked to the Hellsing?threat actor. It is also known as Vixen Panda, GREF, APT 15, and Playful Dragon.?Believed to be associated with Winnti Umbrella&#39;,
+       &#39;Also known as APT 29, Cozy Bear, Dark Halo, Nobelium, and Cloaked Ursa.?Estonian intelligence services associate this group with the Russian Federal Security Service (FSB) and Foreign Intelligence Service (SVR).&#39;,
+       &#39;Also known as APT 21&#39;,
+       &#39;Also known as JS Sykipot, Backdoor Sykipot, and Maverick Panda&#39;,
+       &#39;Also known as Dagger Panda and possibly linked to Onion Dog&#39;,
+       &#39;Also known as Shell Crew, Web Masters, APT 19, Kung Fu Kittens, Black Vine, Temp.Avengers, and Group 13&#39;,
+       &#39;Also known as Operation Troy and Dark Seoul&#39;,
+       &#39;Also known as APT 1, Comment Crew, Comment Panda, TG-8223, Group 3, GIF89a, and Byzantine Candor&#39;,
+       &#39;Has links to the Shadow Network?and?SabPub. Also known as TA413.&#39;,
+       &#39;A variant of Lucky Cat for Mac computers&#39;,
+       &#39;This tool is believed to be the work of the Equation Group. The tool Gauss?is believed to be based on the Flame platform.&#39;,
+       &#39;Also known as Operation Ababil&#39;,
+       &#39;Believed to be based on the Flame platform and possibly the work of the Equation Group&#39;,
+       &#39;Believed to be the work of PLA Unit 61398&#39;,
+       &#39;Possibly assisted in Operation Aurora, the RSA incident, and the Joint Strike Fighter Program compromise&#39;,
+       &#39;This is believed be a tool set used by the Equation Group. It is related to Stuxnet?and Flame.&#39;,
+       &#39;Believed to be a tool used by PLA Unit 61398&#39;,
+       &#39;Possibly linked to the Nitro incident&#39;,
+       &#39;Possibly linked to the Mitsubishi Heavy Industries incident.&#39;,
+       &#39;This incident is believed to be the work of Unit 61398 and at least two other Chinese groups, according to the New York Times. The threat actor Sneaky Panda may also have assisted.&#39;,
+       &#39;Believed to be the work of PLA Unit 61398 with possible assistance from Sneaky Panda.?Believed to be associated with Winnti Umbrella&#39;,
+       &#39;Also known as Manganese&#39;,
+       &#39;Codenamed ??lympic Games??and believed to be the work of the Equation Group&#39;,
+       &#39;Has links to Lucky Cat and GhostNet&#39;,
+       &#39;Sneaky Panda is among some of the actors suspected to be behind this incident.&#39;,
+       &#39;Believed to be linked to Sandworm.&#39;,
+       &#39;Believed?to be partially the work of PLA Unit 61398.&#39;, &#39;Antlion&#39;,
+       &#39;Believed to be the work of MuddyWater.&#39;,
+       &#39;Believed to be responsible for the targeting of employees of companies that operate U.S. power plants. Also believed to be linked to Crouching Yeti&#39;,
+       &#39;Believed to be the work of the Ugandan government.&#39;, &#39;RedAlpha&#39;,
+       &#39;Also known as Triton and Xenotime&#39;], dtype=object)
+</pre></div></div>
+</div>
+<div class="line-block">
+<div class="line">Next, we count how many rows in the <code class="docutils literal notranslate"><span class="pre">Affiliations</span></code> column contain each known alias of APT 28, including “Fancy Bear”, “Sofacy”, “Pawn Storm”, and “Sednit”.</div>
+<div class="line">This helps us understand how the group is referred to across the dataset. Finally, we normalize all rows containing “Fancy Bear” to the canonical name “APT 28” for consistency.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[404]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count rows where &#39;Affiliations&#39; contains &#39;Fancy Bear&#39; (case-insensitive)</span>
+<span class="n">count_fancy_bear</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Fancy Bear&#39;</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="c1"># Sofacy</span>
+<span class="n">count_sofacy</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Sofacy&#39;</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="c1"># Pawn Storm</span>
+<span class="n">count_pawn_storm</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Pawn Storm&#39;</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+<span class="c1"># r&#39;Sednit&#39;</span>
+<span class="n">count_sednit</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Sednit&#39;</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of rows containing &#39;Fancy Bear&#39;: </span><span class="si">{</span><span class="n">count_fancy_bear</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of rows containing &#39;Sofacy&#39;: </span><span class="si">{</span><span class="n">count_sofacy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of rows containing &#39;Pawn Storm&#39;: </span><span class="si">{</span><span class="n">count_pawn_storm</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Number of rows containing &#39;Sednit&#39;: </span><span class="si">{</span><span class="n">count_sednit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Number of rows containing &#39;Fancy Bear&#39;: 2
+Number of rows containing &#39;Sofacy&#39;: 0
+Number of rows containing &#39;Pawn Storm&#39;: 0
+Number of rows containing &#39;Sednit&#39;: 0
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[405]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Fancy Bear&#39;</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;APT 28&#39;</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[406]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 2 - Filter out &#39;Unknown&#39; affiliations</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;Unknown&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[407]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 3 - Count affiliations and get top 10</span>
+<span class="c1"># Hint: Use value_counts().nlargest(10)</span>
+<span class="n">top_10_aff</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[408]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># TODO: Step 4 - Create a barplot of the top 10 affiliations</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">top_10_aff</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">top_10_aff</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">containers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Top 10 Affiliations&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Affiliation&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_90_0.svg" src="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_90_0.svg" />
+</div>
+</div>
+</section>
+<section id="Solution---Exercise-3:-APT-28-Cyber-Attacks-Over-Time">
+<h2>Solution - Exercise 3: APT 28 Cyber Attacks Over Time<a class="headerlink" href="#Solution---Exercise-3:-APT-28-Cyber-Attacks-Over-Time" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">We analyze the behavior of APT 28 over time, including the malware associated with the group.</div>
+<div class="line">For background information and a comprehensive list of malware linked to APT 28, see <a class="reference external" href="https://malpedia.caad.fkie.fraunhofer.de/actor/apt28">Malpedia</a>.</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 1 - Filter the dataset for all rows where &#39;Affiliations&#39; contains &quot;APT 28&quot;</span>
+<span class="c1"># Hint: Use str.contains() with case=False and na=False</span>
+<span class="n">mask_apt28</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;Affiliations&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;APT 28&#39;</span><span class="p">,</span> <span class="n">case</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">df_apt28</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">mask_apt28</span><span class="p">]</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 2 - Extract the year from the &#39;Date&#39; column</span>
+<span class="c1"># Hint: Use .dt.year</span>
+<span class="n">df_apt28</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_apt28</span><span class="p">[</span><span class="s1">&#39;Date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">year</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 3 - Sort the counts by year</span>
+<span class="n">cyber_per_year_apt28</span> <span class="o">=</span> <span class="n">df_apt28</span><span class="p">[</span><span class="s1">&#39;Year&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Step 4 - Create a line plot showing the number of attacks per year</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">cyber_per_year_apt28</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">cyber_per_year_apt28</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Number of APT 28 Cyber Events per Year&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Year&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Cyber Operations&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">cyber_per_year_apt28</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>  <span class="c1"># Ensure x-axis shows integer ticks</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_95_0.svg" src="../../_images/tutorial_notebooks_discover_visualize_gain_insights_discover_visualize_gain_insights_95_0.svg" />
+</div>
+</div>
+<p>The observed peak in APT 28 activity around 2016–2019 could be related to the deployment of the malware <a class="reference external" href="https://thehackernews.com/2017/02/xagent-malware-apt28.html">X-Agent</a>, which has been linked to the group during that period.</p>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>In this tutorial, we learned how to load, clean, and visualize data using Python. Through Exploratory Data Analysis (EDA), we explored trends in cyber operations over time, identified the most active affiliations, sponsors, and targeted sectors, and handled inconsistent or missing data. Using plots and charts, we visualized insights from the dataset, providing a solid foundation for more advanced analyses in machine learning and cybersecurity.</p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/"><img alt="Star our repository" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=⭐&amp;message=Star%20Our%20Repository&amp;color=yellow" /></a> If you found this tutorial helpful, please <strong>⭐ star our repository</strong> to show your support.</div>
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/issues"><img alt="Ask questions" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=❔&amp;message=Ask%20Questions&amp;color=9cf" /></a> For any <strong>questions</strong>, <strong>typos</strong>, or <strong>bugs</strong>, kindly open an issue on GitHub — we appreciate your feedback!</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html" class="btn btn-neutral float-left" title="Getting started 1: Working with Jupyter and Python" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../getting_started_with_ml/getting_started_with_ml.html" class="btn btn-neutral float-right" title="Getting Started 3: Classic Machine Learning for Cybersecurity" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Christoph R. Landolt, Mario Fritz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

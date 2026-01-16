@@ -1,0 +1,1281 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial 2.3: Analyzing Application-Layer Protocols &mdash; CISPA Machine Learning in Cybersecurity v0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=82d01d63" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34cd777e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tutorial 3.1: Getting started with GANs" href="../tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started.html" />
+    <link rel="prev" title="Tutorial 2.2: Deep Learning based IDS" href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CISPA Machine Learning in Cybersecurity
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial 1: Getting started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html">Getting started 1: Working with Jupyter and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../discover_visualize_gain_insights/discover_visualize_gain_insights.html">Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_ml/getting_started_with_ml.html">Getting Started 3: Classic Machine Learning for Cybersecurity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html">Getting Started 4: Deep Learning for Cybersecurity</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 2: Intrusion Detection:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html">Tutorial 2.1: Intrusion Detection System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html">Tutorial 2.2: Deep Learning based IDS</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial 2.3: Analyzing Application-Layer Protocols</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Tutorial-Objectives">Tutorial Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Dataset-Composition-and-Anomalies">Dataset Composition and Anomalies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Attack-Categories">Attack Categories</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-Structure-and-Features">Data Structure and Features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Structure-of-an-HTTP-Request">Structure of an HTTP Request</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Method">Method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Request-URI-and-Query-String">Request URI and Query String</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#HTTP-Header">HTTP Header</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#HTTP-Body">HTTP Body</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Data-Loading-and-Integration">Data Loading and Integration</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Visualize-the-Dataset-Distribution">Visualize the Dataset Distribution</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Classic-ML-Pipeline:-Data-Preparation,-Feature-Engineering-and-Isolation-Forest">Classic ML Pipeline: Data Preparation, Feature Engineering and Isolation Forest</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Data-Preparation-and-Cleaning">Step 1: Data Preparation and Cleaning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-2:-Manual-Feature-Engineering-and-Normalization">Step 2: Manual Feature Engineering and Normalization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Attack-Detection-using-Isolation-Forest">Step 3: Attack Detection using Isolation Forest</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Deep-Learning-Pipeline:-Natural-Language-Processing-(NLP)-Feature-Engineering-with-BERT">Deep Learning Pipeline: Natural Language Processing (NLP) Feature Engineering with BERT</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Introduction-to-NLP-and-BERT">Introduction to NLP and BERT</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-1:-Data-Pre-processing-and-BERT-Feature-Extraction">Step 1: Data Pre-processing and BERT Feature Extraction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-2:-Preparing-PyTorch-DataLoaders">Step 2: Preparing PyTorch DataLoaders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Simple-Neural-Network-Architecture-(MLP)">Step 3: Simple Neural Network Architecture (MLP)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-5:-Training-and-Evaluation">Step 5: Training and Evaluation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises">Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-1:-Enhancing-Classic-ML-with-NLP-Features-(TF-IDF)">Exercise 1: Enhancing Classic ML with NLP Features (TF-IDF)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Solution---Exercise-1:-Enhancing-Classic-ML-with-NLP-Features-(TF-IDF)">Solution - Exercise 1: Enhancing Classic ML with NLP Features (TF-IDF)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 3: Evading ML-IDS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started.html">Tutorial 3.1: Getting started with GANs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids.html">Tutorial 3.2: Evading ML-based IDS using GANs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_solution/tutorial3_solution.html">Tutorial 3: Solutions to Exercises 3.1 &amp; 3.2</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 4: ML in the hands of Attackers (CTF):</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial4_1_automated_CTF_solving/tutorial4_1_automated_CTF_solving.html">Tutorial 4: Automated CTF Solving with LLMs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CISPA Machine Learning in Cybersecurity</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial 2.3: Analyzing Application-Layer Protocols</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorial_notebooks/tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Tutorial-2.3:-Analyzing-Application-Layer-Protocols">
+<h1>Tutorial 2.3: Analyzing Application-Layer Protocols<a class="headerlink" href="#Tutorial-2.3:-Analyzing-Application-Layer-Protocols" title="Link to this heading"></a></h1>
+<img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Resolved&amp;color=green" />
+<div class="line-block">
+<div class="line"><strong>Open notebook on:</strong> <a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.ipynb"><img alt="View filled on Github" src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" /></a> <a class="reference external" href="https://colab.research.google.com/github/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.ipynb"><img alt="Open filled In Collab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></div>
+<div class="line"><strong>Author:</strong> Christoph R. Landolt</div>
+</div>
+<p>In this tutorial, we transition from analyzing generic network traffic (e.g., KDD Cup 99) to focusing specifically on threats targeting application-layer protocols, particularly web applications.</p>
+<p>Web applications form the backbone of modern digital services, yet they are also among the most exposed components in a networked system. Attacks such as <strong>SQL Injection</strong>, <strong>Cross-Site Scripting (XSS)</strong>, and <strong>Parameter Tampering</strong> exploit vulnerabilities in <strong>application-layer logic</strong> rather than low-level network protocols.</p>
+<section id="Tutorial-Objectives">
+<h2>Tutorial Objectives<a class="headerlink" href="#Tutorial-Objectives" title="Link to this heading"></a></h2>
+<p>By the end of this tutorial, you will be able to:</p>
+<ul class="simple">
+<li><p>Explain key categories of web application attacks (SQLI, XSS, parameter tampering).</p></li>
+<li><p><strong>Process raw HTTP requests (header and body) and prepare them for machine learning analysis.</strong></p></li>
+<li><p>Understand the importance of robust feature engineering in application-layer protocol attack detection.</p></li>
+<li><p>Use state of the art Natural Language Processing to generate Features for attack detection in HTTP requests.</p></li>
+</ul>
+</section>
+<section id="Dataset-Composition-and-Anomalies">
+<h2>Dataset Composition and Anomalies<a class="headerlink" href="#Dataset-Composition-and-Anomalies" title="Link to this heading"></a></h2>
+<p>In this tutorial we’re working with the <strong>CSIC 2010 Web Application Attacks Dataset</strong> which is a synthetically generated and labeled benchmark corpus developed by the <strong>Spanish Research National Council (CSIC)</strong> for evaluating <strong>Web Application Firewalls (WAFs)</strong> and <strong>Intrusion Detection Systems (IDSs)</strong>. It provides both, <strong>normal</strong> and <strong>malicious</strong> HTTP requests, directed at a simulated e-commerce web application.</p>
+<p>The CSIC 2010 dataset consists of approximately:</p>
+<ul class="simple">
+<li><p><strong>36,000 normal</strong> HTTP requests</p></li>
+<li><p><strong>25,000 anomalous</strong> HTTP requests</p></li>
+</ul>
+<section id="Attack-Categories">
+<h3>Attack Categories<a class="headerlink" href="#Attack-Categories" title="Link to this heading"></a></h3>
+<table class="tutorial-table" border="1" style="width:100%; border-collapse: collapse;"><thead><tr><th><p>Attack Type</p>
+</th><th><p>Description</p>
+</th></tr></thead><tbody><tr><td><p>SQL Injection</p>
+</td><td><p>Exploiting input-validation flaws to manipulate backend SQL queries.</p>
+</td></tr><tr><td><p>Cross-Site Scripting (XSS)</p>
+</td><td><p>Injecting malicious JavaScript or HTML into web pages viewed by other users.</p>
+</td></tr><tr><td><p>Parameter Tampering</p>
+</td><td><p>Modifying GET/POST parameters or cookies to alter application logic.</p>
+</td></tr><tr><td><p>Buffer Overflow</p>
+</td><td><p>Sending oversized payloads that overflow memory buffers.</p>
+</td></tr><tr><td><p>Information Gathering</p>
+</td><td><p>Attempting to extract server or application information (e.g., file disclosure, directory traversal).</p>
+</td></tr><tr><td><p>CRLF Injection</p>
+</td><td><p>Inserting carriage-return/line-feed sequences to split HTTP responses.</p>
+</td></tr><tr><td><p>Unintentional Illegal Requests</p>
+</td><td><p>Abnormal requests violating expected application behavior without explicit malicious intent.</p>
+</td></tr></tbody></table><p>These categories together provide a rich and realistic evaluation environment for modern web-security models.</p>
+</section>
+</section>
+<section id="Data-Structure-and-Features">
+<h2>Data Structure and Features<a class="headerlink" href="#Data-Structure-and-Features" title="Link to this heading"></a></h2>
+<p>Each record in the dataset corresponds to <strong>one HTTP request</strong>, parsed into multiple features representing different components of the request:</p>
+<table class="tutorial-table" border="1" style="width:100%; border-collapse: collapse;"><thead><tr><th><p>Feature Category</p>
+</th><th><p>Example Features</p>
+</th><th><p>Description</p>
+</th></tr></thead><tbody><tr><td><p>Request Metadata</p>
+</td><td><p>method, url, protocol</p>
+</td><td><p>Basic request-line info (e.g., GET, POST, HTTP/1.1).</p>
+</td></tr><tr><td><p>Request Headers</p>
+</td><td><p>userAgent, host, cookie, contentType, accept, connection</p>
+</td><td><p>Client and session header fields.</p>
+</td></tr><tr><td><p>Request Content</p>
+</td><td><p>contentLength, payload</p>
+</td><td><p>Body length and content; often the attack vector.</p>
+</td></tr><tr><td><p>Target Label</p>
+</td><td><p>label or classification</p>
+</td><td><p>Ground-truth class: Normal or Anomalous.</p>
+</td></tr></tbody></table><p>The <strong>feature-engineering challenge</strong> lies in encoding categorical headers and extracting meaningful representations from text-heavy fields such as <code class="docutils literal notranslate"><span class="pre">url</span></code> and <code class="docutils literal notranslate"><span class="pre">payload</span></code>, which frequently contain obfuscated attack patterns.</p>
+</section>
+<section id="Structure-of-an-HTTP-Request">
+<h2>Structure of an HTTP Request<a class="headerlink" href="#Structure-of-an-HTTP-Request" title="Link to this heading"></a></h2>
+<p>To analyze the CSIC 2010 dataset and detect attacks, it is essential to understand the basics of an HTTP request.</p>
+<p>An HTTP request is the message sent by a client (for example, a web browser or an application) to a server in order to request data or perform an operation. It consists of several parts, each serving a specific function. An HTTP request has the following general structure:</p>
+<p><img alt="HTTP Request Structure" class="no-scaled-link" src="../../_images/HTTP_request.png" width="650" /></p>
+<p>Let’s break down the components step by step.</p>
+<section id="Method">
+<h3>Method<a class="headerlink" href="#Method" title="Link to this heading"></a></h3>
+<p>Originally, the HTTP protocol was designed as an interface for distributed object systems and therefore allowed a wide variety of <a class="reference external" href="https://www.iana.org/assignments/http-methods/http-methods.xhtml#methods">method tokens</a>. With the introduction of REST systems, the available methods were standardized in <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc7231">RFC 7231</a>.</p>
+<div class="line-block">
+<div class="line">Every system <strong>must support</strong> at least the two methods <strong>GET</strong> and <strong>HEAD</strong>, while all other methods are <strong>optional</strong>.</div>
+<div class="line">All standardized HTTP methods must be registered with the <a class="reference external" href="https://www.iana.org/">IANA (Internet Assigned Numbers Authority)</a>.</div>
+</div>
+<p>In this tutorial, since the CSIC 2010 dataset is based on RESTful services, we will focus only on the following methods:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Method</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>GET</strong></p></td>
+<td><p>Retrieves data from the server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>POST</strong></p></td>
+<td><p>Sends new data to the server.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>PUT</strong></p></td>
+<td><p>Replaces an existing resource with new data.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>PATCH</strong></p></td>
+<td><p>Partially updates an existing resource.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>DELETE</strong></p></td>
+<td><p>Removes a resource from the server.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>HEAD</strong></p></td>
+<td><p>Same as GET, but retrieves only the headers, not the body.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="Request-URI-and-Query-String">
+<h3>Request URI and Query String<a class="headerlink" href="#Request-URI-and-Query-String" title="Link to this heading"></a></h3>
+<p>The <strong>Request URI (Uniform Resource Identifier)</strong> specifies the resource that the client wants to access.</p>
+<p>Optionally, a <strong>Query String</strong> can be appended to the URI to send additional key–value pairs to the server. This mechanism is defined in <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc3986">RFC 3986</a>. The query string begins after a <strong>question mark (``?``)</strong>, and multiple key–value pairs are separated by an <strong>ampersand (``&amp;``)</strong>.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>test.php?key1=value1&amp;key2=value2
+</pre></div>
+</div>
+<p>Here:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">test.php</span></code> → the target resource (URI)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">key1=value1&amp;key2=value2</span></code> → the query string with two parameters</p></li>
+</ul>
+</section>
+<section id="HTTP-Header">
+<h3>HTTP Header<a class="headerlink" href="#HTTP-Header" title="Link to this heading"></a></h3>
+<p>The HTTP header is a section where the client can provide metadata about itself or about the request. Standard header fields are defined in <a class="reference external" href="https://datatracker.ietf.org/doc/html/rfc2616">RFC 2616</a>, but developers can also add custom fields. If the server does not support a specific header field, it simply ignores it.</p>
+<p>Each header line follows this structure:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Key: Value
+</pre></div>
+</div>
+<p>and ends with a <strong>carriage return and line feed (CRLF)</strong>.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Content-Type: application/json
+User-Agent: Mozilla/5.0
+</pre></div>
+</div>
+<section id="HTTP-Body">
+<h4>HTTP Body<a class="headerlink" href="#HTTP-Body" title="Link to this heading"></a></h4>
+<p>The HTTP body is separated from the header by an empty line (CRLF). It contains the <strong>data payload</strong> of the request—this is where the client sends information to the server (for example, form data, JSON, XML, or files). The <strong>format of the data</strong> depends on the target endpoint and is specified in the header field <strong>``Content-Type``</strong>.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Content-Type: application/json
+</pre></div>
+</div>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="nt">&quot;username&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alice&quot;</span><span class="p">,</span>
+<span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1234&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We start by loading the required libraries for this lab:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">IsolationForest</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">TensorDataset</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">BertTokenizer</span><span class="p">,</span> <span class="n">BertModel</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/christophlandolt/.pyenv/versions/mlcysec25/lib/python3.12/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
+  from .autonotebook import tqdm as notebook_tqdm
+</pre></div></div>
+</div>
+</section>
+</section>
+</section>
+<section id="Data-Loading-and-Integration">
+<h2>Data Loading and Integration<a class="headerlink" href="#Data-Loading-and-Integration" title="Link to this heading"></a></h2>
+<div class="line-block">
+<div class="line">The dataset is typically provided as a collection of CSV files, each representing a traffic capture or session.</div>
+<div class="line">The first step is to load all files into a single <code class="docutils literal notranslate"><span class="pre">pandas</span></code> DataFrame for preprocessing.</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Dataset parameters</span>
+<span class="n">FILE</span> <span class="o">=</span> <span class="s2">&quot;csic-2010-web-application-attacks.zip&quot;</span>
+<span class="n">DIR</span> <span class="o">=</span> <span class="s2">&quot;csic-2010-web-application-attacks&quot;</span>
+<span class="n">URL</span> <span class="o">=</span> <span class="s2">&quot;https://www.kaggle.com/api/v1/datasets/download/ispangler/csic-2010-web-application-attacks&quot;</span>
+
+<span class="c1"># Download if not exists</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">FILE</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading </span><span class="si">{</span><span class="n">FILE</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+    <span class="o">!</span>curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span><span class="o">{</span>FILE<span class="o">}</span><span class="w"> </span><span class="o">{</span>URL<span class="o">}</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">FILE</span><span class="si">}</span><span class="s2"> already exists, skipping download.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Unzip if not exists</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">DIR</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unzipping </span><span class="si">{</span><span class="n">FILE</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+    <span class="o">!</span>unzip<span class="w"> </span>-q<span class="w"> </span><span class="o">{</span>FILE<span class="o">}</span><span class="w"> </span>-d<span class="w"> </span><span class="o">{</span>DIR<span class="o">}</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">DIR</span><span class="si">}</span><span class="s2"> already exists, skipping unzip.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Load all CSV files in the dataset folder into a single DataFrame</span>
+<span class="n">csv_files</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DIR</span><span class="p">,</span> <span class="s2">&quot;*.csv&quot;</span><span class="p">))</span>
+<span class="n">dfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">csv_files</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">dfs</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Show the first rows</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+csic-2010-web-application-attacks.zip already exists, skipping download.
+csic-2010-web-application-attacks already exists, skipping unzip.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Unnamed: 0</th>
+      <th>Method</th>
+      <th>User-Agent</th>
+      <th>Pragma</th>
+      <th>Cache-Control</th>
+      <th>Accept</th>
+      <th>Accept-encoding</th>
+      <th>Accept-charset</th>
+      <th>language</th>
+      <th>host</th>
+      <th>cookie</th>
+      <th>content-type</th>
+      <th>connection</th>
+      <th>lenght</th>
+      <th>content</th>
+      <th>classification</th>
+      <th>URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Normal</td>
+      <td>GET</td>
+      <td>Mozilla/5.0 (compatible; Konqueror/3.5; Linux)...</td>
+      <td>no-cache</td>
+      <td>no-cache</td>
+      <td>text/xml,application/xml,application/xhtml+xml...</td>
+      <td>x-gzip, x-deflate, gzip, deflate</td>
+      <td>utf-8, utf-8;q=0.5, *;q=0.5</td>
+      <td>en</td>
+      <td>localhost:8080</td>
+      <td>JSESSIONID=1F767F17239C9B670A39E9B10C3825F4</td>
+      <td>NaN</td>
+      <td>close</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>http://localhost:8080/tienda1/index.jsp HTTP/1.1</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Normal</td>
+      <td>GET</td>
+      <td>Mozilla/5.0 (compatible; Konqueror/3.5; Linux)...</td>
+      <td>no-cache</td>
+      <td>no-cache</td>
+      <td>text/xml,application/xml,application/xhtml+xml...</td>
+      <td>x-gzip, x-deflate, gzip, deflate</td>
+      <td>utf-8, utf-8;q=0.5, *;q=0.5</td>
+      <td>en</td>
+      <td>localhost:8080</td>
+      <td>JSESSIONID=81761ACA043B0E6014CA42A4BCD06AB5</td>
+      <td>NaN</td>
+      <td>close</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>http://localhost:8080/tienda1/publico/anadir.j...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Normal</td>
+      <td>POST</td>
+      <td>Mozilla/5.0 (compatible; Konqueror/3.5; Linux)...</td>
+      <td>no-cache</td>
+      <td>no-cache</td>
+      <td>text/xml,application/xml,application/xhtml+xml...</td>
+      <td>x-gzip, x-deflate, gzip, deflate</td>
+      <td>utf-8, utf-8;q=0.5, *;q=0.5</td>
+      <td>en</td>
+      <td>localhost:8080</td>
+      <td>JSESSIONID=933185092E0B668B90676E0A2B0767AF</td>
+      <td>application/x-www-form-urlencoded</td>
+      <td>Connection: close</td>
+      <td>Content-Length: 68</td>
+      <td>id=3&amp;nombre=Vino+Rioja&amp;precio=100&amp;cantidad=55&amp;...</td>
+      <td>0</td>
+      <td>http://localhost:8080/tienda1/publico/anadir.j...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Normal</td>
+      <td>GET</td>
+      <td>Mozilla/5.0 (compatible; Konqueror/3.5; Linux)...</td>
+      <td>no-cache</td>
+      <td>no-cache</td>
+      <td>text/xml,application/xml,application/xhtml+xml...</td>
+      <td>x-gzip, x-deflate, gzip, deflate</td>
+      <td>utf-8, utf-8;q=0.5, *;q=0.5</td>
+      <td>en</td>
+      <td>localhost:8080</td>
+      <td>JSESSIONID=8FA18BA82C5336D03D3A8AFA3E68CBB0</td>
+      <td>NaN</td>
+      <td>close</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>0</td>
+      <td>http://localhost:8080/tienda1/publico/autentic...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>Normal</td>
+      <td>POST</td>
+      <td>Mozilla/5.0 (compatible; Konqueror/3.5; Linux)...</td>
+      <td>no-cache</td>
+      <td>no-cache</td>
+      <td>text/xml,application/xml,application/xhtml+xml...</td>
+      <td>x-gzip, x-deflate, gzip, deflate</td>
+      <td>utf-8, utf-8;q=0.5, *;q=0.5</td>
+      <td>en</td>
+      <td>localhost:8080</td>
+      <td>JSESSIONID=7104E6C68A6BCF1423DAE990CE49FEE2</td>
+      <td>application/x-www-form-urlencoded</td>
+      <td>Connection: close</td>
+      <td>Content-Length: 63</td>
+      <td>modo=entrar&amp;login=choong&amp;pwd=d1se3ci%F3n&amp;remem...</td>
+      <td>0</td>
+      <td>http://localhost:8080/tienda1/publico/autentic...</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show the DataFrame columns</span>
+<span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Index([&#39;Unnamed: 0&#39;, &#39;Method&#39;, &#39;User-Agent&#39;, &#39;Pragma&#39;, &#39;Cache-Control&#39;,
+       &#39;Accept&#39;, &#39;Accept-encoding&#39;, &#39;Accept-charset&#39;, &#39;language&#39;, &#39;host&#39;,
+       &#39;cookie&#39;, &#39;content-type&#39;, &#39;connection&#39;, &#39;lenght&#39;, &#39;content&#39;,
+       &#39;classification&#39;, &#39;URL&#39;],
+      dtype=&#39;object&#39;)
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rename the column &#39;Unnamed: 0&#39; to &#39;label&#39;</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">:</span> <span class="s1">&#39;label&#39;</span><span class="p">})</span>
+<br/></pre></div>
+</div>
+</div>
+<section id="Visualize-the-Dataset-Distribution">
+<h3>Visualize the Dataset Distribution<a class="headerlink" href="#Visualize-the-Dataset-Distribution" title="Link to this heading"></a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Count class distribution</span>
+<span class="n">label_counts</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+
+<span class="c1"># Print numeric summary</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Class distribution:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">label_counts</span><span class="p">)</span>
+
+<span class="c1"># Plot</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">label_counts</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;skyblue&#39;</span><span class="p">,</span> <span class="s1">&#39;salmon&#39;</span><span class="p">],</span>
+    <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span>
+<span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;CSIC 2010 Request Distribution&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Request Type&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Number of Requests&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Class distribution:
+label
+Normal       36000
+Anomalous    25065
+Name: count, dtype: int64
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_3_analyzing_application-layer_protocols_tutorial2_3_analyzing_application-layer_protocols_9_1.png" src="../../_images/tutorial_notebooks_tutorial2_3_analyzing_application-layer_protocols_tutorial2_3_analyzing_application-layer_protocols_9_1.png" />
+</div>
+</div>
+<p><strong>Note:</strong> Unlike real-world network traffic, where attacks are typically very rare, the CSIC 2010 dataset is <strong>synthetically generated</strong>. This means the proportion of ‘Anomalous’ requests is intentionally high (around 41% of the total dataset). In a live, production environment, the class imbalance could be greater, with normal traffic greatly dominating the attack events.</p>
+</section>
+</section>
+<section id="Classic-ML-Pipeline:-Data-Preparation,-Feature-Engineering-and-Isolation-Forest">
+<h2>Classic ML Pipeline: Data Preparation, Feature Engineering and Isolation Forest<a class="headerlink" href="#Classic-ML-Pipeline:-Data-Preparation,-Feature-Engineering-and-Isolation-Forest" title="Link to this heading"></a></h2>
+<p>We begin by establishing a classic Machine Learning anomaly detection pipeline using manually engineered features and an <strong>Isolation Forest</strong> model to set a performance benchmark.</p>
+<section id="Step-1:-Data-Preparation-and-Cleaning">
+<h3>Step 1: Data Preparation and Cleaning<a class="headerlink" href="#Step-1:-Data-Preparation-and-Cleaning" title="Link to this heading"></a></h3>
+<p>The first steps involve loading all data, handling missing values, and preparing the target features for modeling.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># The dataset is in the df DataFrame (loaded and renamed &#39;label&#39; column).</span>
+<span class="n">dataset_data</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1"># Work on a copy</span>
+
+<span class="c1"># 1. Handle missing values:</span>
+<span class="c1"># Accept column: Replace NaN with the most common value (mode)</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;Accept&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;Accept&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;Accept&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mode</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Columns: content-type, lenght, content: Replace NaN with &quot;None&quot; or &quot;0&quot;</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content-type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content-type&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;lenght&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;lenght&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;None&#39;</span><span class="p">)</span>
+
+<span class="c1"># Create new feature: is_post (1 if POST method, 0 otherwise)</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;is_post&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">x</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># 2. Remove unnecessary/redundant columns:</span>
+<span class="c1"># &#39;label&#39; column is the descriptive name (Normal/Anomalous), redundant with binary &#39;classification&#39;.</span>
+<span class="n">dataset_data</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Missing values after cleaning:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dataset_data</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Missing values after cleaning:
+0
+</pre></div></div>
+</div>
+</section>
+<section id="Step-2:-Manual-Feature-Engineering-and-Normalization">
+<h3>Step 2: Manual Feature Engineering and Normalization<a class="headerlink" href="#Step-2:-Manual-Feature-Engineering-and-Normalization" title="Link to this heading"></a></h3>
+<p>We extract numerical features from the text-heavy fields (<code class="docutils literal notranslate"><span class="pre">URL</span></code>, <code class="docutils literal notranslate"><span class="pre">content</span></code>) and combine them with one-hot encoded categorical features to create a final 2D feature matrix.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><br/><span></span><span class="c1"># Define a list of keywords commonly found in web attacks (SQL injection, XSS, etc.)</span>
+<span class="n">malicious_keywords</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;SELECT&#39;</span><span class="p">,</span> <span class="s1">&#39;UNION&#39;</span><span class="p">,</span> <span class="s1">&#39;DROP&#39;</span><span class="p">,</span> <span class="s1">&#39;DELETE&#39;</span><span class="p">,</span> <span class="s1">&#39;FROM&#39;</span><span class="p">,</span> <span class="s1">&#39;WHERE&#39;</span><span class="p">,</span> <span class="s1">&#39;OR&#39;</span><span class="p">,</span> <span class="s1">&#39;LIKE&#39;</span><span class="p">,</span> <span class="s1">&#39;AND&#39;</span><span class="p">,</span> <span class="s1">&#39;1=1&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\&#39;</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SCRIPT&#39;</span><span class="p">,</span> <span class="s1">&#39;javascript&#39;</span><span class="p">,</span> <span class="s1">&#39;alert&#39;</span><span class="p">,</span> <span class="s1">&#39;iframe&#39;</span><span class="p">,</span> <span class="s1">&#39;src=&#39;</span><span class="p">,</span> <span class="s1">&#39;onerror&#39;</span><span class="p">,</span> <span class="s1">&#39;prompt&#39;</span><span class="p">,</span> <span class="s1">&#39;confirm&#39;</span><span class="p">,</span> <span class="s1">&#39;eval&#39;</span><span class="p">,</span> <span class="s1">&#39;onload&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;mouseover&#39;</span><span class="p">,</span> <span class="s1">&#39;onunload&#39;</span><span class="p">,</span> <span class="s1">&#39;document.&#39;</span><span class="p">,</span> <span class="s1">&#39;window.&#39;</span><span class="p">,</span> <span class="s1">&#39;xmlhttprequest&#39;</span><span class="p">,</span> <span class="s1">&#39;xhr&#39;</span><span class="p">,</span> <span class="s1">&#39;cookie&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tamper&#39;</span><span class="p">,</span> <span class="s1">&#39;vaciar&#39;</span><span class="p">,</span> <span class="s1">&#39;carrito&#39;</span><span class="p">,</span> <span class="s1">&#39;incorrect&#39;</span><span class="p">,</span> <span class="s1">&#39;pwd&#39;</span><span class="p">,</span> <span class="s1">&#39;login&#39;</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;id&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;%0D&#39;</span><span class="p">,</span> <span class="s1">&#39;%0A&#39;</span><span class="p">,</span> <span class="s1">&#39;.php&#39;</span><span class="p">,</span> <span class="s1">&#39;.js&#39;</span><span class="p">,</span> <span class="s1">&#39;admin&#39;</span><span class="p">,</span> <span class="s1">&#39;administrator&#39;</span>
+<span class="p">]</span>
+
+<span class="c1"># --- Manual Feature Engineering (Creation of 7 numerical features) ---</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;url_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;URL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;url_special_chars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;URL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[%;=&lt;&gt;\/&amp;</span><span class="se">\&#39;</span><span class="s1">&quot;()\[\]#\-\+]&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;url_malicious_keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;URL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">malicious_keywords</span> <span class="k">if</span> <span class="n">kw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;url_params_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;URL&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s1">&#39;&amp;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="s1">&#39;?&#39;</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content_length&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">len</span><span class="p">)</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content_special_chars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;[%;=&lt;&gt;\/&amp;</span><span class="se">\&#39;</span><span class="s1">&quot;()\[\]#\-\+]&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">)))</span>
+<span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content_malicious_keywords&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">kw</span> <span class="ow">in</span> <span class="n">malicious_keywords</span> <span class="k">if</span> <span class="n">kw</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+
+<span class="c1"># --- One-Hot Encoding ---</span>
+<span class="n">dataset_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">dataset_data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">,</span> <span class="s1">&#39;content-type&#39;</span><span class="p">],</span> <span class="n">prefix</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Method&#39;</span><span class="p">,</span> <span class="s1">&#39;content-type&#39;</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># --- Feature Combination (2D Matrix) ---</span>
+<span class="n">manual_features</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[[</span><span class="s1">&#39;url_length&#39;</span><span class="p">,</span> <span class="s1">&#39;url_special_chars&#39;</span><span class="p">,</span> <span class="s1">&#39;url_malicious_keywords&#39;</span><span class="p">,</span> <span class="s1">&#39;url_params_count&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;content_length&#39;</span><span class="p">,</span> <span class="s1">&#39;content_special_chars&#39;</span><span class="p">,</span> <span class="s1">&#39;content_malicious_keywords&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;is_post&#39;</span><span class="p">]]</span>
+<span class="n">one_hot_features</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">like</span><span class="o">=</span><span class="s1">&#39;Method_|content-type_&#39;</span><span class="p">)</span>
+
+<span class="c1"># Final 2D feature matrix</span>
+<span class="n">feature_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">manual_features</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">one_hot_features</span><span class="o">.</span><span class="n">values</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total feature matrix size (2D):&quot;</span><span class="p">,</span> <span class="n">feature_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="c1"># --- Data Normalization ---</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">feature_matrix_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">feature_matrix</span><span class="p">)</span>
+
+<span class="c1"># --- Data Split for Classic ML (2D data) ---</span>
+<span class="n">X_train_classic</span><span class="p">,</span> <span class="n">X_test_classic</span><span class="p">,</span> <span class="n">y_train_classic</span><span class="p">,</span> <span class="n">y_test_classic</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">feature_matrix_scaled</span><span class="p">,</span>
+    <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Classic ML Train Set Size: </span><span class="si">{</span><span class="n">X_train_classic</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Total feature matrix size (2D): (61065, 8)
+Classic ML Train Set Size: (48852, 8)
+</pre></div></div>
+</div>
+</section>
+<section id="Step-3:-Attack-Detection-using-Isolation-Forest">
+<h3>Step 3: Attack Detection using Isolation Forest<a class="headerlink" href="#Step-3:-Attack-Detection-using-Isolation-Forest" title="Link to this heading"></a></h3>
+<p>We apply the <strong>Isolation Forest</strong> algorithm, which is an ensemble tree method specifically designed for anomaly detection. It works by isolating anomalies that require fewer splits in a tree structure compared to normal data points.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># We use the 2D feature_matrix_scaled data split for training and testing.</span>
+<span class="c1"># Input X_train_classic is guaranteed to be 2D.</span>
+
+<span class="c1"># Initialize Isolation Forest model</span>
+<span class="n">contamination_rate</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">clf_if</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span>
+    <span class="n">contamination</span><span class="o">=</span><span class="n">contamination_rate</span><span class="p">,</span> <span class="c1"># Set to the actual anomaly rate (~0.41 for full CSIC)</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="c1"># Training</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">clf_if</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_classic</span><span class="p">)</span> <span class="c1"># Using the 2D matrix</span>
+<span class="n">training_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training time (s): </span><span class="si">{</span><span class="n">training_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Prediction</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">y_test_pred_if_raw</span> <span class="o">=</span> <span class="n">clf_if</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_classic</span><span class="p">)</span> <span class="c1"># Using the 2D matrix</span>
+<span class="n">prediction_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prediction time(s): </span><span class="si">{</span><span class="n">prediction_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Convert Isolation Forest output (-1: anomaly, 1: normal) to binary (1: anomaly, 0: normal)</span>
+<span class="n">y_test_pred_if</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y_test_pred_if_raw</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># --- Confusion Matrix ---</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test_classic</span><span class="p">,</span> <span class="n">y_test_pred_if</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Classification Report:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test_classic</span><span class="p">,</span> <span class="n">y_test_pred_if</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">]))</span>
+
+<span class="c1"># --- Plot Confusion Matrix ---</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix on Test Set (Isolation Forest)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Training time (s): 0.61
+Prediction time(s): 0.07
+Confusion Matrix:
+ [[5312 1888]
+ [1913 3100]]
+
+Classification Report:
+               precision    recall  f1-score   support
+
+      Normal       0.74      0.74      0.74      7200
+      Attack       0.62      0.62      0.62      5013
+
+    accuracy                           0.69     12213
+   macro avg       0.68      0.68      0.68     12213
+weighted avg       0.69      0.69      0.69     12213
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_3_analyzing_application-layer_protocols_tutorial2_3_analyzing_application-layer_protocols_16_1.png" src="../../_images/tutorial_notebooks_tutorial2_3_analyzing_application-layer_protocols_tutorial2_3_analyzing_application-layer_protocols_16_1.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Deep-Learning-Pipeline:-Natural-Language-Processing-(NLP)-Feature-Engineering-with-BERT">
+<h2>Deep Learning Pipeline: Natural Language Processing (NLP) Feature Engineering with BERT<a class="headerlink" href="#Deep-Learning-Pipeline:-Natural-Language-Processing-(NLP)-Feature-Engineering-with-BERT" title="Link to this heading"></a></h2>
+<p>In this section, we pivot from classic machine learning methods that rely on hand-crafted features (like URL length, count of special characters) to a deep learning approach using <strong>BERT (Bidirectional Encoder Representations from Transformers)</strong>. This method allows the model to automatically learn rich, contextualized features directly from the raw text payloads, often capturing subtle, obfuscated attack patterns that manual feature engineering might miss.</p>
+<p>We will use the BERT embeddings as the input for a simple, fully connected <strong>Neural Network (NN)</strong> to perform the final attack classification.</p>
+<section id="Introduction-to-NLP-and-BERT">
+<h3>Introduction to NLP and BERT<a class="headerlink" href="#Introduction-to-NLP-and-BERT" title="Link to this heading"></a></h3>
+<p><strong>Natural Language Processing (NLP)</strong> is the field of AI focused on interpreting human language. In web security, we treat the text within HTTP requests (URLs, parameters, payloads) as the “language” to be scrutinized for malicious grammar.</p>
+<p><strong>BERT</strong> is a pre-trained language model that processes text bidirectionally, considering the entire context of a sequence. For a web attack detector, BERT is vital because it can:</p>
+<ul class="simple">
+<li><p><strong>Understand Attack Context:</strong> It assigns unique vector embeddings to tokens like <code class="docutils literal notranslate"><span class="pre">'SELECT'</span></code>, <code class="docutils literal notranslate"><span class="pre">'UNION'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'&lt;script&gt;'</span></code>, capturing their semantic and contextual roles in a malicious payload.</p></li>
+<li><p><strong>Generate High-Quality Features:</strong> It converts the raw input string into a sequence of fixed-size, informative vectors, which form the feature set for our classifier.</p></li>
+</ul>
+<p><em>(Note: To prepare the text for BERT’s fixed-length input, the ``URL`` and ``content`` fields are concatenated into a single sequence, and the dataset is heavily subsampled to manage the long processing time required for generating BERT embeddings.)</em></p>
+</section>
+<section id="Step-1:-Data-Pre-processing-and-BERT-Feature-Extraction">
+<h3>Step 1: Data Pre-processing and BERT Feature Extraction<a class="headerlink" href="#Step-1:-Data-Pre-processing-and-BERT-Feature-Extraction" title="Link to this heading"></a></h3>
+<p>We first combine the <code class="docutils literal notranslate"><span class="pre">URL</span></code> and <code class="docutils literal notranslate"><span class="pre">content</span></code> fields into a single payload, then initialize the BERT model to convert these text sequences into numerical feature vectors.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Checking and Using GPU if available</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using device: </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Create a new column &#39;combined_payload&#39; by concatenating URL and Content.</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;combined_payload&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;URL&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># Convert classification label to integer type (0 or 1) for PyTorch</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Subsample the data for efficiency and balancing (using 5% of each class)</span>
+<span class="n">df_normal</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">df_anomalous</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">n_normal</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_normal</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">)</span>
+<span class="n">n_anomalous</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_anomalous</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.05</span><span class="p">)</span>
+
+<span class="n">df_sampled</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+    <span class="n">df_normal</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_normal</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span>
+    <span class="n">df_anomalous</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_anomalous</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<span class="p">])</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total sampled records for training: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df_sampled</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Initialize BERT tokenizer and model</span>
+<span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizer</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
+<span class="n">bert_model</span> <span class="o">=</span> <span class="n">BertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">extract_bert_features</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extracts BERT features for a list of texts by processing them in batches.</span>
+<span class="sd">    The output is a sequence of embeddings: (num_samples, seq_len, embed_dim).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">),</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">texts</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">batch_size</span><span class="p">]</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s1">&#39;pt&#39;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;max_length&#39;</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="n">max_length</span><span class="p">)</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inputs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">bert_model</span><span class="p">(</span><span class="o">**</span><span class="n">inputs</span><span class="p">)</span>
+
+        <span class="c1"># Get the last hidden state (sequence of embeddings)</span>
+        <span class="n">batch_features</span> <span class="o">=</span> <span class="n">outputs</span><span class="o">.</span><span class="n">last_hidden_state</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch_features</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+<span class="c1"># Extracting Features from the SUBSAMPLED DataFrame</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Extracting BERT features for CSIC Data...&quot;</span><span class="p">)</span>
+<span class="n">csic_texts</span> <span class="o">=</span> <span class="n">df_sampled</span><span class="p">[</span><span class="s1">&#39;combined_payload&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">csic_features</span> <span class="o">=</span> <span class="n">extract_bert_features</span><span class="p">(</span><span class="n">csic_texts</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;BERT CSIC Feature Shape (Samples, Sequence Length, Embedding Size):&quot;</span><span class="p">,</span> <span class="n">csic_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Using device: cpu
+Total sampled records for training: 3053
+Extracting BERT features for CSIC Data...
+BERT CSIC Feature Shape (Samples, Sequence Length, Embedding Size): (3053, 128, 768)
+</pre></div></div>
+</div>
+</section>
+<section id="Step-2:-Preparing-PyTorch-DataLoaders">
+<h3>Step 2: Preparing PyTorch DataLoaders<a class="headerlink" href="#Step-2:-Preparing-PyTorch-DataLoaders" title="Link to this heading"></a></h3>
+<p>The BERT features (<span class="math notranslate nohighlight">\(X\)</span>) and binary labels (<span class="math notranslate nohighlight">\(y\)</span>) are split into training and testing sets, converted to PyTorch tensors, and wrapped in <code class="docutils literal notranslate"><span class="pre">DataLoader</span></code> objects.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Extract features (use the extracted features from the previous step)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">csic_features</span>
+<span class="c1"># Use the correct label column: &#39;classification&#39;</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_sampled</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+
+<span class="c1"># Splitting the Dataset (80% Train, 20% Test)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># Converting Data to PyTorch Tensors</span>
+<span class="n">X_train_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">y_train_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span> <span class="c1"># Shape (N, 1) for BCELoss</span>
+<span class="n">X_test_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">y_test_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># Creating DataLoader</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_train_tensor</span><span class="p">,</span> <span class="n">y_train_tensor</span><span class="p">)</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">X_test_tensor</span><span class="p">,</span> <span class="n">y_test_tensor</span><span class="p">)</span>
+
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-3:-Simple-Neural-Network-Architecture-(MLP)">
+<h3>Step 3: Simple Neural Network Architecture (MLP)<a class="headerlink" href="#Step-3:-Simple-Neural-Network-Architecture-(MLP)" title="Link to this heading"></a></h3>
+<p>We define a simple Multi-Layer Perceptron (MLP) classifier. Since BERT produces a <strong>sequence of vectors</strong> (e.g., 128 tokens <span class="math notranslate nohighlight">\(\times\)</span> 768 features), we use a <strong>Global Average Pooling</strong> layer to compress the sequence into a single, fixed-size feature vector per sample before feeding it into the MLP.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MLPClassifier</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simple MLP for classification using aggregated BERT embeddings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MLPClassifier</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># AdaptiveAvgPool1d performs Global Average Pooling over the sequence dimension (128).</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avg_pool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool1d</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>  <span class="c1"># Input_dim = 768 (after pooling)</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>  <span class="c1"># Output probability for binary classification</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># x shape: (batch_size, sequence_length, input_dim) -&gt; (Batch, 128, 768)</span>
+
+        <span class="c1"># 1. Transpose for AvgPool1d: (Batch, 128, 768) -&gt; (Batch, 768, 128)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># 2. Global Average Pool: (Batch, 768, 1)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avg_pool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># 3. Squeeze to (Batch, 768)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># 4. Feed into MLP</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Instantiate the model</span>
+<span class="n">input_dim</span> <span class="o">=</span> <span class="mi">768</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLPClassifier</span><span class="p">(</span><span class="n">input_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-5:-Training-and-Evaluation">
+<h3>Step 5: Training and Evaluation<a class="headerlink" href="#Step-5:-Training-and-Evaluation" title="Link to this heading"></a></h3>
+<p>The model is trained using Binary Cross-Entropy Loss and the Adam optimizer, and then evaluated on the test set.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Loss and Optimizer</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># --- Training loop execution ---</span>
+<span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">train_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_epochs</span><span class="p">):</span>
+    <span class="c1"># --- Training ---</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_batch</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">epoch_train_loss</span> <span class="o">=</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+
+    <span class="c1"># --- Evaluation on test set ---</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">running_test_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">X_batch</span><span class="p">,</span> <span class="n">y_batch</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_batch</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">y_batch</span><span class="p">)</span>
+            <span class="n">running_test_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="o">*</span> <span class="n">X_batch</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">epoch_test_loss</span> <span class="o">=</span> <span class="n">running_test_loss</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_loader</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_epochs</span><span class="si">}</span><span class="s2"> - Train Loss: </span><span class="si">{</span><span class="n">epoch_train_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> - Test Loss: </span><span class="si">{</span><span class="n">epoch_test_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Final Evaluation on Test Set</span>
+<span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_test_tensor</span><span class="p">)</span>
+    <span class="n">y_pred_label</span> <span class="o">=</span> <span class="p">(</span><span class="n">y_pred</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+
+    <span class="c1"># Calculate Metrics</span>
+    <span class="n">y_true_np</span> <span class="o">=</span> <span class="n">y_test_tensor</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">y_pred_np</span> <span class="o">=</span> <span class="n">y_pred_label</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+    <span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_true_np</span><span class="p">,</span> <span class="n">y_pred_np</span><span class="p">)</span>
+    <span class="n">cr</span> <span class="o">=</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_true_np</span><span class="p">,</span> <span class="n">y_pred_np</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">])</span>
+
+<span class="c1"># --- Confusion Matrix ---</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Classification Report:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cr</span><span class="p">)</span>
+
+<span class="c1"># --- Plot Confusion Matrix ---</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix on Test Set (NN Classifier with BERT Features)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch 1/20 - Train Loss: 0.6009 - Test Loss: 0.5672
+Epoch 2/20 - Train Loss: 0.5125 - Test Loss: 0.4791
+Epoch 3/20 - Train Loss: 0.4649 - Test Loss: 0.4407
+Epoch 4/20 - Train Loss: 0.4017 - Test Loss: 0.4132
+Epoch 5/20 - Train Loss: 0.3867 - Test Loss: 0.3757
+Epoch 6/20 - Train Loss: 0.3600 - Test Loss: 0.3754
+Epoch 7/20 - Train Loss: 0.3521 - Test Loss: 0.3456
+Epoch 8/20 - Train Loss: 0.3472 - Test Loss: 0.4075
+Epoch 9/20 - Train Loss: 0.3443 - Test Loss: 0.3035
+Epoch 10/20 - Train Loss: 0.3026 - Test Loss: 0.3021
+Epoch 11/20 - Train Loss: 0.2913 - Test Loss: 0.3248
+Epoch 12/20 - Train Loss: 0.3066 - Test Loss: 0.2763
+Epoch 13/20 - Train Loss: 0.2994 - Test Loss: 0.2721
+Epoch 14/20 - Train Loss: 0.2955 - Test Loss: 0.2707
+Epoch 15/20 - Train Loss: 0.2685 - Test Loss: 0.2786
+Epoch 16/20 - Train Loss: 0.2867 - Test Loss: 0.2992
+Epoch 17/20 - Train Loss: 0.3008 - Test Loss: 0.2662
+Epoch 18/20 - Train Loss: 0.2497 - Test Loss: 0.2450
+Epoch 19/20 - Train Loss: 0.2629 - Test Loss: 0.2454
+Epoch 20/20 - Train Loss: 0.2453 - Test Loss: 0.2527
+Confusion Matrix:
+ [[308  52]
+ [ 33 218]]
+
+Classification Report:
+               precision    recall  f1-score   support
+
+      Normal       0.90      0.86      0.88       360
+      Attack       0.81      0.87      0.84       251
+
+    accuracy                           0.86       611
+   macro avg       0.86      0.86      0.86       611
+weighted avg       0.86      0.86      0.86       611
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_3_analyzing_application-layer_protocols_tutorial2_3_analyzing_application-layer_protocols_25_1.png" src="../../_images/tutorial_notebooks_tutorial2_3_analyzing_application-layer_protocols_tutorial2_3_analyzing_application-layer_protocols_25_1.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="Exercises">
+<h2>Exercises<a class="headerlink" href="#Exercises" title="Link to this heading"></a></h2>
+<section id="Exercise-1:-Enhancing-Classic-ML-with-NLP-Features-(TF-IDF)">
+<h3>Exercise 1: Enhancing Classic ML with NLP Features (TF-IDF)<a class="headerlink" href="#Exercise-1:-Enhancing-Classic-ML-with-NLP-Features-(TF-IDF)" title="Link to this heading"></a></h3>
+<p>In the previous steps, the Isolation Forest model relied primarily on <strong>manual features</strong> (e.g., length, special character count). While simple, this approach ignores the semantic content (the actual words) in the <code class="docutils literal notranslate"><span class="pre">URL</span></code> and <code class="docutils literal notranslate"><span class="pre">content</span></code> fields, which often contain complex attack payloads.</p>
+<p><strong>Term Frequency-Inverse Document Frequency (TF-IDF)</strong> is a statistical measure used to reflect how important a word is to a document in a collection or corpus. It is calculated as the product of two terms: Term Frequency (TF) and Inverse Document Frequency (IDF):</p>
+<div class="math notranslate nohighlight">
+\[\text{TFIDF}(t, d) = \text{TF}(t, d) \times \text{IDF}(t)\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><strong>Term Frequency (TF(t, d)):</strong> Measures how often a term <span class="math notranslate nohighlight">\(t\)</span> appears in a document <span class="math notranslate nohighlight">\(d\)</span>.</p></li>
+<li><p><strong>Inverse Document Frequency (IDF(t)):</strong> Measures how rare the term <span class="math notranslate nohighlight">\(t\)</span> is across all documents in the corpus.</p></li>
+</ul>
+<p>In anomaly detection, TF-IDF is valuable because it assigns a high weight to rare, specific terms (like obfuscated attack keywords) that are prevalent in anomalous samples but rare in the normal traffic corpus.</p>
+<p><strong>Task:</strong> Use the <code class="docutils literal notranslate"><span class="pre">TfidfVectorizer</span></code> from <code class="docutils literal notranslate"><span class="pre">sklearn.feature_extraction.text</span></code> to generate features from the <code class="docutils literal notranslate"><span class="pre">URL</span></code> and <code class="docutils literal notranslate"><span class="pre">content</span></code> fields, combine them with the existing manual features, and evaluate the Isolation Forest performance against the manual-feature-only baseline.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Task Steps:</span>
+<span class="c1"># 1. TF-IDF Transformation: Use TfidfVectorizer on &#39;URL&#39; and &#39;content&#39; fields.</span>
+<span class="c1"># 2. Feature Combination: Create a new feature matrix by horizontally stacking the manual, one-hot, and new TF-IDF features.</span>
+<span class="c1"># 3. Modeling: Standardize the new feature matrix and train/evaluate a new Isolation Forest model.</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Solution---Exercise-1:-Enhancing-Classic-ML-with-NLP-Features-(TF-IDF)">
+<h2>Solution - Exercise 1: Enhancing Classic ML with NLP Features (TF-IDF)<a class="headerlink" href="#Solution---Exercise-1:-Enhancing-Classic-ML-with-NLP-Features-(TF-IDF)" title="Link to this heading"></a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.sparse</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+
+<span class="c1"># --- Step 1: Text Preparation ---</span>
+<span class="c1"># Combine URL and Content into a single string for each request to capture the full context.</span>
+<span class="c1"># We ensure NaNs are treated as empty strings.</span>
+<span class="n">text_data</span> <span class="o">=</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;URL&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="c1"># --- Step 2: TF-IDF Vectorization ---</span>
+<span class="c1"># We limit max_features to 500 to prevent the feature space from exploding,</span>
+<span class="c1"># which would make the Isolation Forest too slow and prone to the curse of dimensionality.</span>
+<span class="n">tfidf_vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">max_features</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">stop_words</span><span class="o">=</span><span class="s1">&#39;english&#39;</span><span class="p">)</span>
+<span class="n">tfidf_features</span> <span class="o">=</span> <span class="n">tfidf_vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">text_data</span><span class="p">)</span>
+
+<span class="c1"># Convert to dense array for easy stacking with our previous features</span>
+<span class="c1"># (Note: For very large datasets, keep it sparse, but for 60k rows, dense is manageable)</span>
+<span class="n">tfidf_features_dense</span> <span class="o">=</span> <span class="n">tfidf_features</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;TF-IDF Feature Matrix Shape: </span><span class="si">{</span><span class="n">tfidf_features_dense</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Step 3: Feature Combination ---</span>
+<span class="c1"># We retrieve the previous manual and one-hot features</span>
+<span class="c1"># manual_features and one_hot_features were defined in the tutorial&#39;s &quot;Manual Feature Engineering&quot; step</span>
+<span class="n">current_features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">manual_features</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">one_hot_features</span><span class="o">.</span><span class="n">values</span><span class="p">])</span>
+
+<span class="c1"># Stack the new NLP features horizontally with the existing manual features</span>
+<span class="n">combined_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">current_features</span><span class="p">,</span> <span class="n">tfidf_features_dense</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Combined Feature Matrix Shape: </span><span class="si">{</span><span class="n">combined_matrix</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Step 4: Standardization ---</span>
+<span class="c1"># It is crucial to scale the combined data so TF-IDF scores (0-1 range) don&#39;t dominate</span>
+<span class="c1"># or get drowned out by features like &#39;content_length&#39; (0-10000+ range).</span>
+<span class="n">scaler_tfidf</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">combined_matrix_scaled</span> <span class="o">=</span> <span class="n">scaler_tfidf</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">combined_matrix</span><span class="p">)</span>
+
+<span class="c1"># --- Step 5: Train-Test Split ---</span>
+<span class="n">X_train_tfidf</span><span class="p">,</span> <span class="n">X_test_tfidf</span><span class="p">,</span> <span class="n">y_train_tfidf</span><span class="p">,</span> <span class="n">y_test_tfidf</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">combined_matrix_scaled</span><span class="p">,</span>
+    <span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">stratify</span><span class="o">=</span><span class="n">dataset_data</span><span class="p">[</span><span class="s1">&#39;classification&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="p">)</span>
+
+<span class="c1"># --- Step 6: Isolation Forest Training &amp; Evaluation ---</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Isolation Forest with TF-IDF features...&quot;</span><span class="p">)</span>
+
+<span class="c1"># Initialize model with same parameters as baseline for fair comparison</span>
+<span class="n">clf_if_tfidf</span> <span class="o">=</span> <span class="n">IsolationForest</span><span class="p">(</span>
+    <span class="n">contamination</span><span class="o">=</span><span class="n">contamination_rate</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+    <span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+<span class="p">)</span>
+
+<span class="c1"># Train</span>
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">clf_if_tfidf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_tfidf</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training time: </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+
+<span class="c1"># Predict</span>
+<span class="n">y_test_pred_raw</span> <span class="o">=</span> <span class="n">clf_if_tfidf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test_tfidf</span><span class="p">)</span>
+<span class="n">y_test_pred_tfidf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">y_test_pred_raw</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># --- Step 7: Results ---</span>
+<span class="n">cm_tfidf</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test_tfidf</span><span class="p">,</span> <span class="n">y_test_pred_tfidf</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Results with TF-IDF Features ---&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cm_tfidf</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Classification Report:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test_tfidf</span><span class="p">,</span> <span class="n">y_test_pred_tfidf</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">]))</span>
+
+<span class="c1"># Visual Comparison</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm_tfidf</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greens&#39;</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix (Isolation Forest + TF-IDF)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+TF-IDF Feature Matrix Shape: (61065, 500)
+Combined Feature Matrix Shape: (61065, 508)
+Training Isolation Forest with TF-IDF features...
+Training time: 0.70s
+
+--- Results with TF-IDF Features ---
+Confusion Matrix:
+ [[5451 1749]
+ [1744 3269]]
+
+Classification Report:
+               precision    recall  f1-score   support
+
+      Normal       0.76      0.76      0.76      7200
+      Attack       0.65      0.65      0.65      5013
+
+    accuracy                           0.71     12213
+   macro avg       0.70      0.70      0.70     12213
+weighted avg       0.71      0.71      0.71     12213
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_3_analyzing_application-layer_protocols_tutorial2_3_analyzing_application-layer_protocols_29_1.png" src="../../_images/tutorial_notebooks_tutorial2_3_analyzing_application-layer_protocols_tutorial2_3_analyzing_application-layer_protocols_29_1.png" />
+</div>
+</div>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>This tutorial we explored two different approaches for detecting application-layer web attacks using the CSIC 2010 dataset. First, we used a Classic ML Pipeline, relying on manual feature engineering (length, special characters) and the Isolation Forest. Second, we used a Deep Learning Pipeline, leveraging BERT for automated, contextualized feature extraction from raw text payloads, which showed the potential for superior performance in capturing subtle attack semantics.</p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/"><img alt="Star our repository" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=⭐&amp;message=Star%20Our%20Repository&amp;color=yellow" /></a> If you found this tutorial helpful, please <strong>⭐ star our repository</strong> to show your support.</div>
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/issues"><img alt="Ask questions" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=❔&amp;message=Ask%20Questions&amp;color=9cf" /></a> For any <strong>questions</strong>, <strong>typos</strong>, or <strong>bugs</strong>, kindly open an issue on GitHub — we appreciate your feedback!</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html" class="btn btn-neutral float-left" title="Tutorial 2.2: Deep Learning based IDS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started.html" class="btn btn-neutral float-right" title="Tutorial 3.1: Getting started with GANs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Christoph R. Landolt, Mario Fritz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

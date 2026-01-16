@@ -1,0 +1,10 @@
+.tutorial-table {
+    font-size: 0.9em; /* smaller font */
+    table-layout: fixed; /* fixed column widths */
+    word-wrap: break-word; /* wrap long text */
+}
+
+.tutorial-table th, .tutorial-table td {
+    padding: 6px 8px; /* smaller padding */
+    vertical-align: top;
+}

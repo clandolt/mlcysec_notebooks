@@ -1,0 +1,817 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial 3.1: Getting started with GANs &mdash; CISPA Machine Learning in Cybersecurity v0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=82d01d63" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34cd777e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tutorial 3.2: Evading ML-based IDS using GANs" href="../tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids.html" />
+    <link rel="prev" title="Tutorial 2.3: Analyzing Application-Layer Protocols" href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CISPA Machine Learning in Cybersecurity
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial 1: Getting started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html">Getting started 1: Working with Jupyter and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../discover_visualize_gain_insights/discover_visualize_gain_insights.html">Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_ml/getting_started_with_ml.html">Getting Started 3: Classic Machine Learning for Cybersecurity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html">Getting Started 4: Deep Learning for Cybersecurity</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 2: Intrusion Detection:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html">Tutorial 2.1: Intrusion Detection System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html">Tutorial 2.2: Deep Learning based IDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html">Tutorial 2.3: Analyzing Application-Layer Protocols</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 3: Evading ML-IDS:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial 3.1: Getting started with GANs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Tutorial-Objectives">Tutorial Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Game-Theory-and-Generative-Adversarial-Networks-(GANs)">Game Theory and Generative Adversarial Networks (GANs)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Basics-of-GANs-in-Terms-of-Game-Theory">Basics of GANs in Terms of Game Theory</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Players">Players</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Objective">Objective</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Detailed-Objectives">Detailed Objectives</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Discriminator’s-Objective">Discriminator’s Objective</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Generator’s-Objective">Generator’s Objective</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Minimax-Game-Interpretation">Minimax Game Interpretation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Optimality">Optimality</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#2.-Implementation-of-a-Simple-Vanilla-GAN-in-PyTorch">2. Implementation of a Simple Vanilla GAN in PyTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Advanced-GAN-Training:-Multi-Agent-Diverse-GAN-(MAD-GAN)-Setup">Advanced GAN Training: Multi-Agent Diverse GAN (MAD-GAN) Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises">Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-1:-Experimenting-with-Architectural-Changes">Exercise 1: Experimenting with Architectural Changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-2:-Implementing-the-Wasserstein-GAN-(WGAN)">Exercise 2: Implementing the Wasserstein GAN (WGAN)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Further-Reading:-Evaluating-GAN-Performance">Further Reading: Evaluating GAN Performance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids.html">Tutorial 3.2: Evading ML-based IDS using GANs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_solution/tutorial3_solution.html">Tutorial 3: Solutions to Exercises 3.1 &amp; 3.2</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 4: ML in the hands of Attackers (CTF):</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial4_1_automated_CTF_solving/tutorial4_1_automated_CTF_solving.html">Tutorial 4: Automated CTF Solving with LLMs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CISPA Machine Learning in Cybersecurity</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial 3.1: Getting started with GANs</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorial_notebooks/tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Tutorial-3.1:-Getting-started-with-GANs">
+<h1>Tutorial 3.1: Getting started with GANs<a class="headerlink" href="#Tutorial-3.1:-Getting-started-with-GANs" title="Link to this heading"></a></h1>
+<img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Open&amp;color=blue" />
+<div class="line-block">
+<div class="line"><strong>Open notebook on:</strong> <a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started.ipynb"><img alt="View filled on Github" src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" /></a> <a class="reference external" href="https://colab.research.google.com/github/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started.ipynb"><img alt="Open filled In Collab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></div>
+<div class="line"><strong>Author:</strong> Christoph R. Landolt</div>
+</div>
+<p>In tutorial 2.2, we explored the Variational Autoencoder (VAE), a type of generative model. Another, fundamentally different architecture used for data generation is the Generative Adversarial Network (GAN), which consists of two competing neural networks, each with its own objective.</p>
+<p>A <strong>Generator</strong> network creates new samples, aiming to produce data indistinguishable from real data. A <strong>Discriminator</strong> network aims to correctly classify samples as either real or synthetically generated by the Generator. This setup creates a competitive, adversarial dynamic.</p>
+<p>This adversarial training setup has <strong>dual-use applications</strong> in cybersecurity: it can be used to train highly sophisticated detector networks for Intrusion Detection Systems (IDS), or, conversely, to train ‘smart’ generators capable of creating evasive attack samples that bypass machine learning-driven IDSs. In this tutorial, we will learn how to implement and train a simple GAN in PyTorch.</p>
+<section id="Tutorial-Objectives">
+<h2>Tutorial Objectives<a class="headerlink" href="#Tutorial-Objectives" title="Link to this heading"></a></h2>
+<p>By the end of this tutorial, you will be able to:</p>
+<ul class="simple">
+<li><p>Explain the core architecture and <strong>adversarial objective</strong> of a Generative Adversarial Network (GAN).</p></li>
+<li><p>Implement the Generator and Discriminator neural networks in PyTorch.</p></li>
+<li><p>Train a simple GAN to generate synthetic data.</p></li>
+</ul>
+</section>
+<section id="Game-Theory-and-Generative-Adversarial-Networks-(GANs)">
+<h2>Game Theory and Generative Adversarial Networks (GANs)<a class="headerlink" href="#Game-Theory-and-Generative-Adversarial-Networks-(GANs)" title="Link to this heading"></a></h2>
+<p>Generative Adversarial Networks (GANs) represent a game between two neural networks trained in an adversarial manner to reach a <strong>zero-sum Nash equilibrium profile</strong>. In this setup, the Generator and Discriminator are engaged in a competitive <strong>minimax game</strong>, striving to outmaneuver each other.</p>
+<section id="Basics-of-GANs-in-Terms-of-Game-Theory">
+<h3>Basics of GANs in Terms of Game Theory<a class="headerlink" href="#Basics-of-GANs-in-Terms-of-Game-Theory" title="Link to this heading"></a></h3>
+<p>GANs can be understood as a zero-sum, two-player minimax game, where the two players are the <strong>Generator</strong> <span class="math notranslate nohighlight">\(G(z)\)</span> and the <strong>Discriminator</strong> <span class="math notranslate nohighlight">\(D(x)\)</span>.</p>
+<p><img alt="vanilla_GAN_Architecture" class="no-scaled-link" src="../../_images/vanilla_GAN_Architecture.jpg" width="600" /></p>
+<section id="Players">
+<h4>Players<a class="headerlink" href="#Players" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>Generator</strong> <span class="math notranslate nohighlight">\(G(z; \theta_G)\)</span>: The generator takes a random noise vector <span class="math notranslate nohighlight">\(z\)</span>, sampled from a prior noise distribution <span class="math notranslate nohighlight">\(p_z(z)\)</span> (usually uniform or Gaussian), and maps it to approximate the training data distribution <span class="math notranslate nohighlight">\(p_g(x)\)</span>. The goal of <span class="math notranslate nohighlight">\(G\)</span> is to generate samples indistinguishable from the real data distribution <span class="math notranslate nohighlight">\(p_{\text{data}}(x)\)</span>.</p></li>
+<li><p><strong>Discriminator</strong> <span class="math notranslate nohighlight">\(D(x; \theta_D)\)</span>: The discriminator takes an input <span class="math notranslate nohighlight">\(x\)</span> (either a real sample from <span class="math notranslate nohighlight">\(p_{\text{data}}(x)\)</span> or a fake sample from the generator <span class="math notranslate nohighlight">\(G\)</span>) and outputs a probability <span class="math notranslate nohighlight">\(D(x)\)</span> in the range <span class="math notranslate nohighlight">\([0, 1]\)</span>, representing its confidence that <span class="math notranslate nohighlight">\(x\)</span> is a real sample.</p></li>
+</ul>
+</section>
+<section id="Objective">
+<h4>Objective<a class="headerlink" href="#Objective" title="Link to this heading"></a></h4>
+<p>The GAN framework’s objective is to find the Nash equilibrium of the following <strong>minimax game</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\min_G \max_D V(D, G) = \mathbb{E}_{x \sim p_{\text{data}}(x)}[\log D(x)] + \mathbb{E}_{z \sim p_z(z)}[\log(1 - D(G(z)))]\]</div>
+<p>Different choices for the functions <span class="math notranslate nohighlight">\(\log D(x)\)</span> and <span class="math notranslate nohighlight">\(\log(1 - D(G(z)))\)</span> lead to variations in GAN objectives and metrics (e.g., WGAN, LSGAN).</p>
+<table class="tutorial-table" border="1" style="width:100%; border-collapse: collapse;"><thead><tr><th><p>Variant</p>
+</th><th><p>f0(D)</p>
+</th><th><p>f1(D)</p>
+</th><th><p>Divergence Metric</p>
+</th><th><p>Game Value</p>
+</th><th><p>Description</p>
+</th></tr></thead><tbody><tr><td><p>Vanilla GAN</p>
+</td><td><p>log D</p>
+</td><td><p>log(1 - D)</p>
+</td><td><p>Jensen-Shannon Divergence (JSD)</p>
+</td><td><p>-log 4</p>
+</td><td><p>The original GAN formulation by Goodfellow et al. (2014).</p>
+</td></tr><tr><td><p>Wasserstein GAN (WGAN)</p>
+</td><td><p>D</p>
+</td><td><p>-D</p>
+</td><td><p>Wasserstein-1 Distance (Earth Mover’s)</p>
+</td><td><p>0</p>
+</td><td><p>WGAN uses the Earth Mover’s distance (Wasserstein-1) as a metric, providing better gradients.</p>
+</td></tr><tr><td><p>Hinge GAN</p>
+</td><td><p>min(0, -1 + D)</p>
+</td><td><p>min(0, -1 - D)</p>
+</td><td><p>Hinge Loss</p>
+</td><td><p>0</p>
+</td><td><p>Hinge loss encourages the discriminator to correctly classify real and fake samples with a margin.</p>
+</td></tr><tr><td><p>f-GAN (KL)</p>
+</td><td><p>log D</p>
+</td><td><p>1 - D</p>
+</td><td><p>Kullback-Leibler (KL) Divergence</p>
+</td><td><p>0</p>
+</td><td><p>f-GAN with KL divergence as the f-divergence.</p>
+</td></tr><tr><td><p>f-GAN (Reverse KL)</p>
+</td><td><p>-D</p>
+</td><td><p>log D</p>
+</td><td><p>Reverse Kullback-Leibler (Reverse KL)</p>
+</td><td><p>-1</p>
+</td><td><p>f-GAN with Reverse KL divergence as the f-divergence.</p>
+</td></tr></tbody></table><p>The original formulation by <a class="reference external" href="https://arxiv.org/abs/1406.2661">Goodfellow et al.</a> uses <strong>cross-entropy loss</strong> for adversarial dynamics.</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/abs/1701.07875">Wasserstein GAN (WGAN):</a> Uses the <strong>Earth Mover’s distance</strong> for stable gradient flow and improved convergence.</p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/1705.02894">Hinge GAN:</a> Uses the <strong>Hinge Loss</strong> and encourages a margin between correct and incorrect classifications.</p></li>
+</ul>
+</section>
+</section>
+<section id="Detailed-Objectives">
+<h3>Detailed Objectives<a class="headerlink" href="#Detailed-Objectives" title="Link to this heading"></a></h3>
+<section id="Discriminator’s-Objective">
+<h4>Discriminator’s Objective<a class="headerlink" href="#Discriminator’s-Objective" title="Link to this heading"></a></h4>
+<p>The discriminator <span class="math notranslate nohighlight">\(D\)</span> seeks to <strong>maximize</strong> its ability to distinguish real samples (<span class="math notranslate nohighlight">\(x\)</span>) from fake samples (<span class="math notranslate nohighlight">\(G(z)\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[\max_D V(D, G) = \mathbb{E}_{x \sim p_{\text{data}}(x)}[\log D(x)] + \mathbb{E}_{z \sim p_z(z)}[\log(1 - D(G(z)))]\]</div>
+</section>
+<section id="Generator’s-Objective">
+<h4>Generator’s Objective<a class="headerlink" href="#Generator’s-Objective" title="Link to this heading"></a></h4>
+<p>The generator <span class="math notranslate nohighlight">\(G\)</span> seeks to <strong>minimize</strong> the discriminator’s ability to correctly classify fake samples as generated:</p>
+<div class="math notranslate nohighlight">
+\[\min_G V(D, G) = \mathbb{E}_{z \sim p_z(z)}[\log(1 - D(G(z)))]\]</div>
+</section>
+</section>
+<section id="Minimax-Game-Interpretation">
+<h3>Minimax Game Interpretation<a class="headerlink" href="#Minimax-Game-Interpretation" title="Link to this heading"></a></h3>
+<p>The GAN framework models a <strong>zero-sum game</strong> where the generator <span class="math notranslate nohighlight">\(G\)</span> and the discriminator <span class="math notranslate nohighlight">\(D\)</span> compete.</p>
+<ul class="simple">
+<li><p>The generator <span class="math notranslate nohighlight">\(G\)</span> aims to create samples that are indistinguishable from real data.</p></li>
+<li><p>The discriminator <span class="math notranslate nohighlight">\(D\)</span> aims to accurately classify samples as real or generated.</p></li>
+</ul>
+<p>The <strong>Nash equilibrium</strong> is reached when <span class="math notranslate nohighlight">\(p_g = p_{\text{data}}\)</span> and the discriminator is unable to distinguish the two distributions, resulting in:</p>
+<div class="math notranslate nohighlight">
+\[D^*(x)=0.5 \quad \text{for all } x\]</div>
+<section id="Optimality">
+<h4>Optimality<a class="headerlink" href="#Optimality" title="Link to this heading"></a></h4>
+<p>The optimal discriminator <span class="math notranslate nohighlight">\(D^*\)</span> and generator <span class="math notranslate nohighlight">\(G^*\)</span> satisfy:</p>
+<div class="math notranslate nohighlight">
+\[D^*(x) = \frac{p_{\text{data}}(x)}{p_{\text{data}}(x) + p_g(x)}\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[p_g = p_{\text{data}}\]</div>
+<p>At this point, the generator perfectly replicates the real data distribution, and the discriminator cannot distinguish between real and generated samples. This game-theoretic foundation not only explains the dynamics of GANs but also highlights their flexibility for various tasks, from image synthesis to adversarial data generation.</p>
+</section>
+</section>
+</section>
+<section id="2.-Implementation-of-a-Simple-Vanilla-GAN-in-PyTorch">
+<h2>2. Implementation of a Simple Vanilla GAN in PyTorch<a class="headerlink" href="#2.-Implementation-of-a-Simple-Vanilla-GAN-in-PyTorch" title="Link to this heading"></a></h2>
+<p>We will implement a simple <strong>Vanilla GAN</strong> to generate 2D data points that follow a multimodal Gaussian distribution (two distinct clusters).</p>
+<p>We define the Generator and Discriminator as simple Multi-Layer Perceptrons (MLPs). The <code class="docutils literal notranslate"><span class="pre">generate_real_data</span></code> function simulates a real-world dataset with two distinct clusters.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary libraries</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Define the Generator model</span>
+<span class="k">class</span> <span class="nc">Generator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Generator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Input dimension is 10 (noise), output dimension is 2 (for 2D data)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Define the Discriminator model</span>
+<span class="k">class</span> <span class="nc">Discriminator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Discriminator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Input dimension is 2 (for 2D data), output dimension is 1 (binary classification)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>        <span class="c1"># Sigmoid activation to output probabilities</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Toy dataset with multimodal Gaussian distribution (two clusters)</span>
+<span class="k">def</span> <span class="nf">generate_real_data</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">mean1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mean2</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="c1"># Half of the samples from mean1</span>
+    <span class="n">half_batch</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">data1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean1</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="p">(</span><span class="n">half_batch</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="c1"># Half of the samples from mean2</span>
+    <span class="n">data2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean2</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span> <span class="o">-</span> <span class="n">half_batch</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+
+    <span class="c1"># Combine both parts</span>
+    <span class="n">combined_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">])</span>
+
+    <span class="c1"># Convert to torch tensor</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">combined_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="c1"># Function to generate noise vector for the Generator</span>
+<span class="k">def</span> <span class="nf">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">noise_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We initialize the models, the Binary Cross-Entropy (BCE) loss function, and the Adam optimizers for both the Generator (<span class="math notranslate nohighlight">\(G\)</span>) and the Discriminator (<span class="math notranslate nohighlight">\(D\)</span>).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialization</span>
+<span class="n">generator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">()</span>
+<span class="n">discriminator</span> <span class="o">=</span> <span class="n">Discriminator</span><span class="p">()</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span> <span class="c1"># Standard loss for Vanilla GAN</span>
+<span class="n">optimizer_g</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">generator</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">optimizer_d</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">discriminator</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># Training parameters</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">noise_dim</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">losses_d</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">losses_g</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</div>
+<p>he core of the GAN training involves alternating updates: first, updating the Discriminator (<span class="math notranslate nohighlight">\(D\)</span>) to correctly classify real and fake samples, and second, updating the Generator (<span class="math notranslate nohighlight">\(G\)</span>) to fool the Discriminator.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Training loop</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="c1"># --- 1. Train Discriminator ---</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="c1"># Generate real and fake data</span>
+    <span class="n">real_data</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="c1"># Detach fake data to prevent gradients from flowing back to the Generator</span>
+    <span class="n">fake_data</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+
+    <span class="c1"># D Loss on REAL data (target: 1)</span>
+    <span class="n">real_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">output_real</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">real_data</span><span class="p">)</span>
+    <span class="n">loss_d_real</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output_real</span><span class="p">,</span> <span class="n">real_labels</span><span class="p">)</span>
+
+    <span class="c1"># D Loss on FAKE data (target: 0)</span>
+    <span class="n">fake_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">output_fake</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data</span><span class="p">)</span>
+    <span class="n">loss_d_fake</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output_fake</span><span class="p">,</span> <span class="n">fake_labels</span><span class="p">)</span>
+
+    <span class="c1"># Total loss and update Discriminator</span>
+    <span class="n">loss_d</span> <span class="o">=</span> <span class="n">loss_d_real</span> <span class="o">+</span> <span class="n">loss_d_fake</span>
+    <span class="n">loss_d</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># --- 2. Train Generator ---</span>
+    <span class="n">optimizer_g</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="c1"># Generate new fake data (not detached)</span>
+    <span class="n">fake_data</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">))</span>
+
+    <span class="c1"># G Loss (target: 1 -&gt; Generator tries to fool D into thinking fake data is real)</span>
+    <span class="n">real_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">output_fake</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data</span><span class="p">)</span>
+    <span class="n">loss_g</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">output_fake</span><span class="p">,</span> <span class="n">real_labels</span><span class="p">)</span>
+
+    <span class="c1"># Update Generator</span>
+    <span class="n">loss_g</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_g</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># Save losses and print progress</span>
+    <span class="n">losses_d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">losses_g</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_g</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s1">], Loss D: </span><span class="si">{</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, Loss G: </span><span class="si">{</span><span class="n">loss_g</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch [0/10000], Loss D: 1.9201, Loss G: 0.6299
+Epoch [1000/10000], Loss D: 1.0818, Loss G: 0.9747
+Epoch [2000/10000], Loss D: 1.1941, Loss G: 0.8554
+Epoch [3000/10000], Loss D: 1.0745, Loss G: 1.0045
+Epoch [4000/10000], Loss D: 1.1104, Loss G: 0.9490
+Epoch [5000/10000], Loss D: 1.0999, Loss G: 0.9845
+Epoch [6000/10000], Loss D: 1.0807, Loss G: 1.0573
+Epoch [7000/10000], Loss D: 0.9956, Loss G: 1.0994
+Epoch [8000/10000], Loss D: 1.0082, Loss G: 1.0921
+Epoch [9000/10000], Loss D: 0.9462, Loss G: 1.1583
+</pre></div></div>
+</div>
+<p>We visualize the training progress by plotting the Generator and Discriminator losses and then compare the generated data against the real data distribution.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the losses</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_d</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Discriminator Loss&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_g</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Generator Loss&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Losses Over Epochs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial3_1_gan_getting_started_tutorial3_1_gan_getting_started_11_0.png" src="../../_images/tutorial_notebooks_tutorial3_1_gan_getting_started_tutorial3_1_gan_getting_started_11_0.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><strong>Interpreting Oscillating Losses:</strong> The Generator and Discriminator losses in the plot are <strong>oscillating</strong> rather than smoothly decreasing. This instability is typical for GANs because training seeks a <strong>Nash equilibrium</strong> where neither network can unilaterally improve. This characteristic makes the training of GANs <strong>unstable</strong> and <strong>challenging</strong>.</p></li>
+<li><p><strong>Vanishing Gradients and Training Instability:</strong> The original GAN objective for the generator is to minimize <code class="docutils literal notranslate"><span class="pre">log(1</span> <span class="pre">-</span> <span class="pre">D(G(z)))</span></code>. This objective function can lead to the problem of <strong>vanishing gradients</strong>, especially early in the training process.</p></li>
+<li><p><strong>When the Discriminator is Strong:</strong> If the discriminator becomes very effective at distinguishing real from fake data, its output for fake samples, <code class="docutils literal notranslate"><span class="pre">D(G(z))</span></code>, will be close to 0.</p></li>
+<li><p><strong>Saturated Loss Function:</strong> The gradient of the <code class="docutils literal notranslate"><span class="pre">log(1</span> <span class="pre">-</span> <span class="pre">x)</span></code> function is flattest when <code class="docutils literal notranslate"><span class="pre">x</span></code> is close to 0. Consequently, when the generator is performing poorly and the discriminator is strong, the generator receives a very small gradient signal. This means it learns extremely slowly or gets stuck, unable to improve.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot results</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">generated_data</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="c1"># Note: generate_real_data() is called again to get fresh real data for the plot</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">generated_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">generated_data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Generated Data&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">generate_real_data</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Real Data&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Generated Data vs Real Data (After Training)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial3_1_gan_getting_started_tutorial3_1_gan_getting_started_13_0.png" src="../../_images/tutorial_notebooks_tutorial3_1_gan_getting_started_tutorial3_1_gan_getting_started_13_0.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p><strong>Mode Collapse:</strong> The scatter plot of our Vanilla GAN clearly shows <strong>mode collapse</strong>. The real data has two distinct clusters (modes), but the generator has learned to produce samples for only one of them.</p></li>
+<li><p><strong>How it Happens:</strong> Mode collapse occurs when the generator discovers a small region of the data manifold that can consistently fool the discriminator. For example, it might find that producing points for the bottom-left cluster is an “easy win.”</p></li>
+<li><p><strong>The Vicious Cycle:</strong> Once the generator starts exclusively producing samples from this single mode, the discriminator’s training becomes focused on learning to distinguish this specific type of fake data from the real data. The discriminator becomes a highly specialized expert at identifying that one mode but remains weak and provides uninformative gradients for any other potential outputs. Because the generator’s only feedback comes from this narrowly focused discriminator, it receives no
+incentive to explore other modes and diversify its output. It gets stuck in a local equilibrium, winning the game by repeatedly playing the same move, thereby failing to capture the true diversity of the data distribution.</p></li>
+</ul>
+<p>These challenges are the primary motivation for developing more advanced GAN architectures like the MAD-GAN, which explicitly introduces mechanisms to encourage diversity and stabilize training.</p>
+</section>
+<section id="Advanced-GAN-Training:-Multi-Agent-Diverse-GAN-(MAD-GAN)-Setup">
+<h2>Advanced GAN Training: Multi-Agent Diverse GAN (MAD-GAN) Setup<a class="headerlink" href="#Advanced-GAN-Training:-Multi-Agent-Diverse-GAN-(MAD-GAN)-Setup" title="Link to this heading"></a></h2>
+<p>While the Vanilla GAN provides a strong foundation, its training is often unstable and prone to <strong>mode collapse</strong> (where the generator only learns to produce a small subset of the data distribution). Game theory offers solutions to these issues by adapting the adversarial dynamics. In this section, we implement a <strong>Multi-Agent GAN (MAD-GAN)</strong> setup using two competing generators to visualize how multi-generator dynamics can increase training stability and improve output diversity.</p>
+<p>Game theory provides a natural framework for analyzing and improving the training and performance of GANs, tackling challenges such as instability, non-convergence, and <strong>mode collapse</strong>.</p>
+<ul class="simple">
+<li><p><strong>Multi-Agent Games:</strong> MAD-GANs leverage game-theoretic principles to employ multiple generators and a single discriminator. By having multiple generators compete to cover the data distribution, the architecture explicitly addresses <strong>mode collapse</strong>, ensuring diverse output generation.</p></li>
+<li><p><strong>Stochastic Games:</strong> Casts GAN training as a <strong>Stochastic Nash Equilibrium Problem (SNEP)</strong> to improve convergence and stability in non-convex loss landscapes.</p></li>
+<li><p><strong>Architectural Modifications:</strong> These multi-agent architectures often integrate concepts like Nash equilibria for enhanced training dynamics.</p></li>
+</ul>
+<p>The training loss in this multi-agent setup will show complex interactions as the generators compete for coverage while the discriminator tries to learn the boundaries of both. <img alt="multi_stackelber_GAN_Architecture" class="no-scaled-link" src="../../_images/multi_stackelber_GAN_Architecture.jpg" width="600" /></p>
+<p>We reuse the basic MLP structure but define two separate Generator instances (<span class="math notranslate nohighlight">\(G_1\)</span> and G_2) to handle the multi-agent competition.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import necessary libraries (Assuming already done)</span>
+<span class="c1"># import torch</span>
+<span class="c1"># import torch.nn as nn</span>
+<span class="c1"># import torch.optim as optim</span>
+<span class="c1"># import numpy as np</span>
+<span class="c1"># import matplotlib.pyplot as plt</span>
+
+<span class="c1"># Define the Generator model (reused from Step 1)</span>
+<span class="k">class</span> <span class="nc">Generator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Generator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Define the Discriminator model (reused from Step 1)</span>
+<span class="k">class</span> <span class="nc">Discriminator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Discriminator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We initialize two distinct Generators (G_1 and G_2) and their respective optimizers. The utility functions generate_real_data and generate_noise from Step 1 are reused.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Initialization</span>
+<span class="n">input_dim</span> <span class="o">=</span> <span class="mi">10</span>  <span class="c1"># Dimension of noise vector</span>
+<span class="n">output_dim</span> <span class="o">=</span> <span class="mi">2</span>  <span class="c1"># Dimension of generated data (2D)</span>
+
+<span class="n">generator_1</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+<span class="n">generator_2</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+<span class="n">discriminator</span> <span class="o">=</span> <span class="n">Discriminator</span><span class="p">(</span><span class="n">output_dim</span><span class="p">)</span>
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>
+
+<span class="c1"># Optimizers for all three agents</span>
+<span class="n">optimizer_g1</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">generator_1</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">optimizer_g2</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">generator_2</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">optimizer_d</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">discriminator</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># Training parameters</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+
+<span class="n">losses_d</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">losses_g1</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">losses_g2</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</div>
+<p>The training involves sequential updates for the three agents: the Discriminator updates its weights based on both fake distributions, followed by separate updates for Generator 1 and Generator 2.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Training loop</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="c1"># --- 1. Train Discriminator (D) ---</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="c1"># Generate data from both generators</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">fake_data_1</span> <span class="o">=</span> <span class="n">generator_1</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+    <span class="c1"># Detach G2 data: ensures D update uses fixed G2 parameters for this step</span>
+    <span class="n">fake_data_2</span> <span class="o">=</span> <span class="n">generator_2</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+
+    <span class="c1"># D Loss on REAL data (target: 1)</span>
+    <span class="n">real_data</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">real_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">loss_d_real</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">discriminator</span><span class="p">(</span><span class="n">real_data</span><span class="p">),</span> <span class="n">real_labels</span><span class="p">)</span>
+
+    <span class="c1"># D Loss on FAKE data (target: 0) - Must correctly classify both fake batches</span>
+    <span class="n">fake_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">loss_d_fake</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data_1</span><span class="p">),</span> <span class="n">fake_labels</span><span class="p">)</span> <span class="o">+</span> \
+                  <span class="n">criterion</span><span class="p">(</span><span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data_2</span><span class="p">),</span> <span class="n">fake_labels</span><span class="p">)</span>
+
+    <span class="c1"># Total loss and update Discriminator</span>
+    <span class="n">loss_d</span> <span class="o">=</span> <span class="n">loss_d_real</span> <span class="o">+</span> <span class="n">loss_d_fake</span>
+    <span class="n">loss_d</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># --- 2. Train Generator 1 (G1) ---</span>
+    <span class="n">optimizer_g1</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">fake_data_1</span> <span class="o">=</span> <span class="n">generator_1</span><span class="p">(</span><span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">))</span>
+    <span class="c1"># G1 Goal: Fool D (target: 1)</span>
+    <span class="n">loss_g1</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data_1</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">loss_g1</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_g1</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># --- 3. Train Generator 2 (G2) ---</span>
+    <span class="n">optimizer_g2</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="n">fake_data_2</span> <span class="o">=</span> <span class="n">generator_2</span><span class="p">(</span><span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">))</span>
+    <span class="c1"># G2 Goal: Fool D (target: 1)</span>
+    <span class="n">loss_g2</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data_2</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">loss_g2</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_g2</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="n">losses_d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">losses_g1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_g1</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">losses_g2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_g2</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+    <span class="c1"># Print progress</span>
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s1">], Loss D: </span><span class="si">{</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, Loss G1: </span><span class="si">{</span><span class="n">loss_g1</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">, Loss G2: </span><span class="si">{</span><span class="n">loss_g2</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s1">.4f</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch [0/10000], Loss D: 2.5599, Loss G1: 0.6982, Loss G2: 0.6362
+Epoch [1000/10000], Loss D: 1.8629, Loss G1: 1.1820, Loss G2: 0.9902
+Epoch [2000/10000], Loss D: 1.8978, Loss G1: 1.1358, Loss G2: 1.1259
+Epoch [3000/10000], Loss D: 1.9692, Loss G1: 1.0566, Loss G2: 1.0937
+Epoch [4000/10000], Loss D: 1.9038, Loss G1: 1.2443, Loss G2: 1.0469
+Epoch [5000/10000], Loss D: 1.7370, Loss G1: 1.1353, Loss G2: 1.0847
+Epoch [6000/10000], Loss D: 1.8147, Loss G1: 1.1980, Loss G2: 0.9955
+Epoch [7000/10000], Loss D: 1.8262, Loss G1: 0.9832, Loss G2: 1.3342
+Epoch [8000/10000], Loss D: 1.8285, Loss G1: 1.0672, Loss G2: 1.2244
+Epoch [9000/10000], Loss D: 1.8082, Loss G1: 1.1706, Loss G2: 1.0990
+</pre></div></div>
+</div>
+<p>We visualize the losses, noting the three competing loss curves, and plot the generated data to see if the multi-agent setup resulted in better coverage of the two real data clusters.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot the losses</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_d</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Discriminator Loss&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_g1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Generator 1 Loss&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_g2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Generator 2 Loss&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Losses Over Epochs (Multi-Agent GAN)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial3_1_gan_getting_started_tutorial3_1_gan_getting_started_22_0.png" src="../../_images/tutorial_notebooks_tutorial3_1_gan_getting_started_tutorial3_1_gan_getting_started_22_0.png" />
+</div>
+</div>
+<p><strong>Note: Multi-Agent Loss Dynamics</strong></p>
+<p>The loss curves for the two Generators (<span class="math notranslate nohighlight">\(G_1\)</span> and <span class="math notranslate nohighlight">\(G_2\)</span>) show their independent, yet coupled, struggle against the Discriminator.</p>
+<ul class="simple">
+<li><p><strong>Symmetric Loss Components:</strong> Due to the symmetric nature of the GAN’s objective, the difficulty for the Discriminator to correctly classify <em>all</em> fake data is the sum of the difficulties posed by <span class="math notranslate nohighlight">\(G_1\)</span>’s output and <span class="math notranslate nohighlight">\(G_2\)</span>’s output.</p></li>
+<li><p><strong>Competition and Specialization:</strong> The generators compete against each other to cover the real data distribution. Ideally, in a <strong>Multi-Agent GAN</strong>, this competition leads to specialization, where <span class="math notranslate nohighlight">\(G_1\)</span> might focus on one cluster (mode) of the real data, and <span class="math notranslate nohighlight">\(G_2\)</span> on the other, thereby reducing overall <strong>mode collapse</strong>.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot results</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">generated_data_1</span> <span class="o">=</span> <span class="n">generator_1</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">generated_data_2</span> <span class="o">=</span> <span class="n">generator_2</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">generated_data_1</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">generated_data_1</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Generated by G1&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">generated_data_2</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">generated_data_2</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Generated by G2&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">generate_real_data</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Real Data&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Generated Data by G1 and G2 vs Real Data (After Training)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial3_1_gan_getting_started_tutorial3_1_gan_getting_started_24_0.png" src="../../_images/tutorial_notebooks_tutorial3_1_gan_getting_started_tutorial3_1_gan_getting_started_24_0.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>The plot above visualizes the successful outcome of our Multi-Agent GAN (MAD-GAN) training. By introducing a second generator, we have effectively overcome the mode collapse that plagued our earlier Vanilla GAN.</p></li>
+<li><p>The competition between G1 and G2 forced them to cover different parts of the data distribution. Their combined output provides a rich and diverse approximation of the entire real dataset.</p></li>
+<li><p>This principle of generator specialization has direct applications in cybersecurity for creating more realistic and challenging attack simulations. By mapping each generator to a different attacker or attack strategy, we can model complex, distributed threats.</p></li>
+</ul>
+</section>
+<section id="Exercises">
+<h2>Exercises<a class="headerlink" href="#Exercises" title="Link to this heading"></a></h2>
+<p>These exercises are designed to test your understanding of the concepts covered in this tutorial. The exercises can be solved by modifiing the existing code, implement different GAN variants, and analyze the training dynamics.</p>
+<section id="Exercise-1:-Experimenting-with-Architectural-Changes">
+<h3>Exercise 1: Experimenting with Architectural Changes<a class="headerlink" href="#Exercise-1:-Experimenting-with-Architectural-Changes" title="Link to this heading"></a></h3>
+<p>The performance of a GAN is highly sensitive to its architecture and hyperparameters. In this exercise, you will investigate how changing the capacity of the Generator and Discriminator affects the training outcome of the <strong>Vanilla GAN</strong>.</p>
+<p><strong>Instructions:</strong></p>
+<ol class="arabic simple">
+<li><p><strong>Increase Generator Capacity:</strong> Modify the <code class="docutils literal notranslate"><span class="pre">Generator</span></code> class by adding an additional hidden layer. For example, change the architecture from <code class="docutils literal notranslate"><span class="pre">Linear(10,</span> <span class="pre">50)</span> <span class="pre">-&gt;</span> <span class="pre">ReLU</span> <span class="pre">-&gt;</span> <span class="pre">Linear(50,</span> <span class="pre">2)</span></code> to <code class="docutils literal notranslate"><span class="pre">Linear(10,</span> <span class="pre">128)</span> <span class="pre">-&gt;</span> <span class="pre">ReLU</span> <span class="pre">-&gt;</span> <span class="pre">Linear(128,</span> <span class="pre">128)</span> <span class="pre">-&gt;</span> <span class="pre">ReLU</span> <span class="pre">-&gt;</span> <span class="pre">Linear(128,</span> <span class="pre">2)</span></code>. Re-train the GAN.</p></li>
+<li><p><strong>Increase Discriminator Capacity:</strong> Now apply a similar capacity increase to the <code class="docutils literal notranslate"><span class="pre">Discriminator</span></code> class. Re-train the GAN.</p></li>
+<li><p><strong>Imbalance the Networks:</strong> Use the high-capacity Generator from step 1 and the original, low-capacity Discriminator. Then, do the opposite: use the original Generator with the high-capacity Discriminator.</p></li>
+</ol>
+<p><strong>Follow-up Questions:</strong></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1) For each experiment, observe the final generated data plot and the loss curves.</span>
+<span class="c1"># 2) Which combination produced the best results in terms of covering both data modes?</span>
+<span class="c1"># 3) What happens when one network is significantly more powerful than the other? How does this relate to the &quot;delicate balancing act&quot; mentioned in the tutorial?</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Exercise-2:-Implementing-the-Wasserstein-GAN-(WGAN)">
+<h3>Exercise 2: Implementing the Wasserstein GAN (WGAN)<a class="headerlink" href="#Exercise-2:-Implementing-the-Wasserstein-GAN-(WGAN)" title="Link to this heading"></a></h3>
+<p>The tutorial introduced several GAN variants, including the Wasserstein GAN (WGAN), which is known for its improved training stability. Your task is to modify the <strong>Vanilla GAN</strong> code provided in Section 2 to implement a WGAN.</p>
+<p><strong>Instructions:</strong></p>
+<p>Based on the description in the tutorial’s table and the principles of WGAN, make the following changes to the Vanilla GAN implementation:</p>
+<ol class="arabic simple">
+<li><p><strong>Modify the Discriminator (Critic):</strong> In a WGAN, the discriminator is often called a “critic” because it outputs an unbounded score (a real number) rather than a probability. Remove the final <code class="docutils literal notranslate"><span class="pre">nn.Sigmoid()</span></code> activation function from the discriminator’s architecture.</p></li>
+<li><p><strong>Change the Loss Function:</strong> Replace the <code class="docutils literal notranslate"><span class="pre">nn.BCELoss()</span></code> with a loss function that reflects the Wasserstein-1 distance.</p>
+<ul class="simple">
+<li><p><strong>Critic Loss:</strong> The critic tries to maximize the difference between the scores of real and fake data. The loss should be <code class="docutils literal notranslate"><span class="pre">torch.mean(critic(fake_data))</span> <span class="pre">-</span> <span class="pre">torch.mean(critic(real_data))</span></code>.</p></li>
+<li><p><strong>Generator Loss:</strong> The generator tries to maximize the critic’s score for its fake data. The loss should be <code class="docutils literal notranslate"><span class="pre">-torch.mean(critic(fake_data))</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Implement Weight Clipping:</strong> To enforce the Lipschitz constraint required by the WGAN formulation, you must clip the weights of the critic after every update. After <code class="docutils literal notranslate"><span class="pre">optimizer_d.step()</span></code>, iterate through the critic’s parameters and clamp their values to a small range, such as <code class="docutils literal notranslate"><span class="pre">[-0.01,</span> <span class="pre">0.01]</span></code>.</p>
+<ul class="simple">
+<li><p><strong>Hint:</strong> You can do this with a loop: <code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">p</span> <span class="pre">in</span> <span class="pre">discriminator.parameters():</span> <span class="pre">p.data.clamp_(-0.01,</span> <span class="pre">0.01)</span></code>.</p></li>
+</ul>
+</li>
+<li><p><strong>Adjust the Optimizer:</strong> The original WGAN paper suggests using the RMSprop optimizer instead of Adam for better stability. Try switching the discriminator’s optimizer to <code class="docutils literal notranslate"><span class="pre">torch.optim.RMSprop</span></code>.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Implement the Wasserstein GAN (WGAN)</span>
+
+<span class="c1"># 1. Modify the Discriminator to output unbounded real values (remove Sigmoid) and replace it with a linear output layer.</span>
+
+<span class="c1"># 2. Change the Loss Functions to use the Wasserstein loss</span>
+<span class="c1"># 2.1 The Wasserstein loss for the Discriminator is defined as: D_loss = -torch.mean(D(real)) + torch.mean(D(fake))</span>
+<span class="c1"># 2.2 The Wasserstein loss for the Generator is defined as: G_loss = -torch.mean(D(fake))</span>
+
+<span class="c1"># 3. Implement Weight Clipping: After each update of the Discriminator, clip its weights to a small range (e.g., [-0.01, 0.01]) to enforce the Lipschitz constraint.</span>
+
+<span class="c1"># 4. Adjust the Optimizer: The original WGAN paper suggests using the RMSprop optimizer instead of Adam for better stability. Try switching the discriminator&#39;s optimizer to `torch.optim.RMSprop`.</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Further-Reading:-Evaluating-GAN-Performance">
+<h2>Further Reading: Evaluating GAN Performance<a class="headerlink" href="#Further-Reading:-Evaluating-GAN-Performance" title="Link to this heading"></a></h2>
+<p>While visual inspection is a valuable first step, especially for simple 2D data, it becomes subjective and unreliable for complex, high-dimensional data like images. To rigorously assess GAN performance, several quantitative metrics have been developed. These are crucial for comparing different models and tracking training progress. Here are a few key metrics to explore:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Inception_score">Inception Score (IS):</a> One of the earlier metrics, IS evaluates both the <em>quality</em> (clarity and object-likeness) and <em>diversity</em> of generated images. It uses a pre-trained Inception-v3 network to measure two properties: the confidence of the classifier’s predictions on generated images (high confidence suggests high quality) and the uniformity of the distribution of those predictions (a uniform distribution suggests high diversity). A higher
+IS is better. However, it does not directly compare the generated distribution to the real data distribution.</p></li>
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Fr%C3%A9chet_inception_distance">Fréchet Inception Distance (FID):</a> FID is the current industry standard and improves upon IS by directly comparing the statistics of the generated data distribution with the real data distribution. It uses activations from an intermediate layer of the Inception-v3 network to summarize the real and fake datasets. The Fréchet distance between these two summary statistics is then calculated. A <strong>lower FID score is better</strong>,
+indicating that the two distributions are more similar.</p></li>
+<li><p><a class="reference external" href="https://arxiv.org/abs/1904.06991">Precision and Recall:</a> Inspired by classification metrics, this framework offers a more disentangled view of a GAN’s performance, helping diagnose specific failure modes:</p>
+<ul>
+<li><p><strong>Precision</strong> measures the fraction of generated samples that are considered realistic or fall within the true data manifold. It is an indicator of sample <em>quality</em>.</p></li>
+<li><p><strong>Recall</strong> measures the fraction of the real data distribution that the generator is able to cover. It is an indicator of sample <em>diversity</em> and is particularly useful for detecting mode collapse (which results in low recall).</p></li>
+</ul>
+</li>
+</ul>
+<p>A good GAN should ideally achieve both high precision and high recall, but these metrics allow for a more nuanced analysis of the trade-offs between generation quality and diversity.</p>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>This tutorial provided a hands-on introduction to Generative Adversarial Networks, framing them within the principles of game theory. We began by implementing a Vanilla GAN, which successfully learned to generate data but also demonstrated the classic training challenges inherent to this architecture: unstable, oscillating losses and mode collapse, where the generator failed to capture the full diversity of the data distribution.</p>
+<p>By analyzing these failure modes, we highlighted how the delicate equilibrium of the adversarial game can break down. We then explored a game-theory-inspired solution, the Multi-Agent Diverse GAN (MAD-GAN), which employs multiple generators competing against a single discriminator. Our implementation showed that this multi-agent setup can effectively mitigate mode collapse. The competing generators were incentivized to specialize and cover different modes of the data distribution, resulting in a
+more diverse and representative set of generated samples.</p>
+<p>Ultimately, this tutorial illustrates that while simple GANs are powerful, understanding their limitations through the lens of game theory opens the door to designing more robust, stable, and capable generative models for a wide range of applications.</p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/"><img alt="Star our repository" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=⭐&amp;message=Star%20Our%20Repository&amp;color=yellow" /></a> If you found this tutorial helpful, please <strong>⭐ star our repository</strong> to show your support.</div>
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/issues"><img alt="Ask questions" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=❔&amp;message=Ask%20Questions&amp;color=9cf" /></a> For any <strong>questions</strong>, <strong>typos</strong>, or <strong>bugs</strong>, kindly open an issue on GitHub — we appreciate your feedback!</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html" class="btn btn-neutral float-left" title="Tutorial 2.3: Analyzing Application-Layer Protocols" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids.html" class="btn btn-neutral float-right" title="Tutorial 3.2: Evading ML-based IDS using GANs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Christoph R. Landolt, Mario Fritz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

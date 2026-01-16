@@ -1,0 +1,1198 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial 3: Solutions to Exercises 3.1 &amp; 3.2 &mdash; CISPA Machine Learning in Cybersecurity v0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=82d01d63" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34cd777e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tutorial 4: Automated CTF Solving with LLMs" href="../tutorial4_1_automated_CTF_solving/tutorial4_1_automated_CTF_solving.html" />
+    <link rel="prev" title="Tutorial 3.2: Evading ML-based IDS using GANs" href="../tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CISPA Machine Learning in Cybersecurity
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial 1: Getting started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html">Getting started 1: Working with Jupyter and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../discover_visualize_gain_insights/discover_visualize_gain_insights.html">Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_ml/getting_started_with_ml.html">Getting Started 3: Classic Machine Learning for Cybersecurity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html">Getting Started 4: Deep Learning for Cybersecurity</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 2: Intrusion Detection:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html">Tutorial 2.1: Intrusion Detection System</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.html">Tutorial 2.2: Deep Learning based IDS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html">Tutorial 2.3: Analyzing Application-Layer Protocols</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 3: Evading ML-IDS:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started.html">Tutorial 3.1: Getting started with GANs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids.html">Tutorial 3.2: Evading ML-based IDS using GANs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial 3: Solutions to Exercises 3.1 &amp; 3.2</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Solutions-for-Tutorial-3.1:-Getting-started-with-GANs">Solutions for Tutorial 3.1: Getting started with GANs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-1:-Experimenting-with-Architectural-Changes">Exercise 1: Experimenting with Architectural Changes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#1.-Implementation:-High-Capacity-Generator">1. Implementation: High-Capacity Generator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.-Implementation:-High-Capacity-Discriminator">2. Implementation: High-Capacity Discriminator</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#3.-Implementation:-Imbalance-the-Networks">3. Implementation: Imbalance the Networks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Solutions:-Exercise-1-Follow-up-Questions">Solutions: Exercise 1 Follow-up Questions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#1)-Observation-of-Final-Generated-Data-and-Loss-Curves">1) Observation of Final Generated Data and Loss Curves</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2)-Best-Combination-for-Covering-Both-Data-Modes">2) Best Combination for Covering Both Data Modes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#3)-Impact-of-Imbalanced-Power">3) Impact of Imbalanced Power</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-2:-Implementing-the-Wasserstein-GAN-(WGAN)">Exercise 2: Implementing the Wasserstein GAN (WGAN)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#2.1.-Mathematical-Objective-and-Constraints">2.1. Mathematical Objective and Constraints</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Solutions-for-Tutorial-3.2:-Evading-ML-based-IDS">Solutions for Tutorial 3.2: Evading ML-based IDS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-1:-Attack-Success-vs.-Perturbation-Strength">Exercise 1: Attack Success vs. Perturbation Strength</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Implementation:-AdvGAN-Tuning">Implementation: AdvGAN Tuning</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-2:-Compare-Models">Exercise 2: Compare Models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Implementation:-Testing-Transferability">Implementation: Testing Transferability</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 4: ML in the hands of Attackers (CTF):</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial4_1_automated_CTF_solving/tutorial4_1_automated_CTF_solving.html">Tutorial 4: Automated CTF Solving with LLMs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CISPA Machine Learning in Cybersecurity</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial 3: Solutions to Exercises 3.1 &amp; 3.2</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorial_notebooks/tutorial3_solution/tutorial3_solution.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Tutorial-3:-Solutions-to-Exercises-3.1-&amp;-3.2">
+<h1>Tutorial 3: Solutions to Exercises 3.1 &amp; 3.2<a class="headerlink" href="#Tutorial-3:-Solutions-to-Exercises-3.1-&-3.2" title="Link to this heading"></a></h1>
+<img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Open&amp;color=blue" />
+<div class="line-block">
+<div class="line"><strong>Open notebook on:</strong> <a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial3_solution/tutorial3_solution.ipynb"><img alt="View filled on Github" src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" /></a> <a class="reference external" href="https://colab.research.google.com/github/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial3_solution/tutorial3_solution.ipynb"><img alt="Open filled In Collab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></div>
+<div class="line"><strong>Author:</strong> Christoph R. Landolt</div>
+</div>
+<p>This notebook provides the solutions for the exercises corresponding to Tutorials 3.1 and 3.2.</p>
+<section id="Solutions-for-Tutorial-3.1:-Getting-started-with-GANs">
+<h2>Solutions for Tutorial 3.1: Getting started with GANs<a class="headerlink" href="#Solutions-for-Tutorial-3.1:-Getting-started-with-GANs" title="Link to this heading"></a></h2>
+<section id="Exercise-1:-Experimenting-with-Architectural-Changes">
+<h3>Exercise 1: Experimenting with Architectural Changes<a class="headerlink" href="#Exercise-1:-Experimenting-with-Architectural-Changes" title="Link to this heading"></a></h3>
+<section id="1.-Implementation:-High-Capacity-Generator">
+<h4>1. Implementation: High-Capacity Generator<a class="headerlink" href="#1.-Implementation:-High-Capacity-Generator" title="Link to this heading"></a></h4>
+<p>In this exercise, we investigate how increasing the capacity (the number of layers and neurons) of the Generator affects the training outcome when the Discriminator remains simple.</p>
+<p>We modified the <code class="docutils literal notranslate"><span class="pre">Generator</span></code> class to include an additional hidden layer and increased the width of the layers from 50 to 128 neurons.</p>
+<p><strong>Original Generator:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Generator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Generator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Input dimension is 10 (noise), output dimension is 2 (for 2D data)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>High-Capacity Generator:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Generator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Generator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Input dimension is 10 (noise), output dimension is 2 (for 2D data)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Check for GPU</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- 1. Define the Models ---</span>
+
+<span class="k">class</span> <span class="nc">HighCapacityGenerator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HighCapacityGenerator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Enhanced architecture: Adding an extra hidden layer and increasing width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Discriminator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Discriminator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># --- 2. Utility Functions ---</span>
+
+<span class="k">def</span> <span class="nf">generate_real_data</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">mean1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mean2</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">half_batch</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">data1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean1</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="p">(</span><span class="n">half_batch</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">data2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean2</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span> <span class="o">-</span> <span class="n">half_batch</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">combined_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">combined_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">noise_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># --- 3. Initialization ---</span>
+
+<span class="n">noise_dim</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">generator</span> <span class="o">=</span> <span class="n">HighCapacityGenerator</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">noise_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">discriminator</span> <span class="o">=</span> <span class="n">Discriminator</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>
+<span class="n">optimizer_g</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">generator</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">optimizer_d</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">discriminator</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># Training parameters</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">losses_d</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">losses_g</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># --- 4. Training Loop ---</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training with High-Capacity Generator on </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="c1"># --- Step A: Train Discriminator ---</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="c1"># Real data labels = 1, Fake data labels = 0</span>
+    <span class="n">real_data</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">real_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">fake_data</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span> <span class="c1"># Detach to avoid updating Generator</span>
+    <span class="n">fake_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># D Loss</span>
+    <span class="n">out_real</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">real_data</span><span class="p">)</span>
+    <span class="n">loss_d_real</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out_real</span><span class="p">,</span> <span class="n">real_labels</span><span class="p">)</span>
+
+    <span class="n">out_fake</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data</span><span class="p">)</span>
+    <span class="n">loss_d_fake</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out_fake</span><span class="p">,</span> <span class="n">fake_labels</span><span class="p">)</span>
+
+    <span class="n">loss_d</span> <span class="o">=</span> <span class="n">loss_d_real</span> <span class="o">+</span> <span class="n">loss_d_fake</span>
+    <span class="n">loss_d</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># --- Step B: Train Generator ---</span>
+    <span class="n">optimizer_g</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">fake_data</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+
+    <span class="c1"># G wants D to think fake data is real (label = 1)</span>
+    <span class="n">out_fake_for_g</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data</span><span class="p">)</span>
+    <span class="n">loss_g</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out_fake_for_g</span><span class="p">,</span> <span class="n">real_labels</span><span class="p">)</span>
+
+    <span class="n">loss_g</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_g</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># Save statistics</span>
+    <span class="n">losses_d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">losses_g</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_g</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s2">] | Loss D: </span><span class="si">{</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | Loss G: </span><span class="si">{</span><span class="n">loss_g</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- 5. Visualization ---</span>
+
+<span class="c1"># Plot Losses</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_d</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;D Loss&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_g</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;G Loss&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Training Losses&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Plot Generated Data vs Real Data</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">generator</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">test_noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">generated</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">test_noise</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">real</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Real Data&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">generated</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">generated</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Generated Data&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;High-Capacity Generator Results&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Training with High-Capacity Generator on cpu...
+Epoch [0/10000] | Loss D: 2.3853 | Loss G: 0.6585
+Epoch [1000/10000] | Loss D: 1.4730 | Loss G: 0.6600
+Epoch [2000/10000] | Loss D: 1.2944 | Loss G: 0.7798
+Epoch [3000/10000] | Loss D: 1.7352 | Loss G: 0.5906
+Epoch [4000/10000] | Loss D: 1.2874 | Loss G: 0.7426
+Epoch [5000/10000] | Loss D: 1.4147 | Loss G: 0.6181
+Epoch [6000/10000] | Loss D: 1.4654 | Loss G: 0.6584
+Epoch [7000/10000] | Loss D: 1.3330 | Loss G: 0.9366
+Epoch [8000/10000] | Loss D: 1.4036 | Loss G: 0.7082
+Epoch [9000/10000] | Loss D: 1.3616 | Loss G: 0.6705
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial3_solution_tutorial3_solution_2_1.png" src="../../_images/tutorial_notebooks_tutorial3_solution_tutorial3_solution_2_1.png" />
+</div>
+</div>
+<p><strong>Analysis of the Results:</strong></p>
+<p>Increasing Generator capacity without a corresponding increase in Discriminator capacity (or better loss functions) does not necessarily improve results. Here, the Generator became powerful enough to exploit the Discriminator’s “blind spots” rather than learning the actual data distribution.</p>
+</section>
+<section id="2.-Implementation:-High-Capacity-Discriminator">
+<h4>2. Implementation: High-Capacity Discriminator<a class="headerlink" href="#2.-Implementation:-High-Capacity-Discriminator" title="Link to this heading"></a></h4>
+<p>In this step, we investigate the effect of increasing the capacity of the Discriminator to match the complexity of the Generator. By providing the Discriminator with more layers and neurons, we aim to create a more sophisticated “critic” that can theoretically provide a more detailed loss landscape for the Generator to learn from.</p>
+<p>We modified the <code class="docutils literal notranslate"><span class="pre">Discriminator</span></code> class to include an additional hidden layer and increased the width of the layers from 50 to 128 neurons.</p>
+<p><strong>Original Discriminator:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Discriminator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Discriminator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Architecture: 2 -&gt; 50 -&gt; 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>High-Capacity Discriminator:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">HighCapacityDiscriminator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HighCapacityDiscriminator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Architecture: 2 -&gt; 128 -&gt; 128 -&gt; 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="c1"># Increased capacity to match the Generator</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="p">)</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Check for GPU</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- 1. Define High-Capacity Models ---</span>
+
+<span class="k">class</span> <span class="nc">HighCapacityGenerator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HighCapacityGenerator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Architecture: 10 -&gt; 128 -&gt; 128 -&gt; 2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">HighCapacityDiscriminator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HighCapacityDiscriminator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># Architecture: 2 -&gt; 128 -&gt; 128 -&gt; 1</span>
+        <span class="c1"># Increased capacity to match the Generator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># --- 2. Utility Functions ---</span>
+
+<span class="k">def</span> <span class="nf">generate_real_data</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">mean1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mean2</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">half_batch</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">data1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean1</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="p">(</span><span class="n">half_batch</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">data2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean2</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span> <span class="o">-</span> <span class="n">half_batch</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">combined_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">combined_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">noise_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># --- 3. Initialization ---</span>
+
+<span class="n">noise_dim</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">generator</span> <span class="o">=</span> <span class="n">HighCapacityGenerator</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">noise_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">discriminator</span> <span class="o">=</span> <span class="n">HighCapacityDiscriminator</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>
+<span class="n">optimizer_g</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">generator</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">optimizer_d</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">discriminator</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># Training parameters</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">losses_d</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">losses_g</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># --- 4. Training Loop ---</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training with High-Capacity Generator AND Discriminator on </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="c1"># --- Step A: Train Discriminator ---</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="n">real_data</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">real_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">fake_data</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+    <span class="n">fake_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="c1"># Forward passes</span>
+    <span class="n">out_real</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">real_data</span><span class="p">)</span>
+    <span class="n">out_fake</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data</span><span class="p">)</span>
+
+    <span class="n">loss_d</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out_real</span><span class="p">,</span> <span class="n">real_labels</span><span class="p">)</span> <span class="o">+</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out_fake</span><span class="p">,</span> <span class="n">fake_labels</span><span class="p">)</span>
+    <span class="n">loss_d</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># --- Step B: Train Generator ---</span>
+    <span class="n">optimizer_g</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">fake_data</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+
+    <span class="c1"># Try to fool the high-capacity discriminator</span>
+    <span class="n">out_fake_for_g</span> <span class="o">=</span> <span class="n">discriminator</span><span class="p">(</span><span class="n">fake_data</span><span class="p">)</span>
+    <span class="n">loss_g</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">out_fake_for_g</span><span class="p">,</span> <span class="n">real_labels</span><span class="p">)</span>
+
+    <span class="n">loss_g</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_g</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="n">losses_d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">losses_g</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_g</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s2">] | Loss D: </span><span class="si">{</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | Loss G: </span><span class="si">{</span><span class="n">loss_g</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- 5. Visualization ---</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Plot Losses</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_d</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;D Loss (High Cap)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_g</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;G Loss (High Cap)&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Balanced High-Capacity Training Losses&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Plot Results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">generator</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">test_noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">generated</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">test_noise</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">real</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Real Data (2 Clusters)&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">generated</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">generated</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Generated Data&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Results: Both Networks at High Capacity&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Training with High-Capacity Generator AND Discriminator on cpu...
+Epoch [0/10000] | Loss D: 1.3395 | Loss G: 0.6741
+Epoch [1000/10000] | Loss D: 0.9498 | Loss G: 1.0741
+Epoch [2000/10000] | Loss D: 1.8334 | Loss G: 1.0794
+Epoch [3000/10000] | Loss D: 1.4157 | Loss G: 0.7272
+Epoch [4000/10000] | Loss D: 1.2811 | Loss G: 0.7338
+Epoch [5000/10000] | Loss D: 1.2811 | Loss G: 0.8065
+Epoch [6000/10000] | Loss D: 1.2619 | Loss G: 0.9606
+Epoch [7000/10000] | Loss D: 1.1284 | Loss G: 0.9045
+Epoch [8000/10000] | Loss D: 1.2806 | Loss G: 0.8654
+Epoch [9000/10000] | Loss D: 1.1076 | Loss G: 0.8248
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial3_solution_tutorial3_solution_5_1.png" src="../../_images/tutorial_notebooks_tutorial3_solution_tutorial3_solution_5_1.png" />
+</div>
+</div>
+<p><strong>Analysis of the Results:</strong></p>
+<p>Run the code multiple times and observe that the strategy changes every time; the Generator may focus on the top cluster, the bottom cluster, or a line between them. This occurs because the Generator discovers a small region that fools the Discriminator but fails to capture the true diversity of the data. Raw model power cannot overcome fundamental instabilities like oscillating losses and mode collapse without structural changes.</p>
+</section>
+<section id="3.-Implementation:-Imbalance-the-Networks">
+<h4>3. Implementation: Imbalance the Networks<a class="headerlink" href="#3.-Implementation:-Imbalance-the-Networks" title="Link to this heading"></a></h4>
+<p>In this final experiment, we explore scenarios where one player in the adversarial game is significantly more powerful than the other. This helps visualize the “delicate balancing act” required for stable GAN training.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- 1. Define Architecture Variants ---</span>
+
+<span class="k">class</span> <span class="nc">Generator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># hidden_dim=50 for original, 128 for high-capacity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span> <span class="k">if</span> <span class="n">hidden_dim</span><span class="o">==</span><span class="mi">128</span> <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Discriminator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># hidden_dim=50 for original, 128 for high-capacity</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">()</span> <span class="k">if</span> <span class="n">hidden_dim</span><span class="o">==</span><span class="mi">128</span> <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># --- 2. Training Function ---</span>
+
+<span class="k">def</span> <span class="nf">train_gan</span><span class="p">(</span><span class="n">gen</span><span class="p">,</span> <span class="n">disc</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5000</span><span class="p">):</span>
+    <span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>
+    <span class="n">opt_g</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">gen</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">opt_d</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">disc</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+        <span class="c1"># Train Discriminator</span>
+        <span class="n">opt_d</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">real</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
+        <span class="n">fake</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="n">generate_noise</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+        <span class="n">loss_d</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">disc</span><span class="p">(</span><span class="n">real</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span> <span class="o">+</span> \
+                 <span class="n">criterion</span><span class="p">(</span><span class="n">disc</span><span class="p">(</span><span class="n">fake</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+        <span class="n">loss_d</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">opt_d</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="c1"># Train Generator</span>
+        <span class="n">opt_g</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">fake</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="n">generate_noise</span><span class="p">(</span><span class="mi">64</span><span class="p">))</span>
+        <span class="n">loss_g</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">disc</span><span class="p">(</span><span class="n">fake</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+        <span class="n">loss_g</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">opt_g</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">gen</span>
+
+<span class="c1"># --- 3. Execution of Experiments ---</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Experiment 1: Powerful Generator vs. Weak Discriminator...&quot;</span><span class="p">)</span>
+<span class="c1"># High-cap Gen (128) + Low-cap Disc (50)</span>
+<span class="n">gen_1</span> <span class="o">=</span> <span class="n">train_gan</span><span class="p">(</span><span class="n">Generator</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">Discriminator</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="s2">&quot;G &gt; D&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Experiment 2: Weak Generator vs. Powerful Discriminator...&quot;</span><span class="p">)</span>
+<span class="c1"># Low-cap Gen (50) + High-cap Disc (128)</span>
+<span class="n">gen_2</span> <span class="o">=</span> <span class="n">train_gan</span><span class="p">(</span><span class="n">Generator</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">Discriminator</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="s2">&quot;D &gt; G&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- 4. Visualization ---</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">plot_result</span><span class="p">(</span><span class="n">gen</span><span class="p">,</span> <span class="n">subplot_idx</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">subplot_idx</span><span class="p">)</span>
+    <span class="n">gen</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">fake</span> <span class="o">=</span> <span class="n">gen</span><span class="p">(</span><span class="n">generate_noise</span><span class="p">(</span><span class="mi">300</span><span class="p">))</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="n">real</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">real</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Real&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">fake</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">fake</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Fake&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="n">plot_result</span><span class="p">(</span><span class="n">gen_1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;Scenario A: Strong G (128) / Weak D (50)&quot;</span><span class="p">)</span>
+<span class="n">plot_result</span><span class="p">(</span><span class="n">gen_2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;Scenario B: Weak G (50) / Strong D (128)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Experiment 1: Powerful Generator vs. Weak Discriminator...
+Experiment 2: Weak Generator vs. Powerful Discriminator...
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial3_solution_tutorial3_solution_8_1.png" src="../../_images/tutorial_notebooks_tutorial3_solution_tutorial3_solution_8_1.png" />
+</div>
+</div>
+<p><strong>Scenario A: Strong Generator (128) / Weak Discriminator (50)</strong></p>
+<p>The Generator is upgraded to 128 hidden units with an extra layer, while the Discriminator remains at the original capacity of 50 units.</p>
+<p>Analysis of the Results: Increasing Generator capacity without a corresponding increase in Discriminator capacity does not necessarily improve results. The Generator became powerful enough to exploit the Discriminator’s “blind spots” rather than learning the actual data distribution. Because the Discriminator is too weak to provide a complex boundary, the Generator easily “wins” by finding simple shortcuts.</p>
+<p><strong>Scenario B: Weak Generator (50) / Strong Discriminator (128)</strong></p>
+<p>The Generator remains at the original capacity of 50 units, while the Discriminator is upgraded to 128 hidden units with an extra layer.</p>
+<p>Analysis of the Results: When the Discriminator is significantly more powerful, it becomes too effective at distinguishing real from fake data. The Generator often gets stuck in severe mode collapse, repeatedly attempting to cover only one small region.</p>
+</section>
+</section>
+<section id="Solutions:-Exercise-1-Follow-up-Questions">
+<h3>Solutions: Exercise 1 Follow-up Questions<a class="headerlink" href="#Solutions:-Exercise-1-Follow-up-Questions" title="Link to this heading"></a></h3>
+<section id="1)-Observation-of-Final-Generated-Data-and-Loss-Curves">
+<h4>1) Observation of Final Generated Data and Loss Curves<a class="headerlink" href="#1)-Observation-of-Final-Generated-Data-and-Loss-Curves" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>High-Capacity Generator / Low-Capacity Discriminator</strong>: The generator has enough capacity to model both data modes, but because the discriminator is weak, it may not provide a sharp enough signal to force the generator to cover both clusters accurately. The loss curves often show the generator “winning” easily, potentially leading to <strong>mode collapse</strong> where it only covers one cluster.</p></li>
+<li><p><strong>Low-Capacity Generator / High-Capacity Discriminator</strong>: The discriminator becomes too powerful for the generator to fool. This often results in a <strong>“vanishing gradient”</strong> problem where the generator’s loss becomes very high and stays flat because it cannot find any way to improve against the expert discriminator. The resulting data plot typically shows poor coverage of the real data distribution.</p></li>
+<li><p><strong>Balanced High-Capacity (Both 128 units)</strong>: The loss curves show intense oscillations as both networks improve together. The final data plot shows the best attempt at covering both clusters, as both agents are matched in their ability to learn the complex multimodal distribution.</p></li>
+</ul>
+</section>
+<section id="2)-Best-Combination-for-Covering-Both-Data-Modes">
+<h4>2) Best Combination for Covering Both Data Modes<a class="headerlink" href="#2)-Best-Combination-for-Covering-Both-Data-Modes" title="Link to this heading"></a></h4>
+<p>The <strong>balanced high-capacity combination</strong> (where both the Generator and Discriminator have 128-unit hidden layers) produces the best results. This setup allows the generator to capture the complexity of the two distinct clusters (modes) while the discriminator is strong enough to provide the necessary feedback to ensure the generator doesn’t just settle for one “easy” cluster.</p>
+</section>
+<section id="3)-Impact-of-Imbalanced-Power">
+<h4>3) Impact of Imbalanced Power<a class="headerlink" href="#3)-Impact-of-Imbalanced-Power" title="Link to this heading"></a></h4>
+<ul class="simple">
+<li><p><strong>What happens</strong>: When one network is significantly more powerful, the competitive nature of the GAN breaks down.</p>
+<ul>
+<li><p>If the <strong>Discriminator is too strong</strong>, the Generator receives no useful gradient information to learn from and essentially gets “stuck”.</p></li>
+<li><p>If the <strong>Generator is too strong</strong>, it easily finds a single point that fools the weak Discriminator and stops exploring other parts of the data distribution (<strong>mode collapse</strong>).</p></li>
+</ul>
+</li>
+<li><p><strong>The “Delicate Balancing Act”</strong>: This relates to the game-theoretic foundation of GANs, where the goal is to reach a <strong>Nash equilibrium</strong>. Training only succeeds if both players are matched; if the competition isn’t fair, one side dominates, the minimax game ends prematurely, and the generator never learns to replicate the true diversity of the real data distribution.</p></li>
+</ul>
+</section>
+</section>
+<section id="Exercise-2:-Implementing-the-Wasserstein-GAN-(WGAN)">
+<h3>Exercise 2: Implementing the Wasserstein GAN (WGAN)<a class="headerlink" href="#Exercise-2:-Implementing-the-Wasserstein-GAN-(WGAN)" title="Link to this heading"></a></h3>
+<p>The Wasserstein GAN (WGAN) addresses the fundamental training instabilities of the Vanilla GAN by replacing the classification-based loss with a metric based on the <strong>Earth Mover’s distance</strong>. This modification provides more stable gradients and helps mitigate mode collapse by providing a continuous signal even when distributions are disjoint.</p>
+<section id="2.1.-Mathematical-Objective-and-Constraints">
+<h4>2.1. Mathematical Objective and Constraints<a class="headerlink" href="#2.1.-Mathematical-Objective-and-Constraints" title="Link to this heading"></a></h4>
+<p>Unlike the original formulation that uses cross-entropy loss, the WGAN seeks to minimize the Wasserstein-1 distance. This is achieved through the following architectural and game-theoretic changes:</p>
+<ul class="simple">
+<li><p><strong>Discriminator (Critic)</strong>: In WGAN, the discriminator <span class="math notranslate nohighlight">\(D\)</span> is called a <strong>Critic</strong> because it outputs a scalar score representing “realness” rather than a probability.</p></li>
+<li><p><strong>Lipschitz Constraint</strong>: The <a class="reference external" href="https://arxiv.org/abs/1701.07875">WGAN paper</a> showed that the Critic must be <span class="math notranslate nohighlight">\(1\)</span>-Lipschitz continuous. This means that the Critic must have a maximum gradient, which makes GAN training significantly more stable.</p>
+<ul>
+<li><p><strong>Providing Information</strong>: A “perfect” traditional discriminator provides nearly zero gradient information when it successfully rejects fake samples. By limiting the gradient (Lipschitz constraint), the Critic is forced to be a “worse” binary classifier but a much better teacher, providing a non-zero gradient even in disjoint regions.</p></li>
+<li><p><strong>Visualization</strong>: This is visible in Figure 2 of the <a class="reference external" href="https://arxiv.org/abs/1701.07875">WGAN paper</a>, where a standard discriminator’s gradient saturates at nearly zero, while the WGAN critic maintains a non-zero gradient effective for training.</p></li>
+<li><p><strong>Weight Clipping</strong>: The WGAN enforces the Lipschitz constraint by clipping the Critic’s weights (e.g., to <span class="math notranslate nohighlight">\([-0.01, 0.01]\)</span>) after every update.</p></li>
+</ul>
+</li>
+</ul>
+<p><strong>Implementation: WGAN with Weight Clipping:</strong></p>
+<p>To implement the WGAN, the following modifications were made to the architecture:</p>
+<ul class="simple">
+<li><p><strong>Removal of Sigmoid</strong>: The <code class="docutils literal notranslate"><span class="pre">nn.Sigmoid()</span></code> activation was removed from the Critic to allow for unbounded real scores.</p></li>
+<li><p><strong>Wasserstein Objective</strong>: The <code class="docutils literal notranslate"><span class="pre">nn.BCELoss()</span></code> was replaced with the mean difference objective.</p></li>
+<li><p><strong>Optimizer Choice</strong>: Switched from <code class="docutils literal notranslate"><span class="pre">Adam</span></code> to <code class="docutils literal notranslate"><span class="pre">RMSprop</span></code> for improved training stability.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Critic Architecture - Unbounded scores</span>
+<span class="k">class</span> <span class="nc">Critic</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Critic</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="c1"># No Sigmoid for WGAN</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># 2. Training Loop Logic (WGAN Modification)</span>
+<span class="c1"># --- Train Critic ---</span>
+<span class="n">optimizer_d</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="c1"># Critic aims to maximize (mean(D(real)) - mean(D(fake)))</span>
+<span class="c1"># In PyTorch, we minimize the negative of that value</span>
+<span class="n">loss_d</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">critic</span><span class="p">(</span><span class="n">real_data</span><span class="p">))</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">critic</span><span class="p">(</span><span class="n">fake_data</span><span class="p">))</span>
+<span class="n">loss_d</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="n">optimizer_d</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="c1"># Enforce Lipschitz Constraint via Weight Clipping</span>
+<span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">Critic</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+    <span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">clamp_</span><span class="p">(</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+
+<span class="c1"># --- Train Generator ---</span>
+<span class="n">optimizer_g</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span class="c1"># G aims to maximize mean(D(fake))</span>
+<span class="n">loss_g</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">critic</span><span class="p">(</span><span class="n">fake_data</span><span class="p">))</span>
+<span class="n">loss_g</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+<span class="n">optimizer_g</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># Check for GPU</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- 1. Define the Models ---</span>
+
+<span class="k">class</span> <span class="nc">Generator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Generator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># WGAN Modification: The Discriminator is now a &quot;Critic&quot;</span>
+<span class="k">class</span> <span class="nc">Critic</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Critic</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">50</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="c1"># Note: nn.Sigmoid() removed for WGAN to allow unbounded real scores</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># --- 2. Utility Functions ---</span>
+
+<span class="k">def</span> <span class="nf">generate_real_data</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">mean1</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">mean2</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">std</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="n">half_batch</span> <span class="o">=</span> <span class="n">batch_size</span> <span class="o">//</span> <span class="mi">2</span>
+    <span class="n">data1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean1</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="p">(</span><span class="n">half_batch</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">data2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mean2</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span> <span class="o">-</span> <span class="n">half_batch</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="n">combined_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">combined_data</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">noise_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># --- 3. Initialization ---</span>
+
+<span class="n">noise_dim</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">generator</span> <span class="o">=</span> <span class="n">Generator</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">noise_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">critic</span> <span class="o">=</span> <span class="n">Critic</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># WGAN Modification: Use RMSprop instead of Adam for improved stability</span>
+<span class="n">optimizer_g</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">RMSprop</span><span class="p">(</span><span class="n">generator</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.00005</span><span class="p">)</span>
+<span class="n">optimizer_d</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">RMSprop</span><span class="p">(</span><span class="n">critic</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.00005</span><span class="p">)</span>
+
+<span class="c1"># Training parameters</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+<span class="n">losses_d</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">losses_g</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># --- 4. Training Loop ---</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training Wasserstein GAN (WGAN) on </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+    <span class="c1"># --- Step A: Train Critic (Discriminator) ---</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="n">real_data</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">fake_data</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+
+    <span class="c1"># WGAN Loss: -torch.mean(D(real)) + torch.mean(D(fake))</span>
+    <span class="c1"># This maximizes the difference between the scores of real and fake data</span>
+    <span class="n">loss_d</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">critic</span><span class="p">(</span><span class="n">real_data</span><span class="p">))</span> <span class="o">+</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">critic</span><span class="p">(</span><span class="n">fake_data</span><span class="p">))</span>
+
+    <span class="n">loss_d</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_d</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># WGAN Modification: Weight Clipping to enforce the Lipschitz constraint</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">critic</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
+        <span class="n">p</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">clamp_</span><span class="p">(</span><span class="o">-</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+
+    <span class="c1"># --- Step B: Train Generator ---</span>
+    <span class="n">optimizer_g</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="n">noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">fake_data</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">noise</span><span class="p">)</span>
+
+    <span class="c1"># G wants to maximize the Critic&#39;s score for fake data: -torch.mean(D(fake))</span>
+    <span class="n">loss_g</span> <span class="o">=</span> <span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">critic</span><span class="p">(</span><span class="n">fake_data</span><span class="p">))</span>
+
+    <span class="n">loss_g</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer_g</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># Save statistics</span>
+    <span class="n">losses_d</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">losses_g</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_g</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch [</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s2">] | Critic Loss: </span><span class="si">{</span><span class="n">loss_d</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> | Gen Loss: </span><span class="si">{</span><span class="n">loss_g</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- 5. Visualization ---</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+
+<span class="c1"># Plot Losses</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_d</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Critic Loss&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">losses_g</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Gen Loss&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;WGAN Training Losses&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epochs&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+
+<span class="c1"># Plot Results</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">generator</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">test_noise</span> <span class="o">=</span> <span class="n">generate_noise</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="n">noise_dim</span><span class="p">)</span>
+    <span class="n">generated</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">test_noise</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">generate_real_data</span><span class="p">(</span><span class="mi">300</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">real</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">real</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Real Data&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">generated</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">generated</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Generated Data&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;WGAN Results&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Training Wasserstein GAN (WGAN) on cpu...
+Epoch [0/10000] | Critic Loss: -0.0298 | Gen Loss: -0.0096
+Epoch [1000/10000] | Critic Loss: -0.0230 | Gen Loss: -0.0112
+Epoch [2000/10000] | Critic Loss: -0.0169 | Gen Loss: -0.0166
+Epoch [3000/10000] | Critic Loss: -0.0088 | Gen Loss: -0.0237
+Epoch [4000/10000] | Critic Loss: -0.0019 | Gen Loss: -0.0207
+Epoch [5000/10000] | Critic Loss: -0.0014 | Gen Loss: -0.0070
+Epoch [6000/10000] | Critic Loss: -0.0013 | Gen Loss: -0.0071
+Epoch [7000/10000] | Critic Loss: -0.0014 | Gen Loss: -0.0065
+Epoch [8000/10000] | Critic Loss: -0.0014 | Gen Loss: -0.0053
+Epoch [9000/10000] | Critic Loss: -0.0013 | Gen Loss: -0.0056
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial3_solution_tutorial3_solution_12_1.png" src="../../_images/tutorial_notebooks_tutorial3_solution_tutorial3_solution_12_1.png" />
+</div>
+</div>
+<p>The distinct behaviors of the Vanilla GAN and Wasserstein GAN Convergence originate from the objectives of their respective loss functions. In Exercise 1, the Vanilla GAN minimizes the <a class="reference external" href="https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence">Jensen-Shannon Divergence</a>. When the generated data falls in the ‘dead zone’ (disjoint distributions), gradients vanish because the JSD creates a constant loss with no directional signal. To ensure some signal, the generator often collapses onto
+a single cluster (Mode Collapse) rather than traversing the gap. In contrast, the WGAN in Exercise 2 optimizes the Wasserstein (Earth Mover’s) distance, a geometric metric that measures the physical cost of transporting mass to the target locations. Because this loss is proportional to distance rather than binary correctness, the model is not strictly punished for occupying the empty space; instead, it minimizes the total transport cost by forming a “bridge” across the gap, effectively averaging
+the two clusters rather than committing to just one.</p>
+</section>
+</section>
+</section>
+<section id="Solutions-for-Tutorial-3.2:-Evading-ML-based-IDS">
+<h2>Solutions for Tutorial 3.2: Evading ML-based IDS<a class="headerlink" href="#Solutions-for-Tutorial-3.2:-Evading-ML-based-IDS" title="Link to this heading"></a></h2>
+<section id="Exercise-1:-Attack-Success-vs.-Perturbation-Strength">
+<h3>Exercise 1: Attack Success vs. Perturbation Strength<a class="headerlink" href="#Exercise-1:-Attack-Success-vs.-Perturbation-Strength" title="Link to this heading"></a></h3>
+<p>The goal of this exercise is to adjust the <strong>Perturbation Penalty (:math:`lambda_{pert}`)</strong> and the generator’s learning rate to observe how the modifications affect the ability to evade the target IDS. This hyperparameter defines the critical trade-off between the effectiveness of the attack and its subtlety.</p>
+<section id="Implementation:-AdvGAN-Tuning">
+<h4>Implementation: AdvGAN Tuning<a class="headerlink" href="#Implementation:-AdvGAN-Tuning" title="Link to this heading"></a></h4>
+<p>We modified the training process to observe how the <strong>:math:`mathcal{L}_{pert}`</strong> component influences the final detection rate of the victim IDS. This loss penalizes the perturbation size, ensuring that the adversarial changes remain small and subtle.</p>
+<ul class="simple">
+<li><p><strong>High-Stealth Configuration (:math:`lambda_{pert}=10.0`):</strong> In this scenario, the generator is strictly penalized for making large changes. The objective is to keep the adversarial traffic as close as possible to the original malicious distribution to avoid detection by both the IDS and any potential secondary realism checks.</p></li>
+<li><p><strong>Aggressive Configuration (:math:`lambda_{pert}=0.01`):</strong> In this scenario, the penalty is significantly reduced, allowing the generator to apply larger perturbations. This gives the model more freedom to reach the target IDS’s “blind spots” and achieve a higher rate of evasion.</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">TensorDataset</span><span class="p">,</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># --- 1. CONFIGURATION &amp; DATA LOADING ---</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+<span class="n">DATA_DIR</span> <span class="o">=</span> <span class="s2">&quot;./cicids2017&quot;</span>
+<span class="n">data_files</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;Benign-Monday-no-metadata.parquet&#39;</span><span class="p">,</span> <span class="s1">&#39;Bruteforce-Tuesday-no-metadata.parquet&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Portscan-Friday-no-metadata.parquet&#39;</span><span class="p">,</span> <span class="s1">&#39;WebAttacks-Thursday-no-metadata.parquet&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DoS-Wednesday-no-metadata.parquet&#39;</span><span class="p">,</span> <span class="s1">&#39;DDoS-Friday-no-metadata.parquet&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Infiltration-Thursday-no-metadata.parquet&#39;</span><span class="p">,</span> <span class="s1">&#39;Botnet-Friday-no-metadata.parquet&#39;</span>
+<span class="p">]</span>
+
+<span class="c1"># Merge and Clean</span>
+<span class="n">df_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">data_files</span><span class="p">]</span>
+<span class="n">df_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_list</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+<span class="n">df_numeric</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">number</span><span class="p">])</span><span class="o">.</span><span class="n">replace</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">df_numeric</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s1">&#39;Label&#39;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;ignore&#39;</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">df_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df_numeric</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">&quot;Label&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">({</span><span class="s1">&#39;Benign&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="c1"># Scale and Split</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">input_dim</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c1"># --- 2. VICTIM IDS MODEL (KDDNet) ---</span>
+<span class="k">class</span> <span class="nc">KDDNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">KDDNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.3</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
+        <span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">target_ids_pytorch</span> <span class="o">=</span> <span class="n">KDDNet</span><span class="p">(</span><span class="n">input_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">TensorDataset</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                                        <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">y_train</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)),</span>
+                          <span class="n">batch_size</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Quick training of the victim</span>
+<span class="n">target_opt</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">target_ids_pytorch</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">criterion_bce</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">()</span>
+<span class="n">target_ids_pytorch</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">X_b</span><span class="p">,</span> <span class="n">y_b</span> <span class="ow">in</span> <span class="n">train_loader</span><span class="p">:</span>
+        <span class="n">X_b</span><span class="p">,</span> <span class="n">y_b</span> <span class="o">=</span> <span class="n">X_b</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y_b</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">target_opt</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">criterion_bce</span><span class="p">(</span><span class="n">target_ids_pytorch</span><span class="p">(</span><span class="n">X_b</span><span class="p">),</span> <span class="n">y_b</span><span class="p">)</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">target_opt</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="c1"># --- 3. ADVGAN ARCHITECTURE ---</span>
+<span class="k">class</span> <span class="nc">AdvGAN_Generator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+                                   <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">*</span> <span class="n">mask</span>
+
+<span class="k">class</span> <span class="nc">AdvGAN_Discriminator</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">())</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Setup Masks</span>
+<span class="n">feature_names</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">immutable_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Protocol&#39;</span><span class="p">,</span> <span class="s1">&#39;Fwd PSH Flags&#39;</span><span class="p">,</span> <span class="s1">&#39;FIN Flag Count&#39;</span><span class="p">,</span> <span class="s1">&#39;SYN Flag Count&#39;</span><span class="p">]</span>
+<span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">feature_names</span><span class="p">))</span>
+<span class="n">immutable_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">feature_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">immutable_features</span> <span class="k">if</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">feature_names</span><span class="p">]</span>
+<span class="n">mask</span><span class="p">[</span><span class="n">immutable_indices</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mask_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+<span class="c1"># --- 4. EXERCISE 1: TRAINING FUNCTION WITH RETURN ---</span>
+<span class="k">def</span> <span class="nf">train_advgan_tuned</span><span class="p">(</span><span class="n">lambda_pert_val</span><span class="p">,</span> <span class="n">lr_g</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🚀 Training AdvGAN: lambda_pert=</span><span class="si">{</span><span class="n">lambda_pert_val</span><span class="si">}</span><span class="s2">, lr_g=</span><span class="si">{</span><span class="n">lr_g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">gen_model</span> <span class="o">=</span> <span class="n">AdvGAN_Generator</span><span class="p">(</span><span class="n">input_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">disc_model</span> <span class="o">=</span> <span class="n">AdvGAN_Discriminator</span><span class="p">(</span><span class="n">input_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">opt_g</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">gen_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lr_g</span><span class="p">)</span>
+    <span class="n">opt_d</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">disc_model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+    <span class="n">loss_mse</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">()</span>
+
+    <span class="n">mal_l</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">TensorDataset</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">ben_l</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">TensorDataset</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">==</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)),</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">mal_b</span><span class="p">,),</span> <span class="p">(</span><span class="n">ben_b</span><span class="p">,)</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">mal_l</span><span class="p">,</span> <span class="n">ben_l</span><span class="p">):</span>
+            <span class="n">mal_b</span><span class="p">,</span> <span class="n">ben_b</span> <span class="o">=</span> <span class="n">mal_b</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">ben_b</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="c1"># Disc update</span>
+            <span class="n">opt_d</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">d_loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">criterion_bce</span><span class="p">(</span><span class="n">disc_model</span><span class="p">(</span><span class="n">ben_b</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">ben_b</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span> <span class="o">+</span>
+                      <span class="n">criterion_bce</span><span class="p">(</span><span class="n">disc_model</span><span class="p">(</span><span class="n">gen_model</span><span class="p">(</span><span class="n">mal_b</span><span class="p">,</span> <span class="n">mask_tensor</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">()),</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mal_b</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)))</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">d_loss</span><span class="o">.</span><span class="n">backward</span><span class="p">();</span> <span class="n">opt_d</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+            <span class="c1"># Gen update</span>
+            <span class="n">opt_g</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+            <span class="n">adv_g</span> <span class="o">=</span> <span class="n">gen_model</span><span class="p">(</span><span class="n">mal_b</span><span class="p">,</span> <span class="n">mask_tensor</span><span class="p">)</span>
+            <span class="n">g_loss</span> <span class="o">=</span> <span class="n">criterion_bce</span><span class="p">(</span><span class="n">disc_model</span><span class="p">(</span><span class="n">adv_g</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">mal_b</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span> <span class="o">+</span> \
+                     <span class="mf">1.0</span> <span class="o">*</span> <span class="n">criterion_bce</span><span class="p">(</span><span class="n">target_ids_pytorch</span><span class="p">(</span><span class="n">adv_g</span><span class="p">),</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">mal_b</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span> <span class="o">+</span> \
+                     <span class="n">lambda_pert_val</span> <span class="o">*</span> <span class="n">loss_mse</span><span class="p">(</span><span class="n">adv_g</span><span class="p">,</span> <span class="n">mal_b</span><span class="p">)</span>
+            <span class="n">g_loss</span><span class="o">.</span><span class="n">backward</span><span class="p">();</span> <span class="n">opt_g</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># Evaluation</span>
+    <span class="n">gen_model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">X_test_mal_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">preds</span> <span class="o">=</span> <span class="p">(</span><span class="n">target_ids_pytorch</span><span class="p">(</span><span class="n">gen_model</span><span class="p">(</span><span class="n">X_test_mal_t</span><span class="p">,</span> <span class="n">mask_tensor</span><span class="p">))</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;✅ Final Detection Rate: </span><span class="si">{</span><span class="n">preds</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">gen_model</span>  <span class="c1"># CRITICAL: Return the model to avoid TypeError</span>
+
+<span class="c1"># Execute Exercise 1</span>
+<span class="n">train_advgan_tuned</span><span class="p">(</span><span class="n">lambda_pert_val</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">lr_g</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<span class="n">train_advgan_tuned</span><span class="p">(</span><span class="n">lambda_pert_val</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lr_g</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+🚀 Training AdvGAN: lambda_pert=10.0, lr_g=0.001
+✅ Final Detection Rate: 73.86%
+
+🚀 Training AdvGAN: lambda_pert=0.01, lr_g=0.001
+✅ Final Detection Rate: 62.94%
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+AdvGAN_Generator(
+  (model): Sequential(
+    (0): Linear(in_features=77, out_features=128, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=128, out_features=128, bias=True)
+    (3): ReLU()
+    (4): Linear(in_features=128, out_features=77, bias=True)
+    (5): Tanh()
+  )
+)
+</pre></div></div>
+</div>
+<p><strong>Analysis of the Results:</strong> Based on the execution output, we observe a clear correlation between perturbation strength and evasion success:</p>
+<ul class="simple">
+<li><p><strong>Observation of Results</strong>: With <span class="math notranslate nohighlight">\(\lambda_{pert}=10.0\)</span> (High Stealth), the final detection rate was higher than when the penalty was lowered to <span class="math notranslate nohighlight">\(0.01\)</span> (Aggressive).</p></li>
+<li><p><strong>Evasion Effectiveness</strong>: The results confirm that reducing the perturbation penalty allows the generator to craft more effective adversarial samples. The lower detection rate in the aggressive configuration indicates that larger modifications allow the traffic to move further away from the malicious cluster learned by the IDS.</p></li>
+</ul>
+</section>
+</section>
+<section id="Exercise-2:-Compare-Models">
+<h3>Exercise 2: Compare Models<a class="headerlink" href="#Exercise-2:-Compare-Models" title="Link to this heading"></a></h3>
+<p>The objective of this exercise is to evaluate the <strong>transferability</strong> of adversarial attacks. Transferability refers to the phenomenon in which adversarial examples crafted to fool one specific model (e.g., a Neural Network) are also effective at evading other architectures (e.g., a Random Forest) trained on the same data.</p>
+<section id="Implementation:-Testing-Transferability">
+<h4>Implementation: Testing Transferability<a class="headerlink" href="#Implementation:-Testing-Transferability" title="Link to this heading"></a></h4>
+<p>In this step, we train a <strong>Random Forest (RF)</strong> classifier to serve as an alternative IDS. We then test the adversarial samples generated by the <strong>AdvGAN</strong> to see whether they can also evade the Random Forest.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- 5. EXECUTION ---</span>
+<span class="c1"># Execute Exercise 1</span>
+<span class="n">generator</span> <span class="o">=</span> <span class="n">train_advgan_tuned</span><span class="p">(</span><span class="n">lambda_pert_val</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lr_g</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># --- 6. EXERCISE 2: TRANSFERABILITY ---</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">🌲 Training Random Forest as Alternative IDS...&quot;</span><span class="p">)</span>
+<span class="n">rf_ids</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rf_ids</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">X_test_mal_t</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+    <span class="n">adv_test_samples</span> <span class="o">=</span> <span class="n">generator</span><span class="p">(</span><span class="n">X_test_mal_t</span><span class="p">,</span> <span class="n">mask_tensor</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+
+<span class="n">rf_adv_det_rate</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">[</span><span class="n">y_test</span> <span class="o">==</span> <span class="mi">1</span><span class="p">],</span> <span class="n">rf_ids</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">adv_test_samples</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;📊 RF Detection Rate on Transferred Attacks: </span><span class="si">{</span><span class="n">rf_adv_det_rate</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+🚀 Training AdvGAN: lambda_pert=0.01, lr_g=0.001
+✅ Final Detection Rate: 76.87%
+
+🌲 Training Random Forest as Alternative IDS...
+📊 RF Detection Rate on Transferred Attacks: 0.00%
+</pre></div></div>
+</div>
+<p><strong>Analysis of the Results:</strong> The execution results reveal significant security implications regarding the robustness of ML-based systems:</p>
+<ul class="simple">
+<li><p><strong>Black-Box Evasion Potential</strong>: This confirms that GAN-based attacks are highly effective in <strong>black-box scenarios</strong>, where the attacker has no internal model knowledge and only observes outputs. An attacker can successfully evade a target IDS by training a generator against a substitute model (the Neural Network), which then generates samples that fool a completely different architecture (the Random Forest).</p></li>
+<li><p><strong>Fragility of Decision Boundaries</strong>: The total failure of the Random Forest highlights the fragility of data-driven IDS boundaries. These models often rely on non-causal statistical correlations rather than a proper understanding of threats, allowing carefully crafted adversarial attacks to push samples across decision boundaries.</p></li>
+</ul>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/"><img alt="Star our repository" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=⭐&amp;message=Star%20Our%20Repository&amp;color=yellow" /></a> If you found this tutorial helpful, please <strong>⭐ star our repository</strong> to show your support.</div>
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/issues"><img alt="Ask questions" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=❔&amp;message=Ask%20Questions&amp;color=9cf" /></a> For any <strong>questions</strong>, <strong>typos</strong>, or <strong>bugs</strong>, kindly open an issue on GitHub — we appreciate your feedback!</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids.html" class="btn btn-neutral float-left" title="Tutorial 3.2: Evading ML-based IDS using GANs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial4_1_automated_CTF_solving/tutorial4_1_automated_CTF_solving.html" class="btn btn-neutral float-right" title="Tutorial 4: Automated CTF Solving with LLMs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Christoph R. Landolt, Mario Fritz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

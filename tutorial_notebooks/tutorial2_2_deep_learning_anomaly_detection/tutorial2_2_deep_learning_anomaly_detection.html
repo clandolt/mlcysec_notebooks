@@ -1,0 +1,1070 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tutorial 2.2: Deep Learning based IDS &mdash; CISPA Machine Learning in Cybersecurity v0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=82d01d63" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=34cd777e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tutorial 2.3: Analyzing Application-Layer Protocols" href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html" />
+    <link rel="prev" title="Tutorial 2.1: Intrusion Detection System" href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            CISPA Machine Learning in Cybersecurity
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorial 1: Getting started:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_jupyter_and_python/getting_started_with_jupyter_and_python.html">Getting started 1: Working with Jupyter and Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../discover_visualize_gain_insights/discover_visualize_gain_insights.html">Getting Started 2: How to Load and Visualize Data for Cyber Threat Intelligence Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_ml/getting_started_with_ml.html">Getting Started 3: Classic Machine Learning for Cybersecurity</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started_with_deep_learning/getting_started_with_deep_learning.html">Getting Started 4: Deep Learning for Cybersecurity</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 2: Intrusion Detection:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html">Tutorial 2.1: Intrusion Detection System</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorial 2.2: Deep Learning based IDS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Tutorial-Objectives">Tutorial Objectives</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Neural-Network-Based-Anomaly-Detection-in-Cybersecurity">Neural Network-Based Anomaly Detection in Cybersecurity</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#Variational-Autoencoder-(VAE)">Variational Autoencoder (VAE)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Probabilistic-Model">Probabilistic Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Training-Objective:-Evidence-Lower-Bound-(ELBO)">Training Objective: Evidence Lower Bound (ELBO)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Intuition">Intuition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Anomaly-Detection-with-VAE">Anomaly Detection with VAE</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Step-1:-Load-and-Explore-the-KDDCUP99-Dataset">Step 1: Load and Explore the KDDCUP99 Dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-2:-Data-Preprocessing">Step 2: Data Preprocessing</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Step-3:-Train-Test-Split">Step 3: Train-Test Split</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#Step-4:-Variational-Autoencoder-(VAE)-Implementation">Step 4: Variational Autoencoder (VAE) Implementation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-5:-Training-Loop">Step 5: Training Loop</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-6:-Compute-Reconstruction-Based-Anomaly-Scores">Step 6: Compute Reconstruction-Based Anomaly Scores</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Step-7:-Evaluation-and-Results">Step 7: Evaluation and Results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Exercises">Exercises</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-1:-Nonstationarity-in-Cybersecurity-Data">Exercise 1: Nonstationarity in Cybersecurity Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Exercise-2:-Practical-Hyperparameter-Tuning-and-Impact">Exercise 2: Practical Hyperparameter Tuning and Impact</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Solution---Exercise-1:-Nonstationarity-in-Cybersecurity-Data">Solution - Exercise 1: Nonstationarity in Cybersecurity Data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#1.-Theory-Question">1. Theory Question</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#2.-Classification-of-Cybersecurity-Effects">2. Classification of Cybersecurity Effects</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Solution---Exercise-2:-Practical-Hyperparameter-Tuning-and-Impact">Solution - Exercise 2: Practical Hyperparameter Tuning and Impact</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Part-1:-Impact-of-Latent-Dimension-(latent_dim)">Part 1: Impact of Latent Dimension (<code class="docutils literal notranslate"><span class="pre">latent_dim</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Part-2:-KL-Divergence-Weight-(\beta-VAE)">Part 2: KL Divergence Weight (<span class="math notranslate nohighlight">\(\beta\)</span>-VAE)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#Conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html">Tutorial 2.3: Analyzing Application-Layer Protocols</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 3: Evading ML-IDS:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_1_gan_getting_started/tutorial3_1_gan_getting_started.html">Tutorial 3.1: Getting started with GANs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_2_evading_ml_ids/tutorial3_2_evading_ml_ids.html">Tutorial 3.2: Evading ML-based IDS using GANs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial3_solution/tutorial3_solution.html">Tutorial 3: Solutions to Exercises 3.1 &amp; 3.2</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Tutorial 4: ML in the hands of Attackers (CTF):</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial4_1_automated_CTF_solving/tutorial4_1_automated_CTF_solving.html">Tutorial 4: Automated CTF Solving with LLMs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">CISPA Machine Learning in Cybersecurity</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Tutorial 2.2: Deep Learning based IDS</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/tutorial_notebooks/tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Tutorial-2.2:-Deep-Learning-based-IDS">
+<h1>Tutorial 2.2: Deep Learning based IDS<a class="headerlink" href="#Tutorial-2.2:-Deep-Learning-based-IDS" title="Link to this heading"></a></h1>
+<img alt="Status" src="https://img.shields.io/static/v1.svg?label=Status&amp;message=Resolved&amp;color=green" />
+<div class="line-block">
+<div class="line"><strong>Open notebook on:</strong> <a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.ipynb"><img alt="View filled on Github" src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" /></a> <a class="reference external" href="https://colab.research.google.com/github/clandolt/mlcysec_notebooks/blob/main/source/tutorial_notebooks/tutorial2_2_deep_learning_anomaly_detection/tutorial2_2_deep_learning_anomaly_detection.ipynb"><img alt="Open filled In Collab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></div>
+<div class="line"><strong>Author:</strong> Christoph R. Landolt</div>
+</div>
+<p>In cybersecurity, labeled attack data is often scarce or incomplete. Many attacks are unknown, rare, or stealthy (APT, ATA). Neural network-based unsupervised models, such as Variational Autoencoders (VAE) and <a class="reference external" href="https://arxiv.org/abs/1802.06360">One-Class Neural Networks (OC-NN)</a>, can learn the normal behavior of network traffic and flag deviations as anomalies. These approaches are particularly useful for intrusion detection, malware monitoring, and unusual user behavior detection.</p>
+<section id="Tutorial-Objectives">
+<h2>Tutorial Objectives<a class="headerlink" href="#Tutorial-Objectives" title="Link to this heading"></a></h2>
+<p>By the end of this tutorial, you will be able to:</p>
+<ul class="simple">
+<li><p>Understand neural network approaches to anomaly detection.</p></li>
+<li><p>Explain the mathematical formulation of VAE for anomaly detection.</p></li>
+<li><p>Implement VAE using PyTorch.</p></li>
+<li><p>Evaluate anomaly detection performance on the KDDCUP99 dataset.</p></li>
+</ul>
+</section>
+<section id="Neural-Network-Based-Anomaly-Detection-in-Cybersecurity">
+<h2>Neural Network-Based Anomaly Detection in Cybersecurity<a class="headerlink" href="#Neural-Network-Based-Anomaly-Detection-in-Cybersecurity" title="Link to this heading"></a></h2>
+<p>Traditional anomaly detection algorithms, such as Isolation Forest or One-Class SVM, can struggle with high-dimensional, complex, or non-linear feature distributions. Neural networks provide:</p>
+<ul class="simple">
+<li><p><strong>Flexibility:</strong> Can model complex, non-linear relationships.</p></li>
+<li><p><strong>Feature learning:</strong> Automatically extract latent representations.</p></li>
+<li><p><strong>Probabilistic modeling:</strong> In the case of VAE, estimate the likelihood of each observation.</p></li>
+</ul>
+</section>
+<section id="Variational-Autoencoder-(VAE)">
+<h2>Variational Autoencoder (VAE)<a class="headerlink" href="#Variational-Autoencoder-(VAE)" title="Link to this heading"></a></h2>
+<p>A <strong>Variational Autoencoder (VAE)</strong> is a <em>generative probabilistic model</em> that assumes that each observation <span class="math notranslate nohighlight">\(x\)</span> is generated from a latent variable <span class="math notranslate nohighlight">\(z\)</span> through a conditional distribution <span class="math notranslate nohighlight">\(p_\theta(x \mid z)\)</span>.</p>
+<p><img alt="VAE" class="no-scaled-link" src="../../_images/VAE.jpg" width="600" /></p>
+<section id="Probabilistic-Model">
+<h3>Probabilistic Model<a class="headerlink" href="#Probabilistic-Model" title="Link to this heading"></a></h3>
+<p>We want to maximize the likelihood of the data <span class="math notranslate nohighlight">\(x\)</span> by their chosen parameterized probability distribution <span class="math notranslate nohighlight">\(p_\theta(x)\)</span> via marginalizing over <span class="math notranslate nohighlight">\(z\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[p_\theta(x) = \int_z p_\theta(x , z) \, dz =\int_z p_\theta(x \mid z) \, p_\theta(z) \, dz\]</div>
+<p>where the prior over latent variables is chosen to be the standard normal distribution:</p>
+<div class="math notranslate nohighlight">
+\[p(z) = \mathcal{N}(0, I)\]</div>
+<p>Since the true posterior <span class="math notranslate nohighlight">\(p_\theta(z \mid x)\)</span> is intractable, the VAE introduces an approximate posterior (encoder) <span class="math notranslate nohighlight">\(q_\phi(z \mid x)\)</span> to estimate it.</p>
+</section>
+<section id="Training-Objective:-Evidence-Lower-Bound-(ELBO)">
+<h3>Training Objective: Evidence Lower Bound (ELBO)<a class="headerlink" href="#Training-Objective:-Evidence-Lower-Bound-(ELBO)" title="Link to this heading"></a></h3>
+<p>The model is trained by maximizing the <strong>Evidence Lower Bound (ELBO)</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\mathcal{L}(\theta, \phi; x)
+=
+\mathbb{E}_{q_\phi(z \mid x)} [ \log p_\theta(x \mid z) ]
+-
+D_{\mathrm{KL}}(q_\phi(z \mid x) \, \| \, p(z))\]</div>
+<ul class="simple">
+<li><p>The <strong>first term</strong> is the <em>reconstruction likelihood</em>, encouraging accurate reconstruction of inputs.</p></li>
+<li><p>The <strong>second term</strong> is the <em>Kullback–Leibler (KL) divergence</em>, acting as a regularizer to keep the latent space close to the prior <span class="math notranslate nohighlight">\(\mathcal{N}(0, I)\)</span>.</p></li>
+</ul>
+</section>
+<section id="Intuition">
+<h3>Intuition<a class="headerlink" href="#Intuition" title="Link to this heading"></a></h3>
+<p>The VAE consists of two main components:</p>
+<ul>
+<li><div class="line-block">
+<div class="line"><strong>Encoder (Inference network)</strong>: learns to map data <span class="math notranslate nohighlight">\(x\)</span> into a latent representation <span class="math notranslate nohighlight">\(z\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(q_\phi(z \mid x) = \mathcal{N}(\mu(x), \sigma^2(x) I)\)</span></div>
+</div>
+</li>
+<li><div class="line-block">
+<div class="line"><strong>Decoder (Generative network)</strong>: reconstructs data from the latent representation</div>
+<div class="line"><span class="math notranslate nohighlight">\(p_\theta(x \mid z) = \mathcal{N}(f_\theta(z), \sigma^2 I)\)</span></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="Anomaly-Detection-with-VAE">
+<h3>Anomaly Detection with VAE<a class="headerlink" href="#Anomaly-Detection-with-VAE" title="Link to this heading"></a></h3>
+<div class="line-block">
+<div class="line">For anomaly detection, the VAE is trained <strong>only on normal samples</strong> to capture the manifold of legitimate data.</div>
+<div class="line">At test time, we compute the <strong>reconstruction error</strong> for each input:</div>
+</div>
+<div class="math notranslate nohighlight">
+\[\text{Error}(x) = \| x - \hat{x} \|^2\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{x} = f_\theta(z)\)</span> is the reconstructed input.</p>
+<ul class="simple">
+<li><p><strong>Low reconstruction error</strong> → sample lies on the learned manifold → likely normal</p></li>
+<li><p><strong>High reconstruction error</strong> → sample deviates from normal behavior → potential anomaly</p></li>
+</ul>
+<p>We start by loading the required libraries for this lab:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Importing required libraries</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="k">as</span> <span class="nn">optim</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">classification_report</span>
+</pre></div>
+</div>
+</div>
+<section id="Step-1:-Load-and-Explore-the-KDDCUP99-Dataset">
+<h4>Step 1: Load and Explore the KDDCUP99 Dataset<a class="headerlink" href="#Step-1:-Load-and-Explore-the-KDDCUP99-Dataset" title="Link to this heading"></a></h4>
+<p>First, we’ll load the <code class="docutils literal notranslate"><span class="pre">SA</span></code> subset of the <strong>KDDCUP99 dataset</strong> to keep computation manageable. Then we’ll explore and visualize the data.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span><span class="c1"># ### Step 1: Load and Explore the KDDCUP99 Dataset</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">fetch_kddcup99</span><span class="p">(</span>
+    <span class="n">subset</span><span class="o">=</span><span class="s2">&quot;SA&quot;</span><span class="p">,</span>             <span class="c1"># Use the &#39;SA&#39; subset (smaller sample)</span>
+    <span class="n">percent10</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>          <span class="c1"># Use 10% of the full dataset for efficiency</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>         <span class="c1"># Ensure reproducibility</span>
+    <span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>         <span class="c1"># Return data and labels separately</span>
+    <span class="n">as_frame</span><span class="o">=</span><span class="kc">True</span>            <span class="c1"># Load as pandas DataFrame</span>
+<span class="p">)</span>
+
+<span class="c1"># Convert binary label: 1 = attack, 0 = normal</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">!=</span> <span class="sa">b</span><span class="s2">&quot;normal.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span>
+
+<span class="c1"># Take only 10% of the data for quick demonstration</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Display dataset stats</span>
+<span class="n">n_samples</span><span class="p">,</span> <span class="n">anomaly_frac</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_samples</span><span class="si">}</span><span class="s2"> datapoints with </span><span class="si">{</span><span class="n">y</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> anomalies (</span><span class="si">{</span><span class="n">anomaly_frac</span><span class="si">:</span><span class="s2">.02%</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot label distribution</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Histogram of Labels&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Frequency&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+10065 datapoints with 338 anomalies (3.36%)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_2_deep_learning_anomaly_detection_tutorial2_2_deep_learning_anomaly_detection_4_1.png" src="../../_images/tutorial_notebooks_tutorial2_2_deep_learning_anomaly_detection_tutorial2_2_deep_learning_anomaly_detection_4_1.png" />
+</div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>The histogram provides a visual overview of <strong>class imbalance</strong> in the dataset. In the KDDCUP99 subset, normal traffic far outnumbers attack events.</p></li>
+<li><p>This imbalance is <strong>typical in cybersecurity datasets</strong>, reflecting real-world conditions where attacks are rare relative to benign activity.</p></li>
+<li><p>From a theoretical perspective, Intrusion Detection Systems (IDS) face two main challenges in such imbalanced environments:</p>
+<ol class="arabic simple">
+<li><p><strong>Scarcity of labeled attack data</strong>: Many attack patterns are unknown, costly to label, or represent vulnerabilities not yet exploited.</p></li>
+<li><p><strong>Diversity of attack types</strong>: Attacks can range from common automated probes to sophisticated Advanced Persistent Threats (APT) and Advanced Targeted Attacks (ATA), which occur rarely and blend into normal traffic.</p></li>
+</ol>
+</li>
+<li><p>Therefore, the observed class imbalance in the histogram <strong>justifies the use of unsupervised anomaly detection models</strong> (such as Isolation Forest) or reconstruction-based models (e.g., Autoencoders), which are trained in a <strong>self-supervised</strong> manner to model the distribution of the ‘normal’ data.</p></li>
+</ul>
+</section>
+<section id="Step-2:-Data-Preprocessing">
+<h4>Step 2: Data Preprocessing<a class="headerlink" href="#Step-2:-Data-Preprocessing" title="Link to this heading"></a></h4>
+<p>Before training, categorical (non-numeric) features must be converted into numerical form. We’ll use <strong>one-hot encoding</strong> with <code class="docutils literal notranslate"><span class="pre">pandas.get_dummies()</span></code>.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert categorical variables to numerical format</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Feature matrix shape after encoding: </span><span class="si">{</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">X</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Feature matrix shape after encoding: (10065, 6536)
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>duration_0</th>
+      <th>duration_1</th>
+      <th>duration_2</th>
+      <th>duration_3</th>
+      <th>duration_4</th>
+      <th>duration_5</th>
+      <th>duration_6</th>
+      <th>duration_7</th>
+      <th>duration_8</th>
+      <th>duration_9</th>
+      <th>...</th>
+      <th>dst_host_srv_rerror_rate_0.91</th>
+      <th>dst_host_srv_rerror_rate_0.92</th>
+      <th>dst_host_srv_rerror_rate_0.93</th>
+      <th>dst_host_srv_rerror_rate_0.94</th>
+      <th>dst_host_srv_rerror_rate_0.95</th>
+      <th>dst_host_srv_rerror_rate_0.96</th>
+      <th>dst_host_srv_rerror_rate_0.97</th>
+      <th>dst_host_srv_rerror_rate_0.98</th>
+      <th>dst_host_srv_rerror_rate_0.99</th>
+      <th>dst_host_srv_rerror_rate_1.0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>26890</th>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>35471</th>
+      <td>False</td>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>37027</th>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>80164</th>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+    <tr>
+      <th>73649</th>
+      <td>True</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>...</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+      <td>False</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 6536 columns</p>
+</div></div>
+</div>
+<p><strong>Notes:</strong></p>
+<ul class="simple">
+<li><p>Many columns in KDDCUP99 are categorical (e.g., protocol type, service, flag).</p></li>
+<li><p>One-hot encoding converts these categories into binary vectors, making them compatible with ML models.</p></li>
+</ul>
+</section>
+</section>
+<section id="Step-3:-Train-Test-Split">
+<h3>Step 3: Train-Test Split<a class="headerlink" href="#Step-3:-Train-Test-Split" title="Link to this heading"></a></h3>
+<p>We split the dataset into <strong>training (80%)</strong> and <strong>testing (20%)</strong> subsets.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Split the Dataset into Training and Testing Sets</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
+    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span>
+<span class="p">)</span>
+
+<span class="c1"># Keep only normal samples in the training set</span>
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">X_train</span><span class="p">[</span><span class="n">y_train</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Training only on normal points: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span><span class="si">}</span><span class="s2"> samples&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Testing samples:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">))</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Training only on normal points: 7784 samples
+Testing samples: 2013
+</pre></div></div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># use GPU if available</span>
+<span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+
+<span class="c1"># Convert data to PyTorch tensors and put on compute device</span>
+<span class="n">X_train_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_train</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">X_test_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">X_test</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Step-4:-Variational-Autoencoder-(VAE)-Implementation">
+<h4>Step 4: Variational Autoencoder (VAE) Implementation<a class="headerlink" href="#Step-4:-Variational-Autoencoder-(VAE)-Implementation" title="Link to this heading"></a></h4>
+<p>We define the VAE architecture using three modular <code class="docutils literal notranslate"><span class="pre">nn.Module</span></code> classes: <code class="docutils literal notranslate"><span class="pre">Encoder</span></code>, <code class="docutils literal notranslate"><span class="pre">Decoder</span></code>, and the main <code class="docutils literal notranslate"><span class="pre">VAE</span></code> class which brings them together.</p>
+<p><strong>The Encoder (:math:`q_phi(z mid x)`)</strong> The encoder takes the input data (<span class="math notranslate nohighlight">\(x\)</span>) and outputs the mean (<span class="math notranslate nohighlight">\(\mu\)</span>) and log-variance (<span class="math notranslate nohighlight">\(\log\sigma^{2}\)</span> or <em>logvar</em>) of the <strong>approximate posterior distribution</strong> <span class="math notranslate nohighlight">\(q_\phi(z \mid x)\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define input and latent dimensions</span>
+<span class="n">input_dim</span> <span class="o">=</span> <span class="n">X_train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">latent_dim</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># --- 1. Encoder Class ---</span>
+<span class="k">class</span> <span class="nc">Encoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># Feature extraction part (equivalent to fc1 + ReLU in original)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_extractor</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">()</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Layers for mean (mu) and log variance (logvar)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc_mu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc_logvar</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># Latent space parameters</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_extractor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># Compute mean (mu) and log variance (logvar)</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc_mu</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">logvar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc_logvar</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span>
+<br/><br/></pre></div>
+</div>
+</div>
+<p><strong>The Decoder (:math:`p_theta(x mid z)`)</strong> The decoder takes a sample from the latent space (<span class="math notranslate nohighlight">\(z\)</span>) and attempts to reconstruct the original input data (<span class="math notranslate nohighlight">\(x\)</span>).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- 2. Decoder Class ---</span>
+<span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># Decoder network (equivalent to fc2 + ReLU + fc3 in original)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoder_net</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Tanh</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoder_net</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+<br/></pre></div>
+</div>
+</div>
+<p><strong>The Main VAE Model</strong> The main VAE class combines the Encoder and Decoder and implements the <strong>Reparameterization Trick</strong>, which is crucial for enabling backpropagation through the sampling process.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- 3. Adapted VAE Class (Main Model) ---</span>
+<span class="k">class</span> <span class="nc">VAE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">,</span> <span class="n">latent_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># Instantiate the explicit Encoder and Decoder modules</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">Encoder</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">Decoder</span><span class="p">(</span><span class="n">latent_dim</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">reparameterize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Samples z from the latent distribution (N(mu, exp(logvar)))</span>
+<span class="sd">        using the reparameterization trick.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">std</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">logvar</span><span class="p">)</span>
+        <span class="c1"># eps is a random vector from the standard normal distribution</span>
+        <span class="n">eps</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">std</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">eps</span> <span class="o">*</span> <span class="n">std</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># 1. Encode: Get the parameters of the latent distribution</span>
+        <span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># 2. Reparameterize: Sample a latent vector z</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reparameterize</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span><span class="p">)</span>
+
+        <span class="c1"># 3. Decode: Reconstruct the input</span>
+        <span class="n">recon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">recon</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span>
+</pre></div>
+</div>
+</div>
+<p><strong>The VAE Loss Function (ELBO)</strong> The VAE minimizes the negative of the <strong>Evidence Lower Bound (ELBO)</strong>, which consists of two terms:</p>
+<ol class="arabic simple">
+<li><p><strong>Reconstruction Loss:</strong> Measures how well the output is reconstructed (e.g., Mean Squared Error or MSE).</p></li>
+<li><p><strong>KL Divergence Loss:</strong> A regularization term that measures the difference between the approximate posterior <span class="math notranslate nohighlight">\(q_\phi(z \mid x)\)</span> and the prior <span class="math notranslate nohighlight">\(p(z) = \mathcal{N}(\mathbf{0}, \mathbf{I})\)</span>.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- 4. Loss Function ---</span>
+<span class="k">def</span> <span class="nf">vae_loss</span><span class="p">(</span><span class="n">recon_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the VAE loss, which is the sum of:</span>
+<span class="sd">    1. Reconstruction Loss (e.g., MSE or BCE)</span>
+<span class="sd">    2. KL Divergence Loss</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Reconstruction Loss (using MSE as per original code)</span>
+    <span class="n">recon_loss</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)(</span><span class="n">recon_x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="c1"># Using &#39;sum&#39; instead of &#39;mean&#39; for better KLD scaling, then we&#39;ll divide by batch size/N below</span>
+
+    <span class="c1"># KL Divergence Loss: KLD = -0.5 * sum(1 + logvar - mu^2 - exp(logvar))</span>
+    <span class="n">kld</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">logvar</span> <span class="o">-</span> <span class="n">mu</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">logvar</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
+
+    <span class="c1"># Total loss (divided by batch size for consistency)</span>
+    <span class="n">total_loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">recon_loss</span> <span class="o">+</span> <span class="n">kld</span><span class="p">)</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c1"># x.size(0) is the batch size</span>
+    <span class="k">return</span> <span class="n">total_loss</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modified Loss Function with beta</span>
+<span class="k">def</span> <span class="nf">vae_loss_beta</span><span class="p">(</span><span class="n">recon_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="c1"># 1. Reconstruction Loss</span>
+ <span class="n">recon_loss</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)(</span><span class="n">recon_x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># 2. KL Divergence Loss</span>
+ <span class="n">kld</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">logvar</span> <span class="o">-</span> <span class="n">mu</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">logvar</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
+
+    <span class="c1"># Total loss with Beta weight</span>
+ <span class="n">total_loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">recon_loss</span> <span class="o">+</span> <span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">kld</span><span class="p">))</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+ <span class="k">return</span> <span class="n">total_loss</span>
+
+<span class="c1"># Training Example with Beta = 0.1</span>
+<span class="n">beta_val</span> <span class="o">=</span> <span class="mf">0.00001</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Instantiation and Architecture</strong></p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- 5. Model Instantiation and Optimizer ---</span>
+<span class="n">vae</span> <span class="o">=</span> <span class="n">VAE</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">latent_dim</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">vae</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">)</span>
+
+<span class="c1"># print neural network architecture</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vae</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+VAE(
+  (encoder): Encoder(
+    (feature_extractor): Sequential(
+      (0): Linear(in_features=6536, out_features=64, bias=True)
+      (1): Tanh()
+    )
+    (fc_mu): Linear(in_features=64, out_features=10, bias=True)
+    (fc_logvar): Linear(in_features=64, out_features=10, bias=True)
+  )
+  (decoder): Decoder(
+    (decoder_net): Sequential(
+      (0): Linear(in_features=10, out_features=64, bias=True)
+      (1): Tanh()
+      (2): Linear(in_features=64, out_features=6536, bias=True)
+    )
+  )
+)
+</pre></div></div>
+</div>
+</section>
+<section id="Step-5:-Training-Loop">
+<h4>Step 5: Training Loop<a class="headerlink" href="#Step-5:-Training-Loop" title="Link to this heading"></a></h4>
+<p>The training loop is where the model learns from the data over multiple epochs. An epoch refers to one full pass through the entire training dataset.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="c1"># --- Track losses ---</span>
+<span class="n">train_losses</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">test_losses</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="c1"># --- 6. Training Loop ---</span>
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">vae</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+    <span class="c1"># Forward pass</span>
+    <span class="n">recon_x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span> <span class="o">=</span> <span class="n">vae</span><span class="p">(</span><span class="n">X_train_tensor</span><span class="p">)</span>
+    <span class="c1">#loss = vae_loss(recon_x, X_train_tensor, mu, logvar)</span>
+    <span class="c1"># Inside the training loop:</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">vae_loss_beta</span><span class="p">(</span><span class="n">recon_x</span><span class="p">,</span> <span class="n">X_train_tensor</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta_val</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+    <span class="c1"># Evaluate on test data (reconstruction only)</span>
+    <span class="n">vae</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">recon_test</span><span class="p">,</span> <span class="n">mu_t</span><span class="p">,</span> <span class="n">logvar_t</span> <span class="o">=</span> <span class="n">vae</span><span class="p">(</span><span class="n">X_test_tensor</span><span class="p">)</span>
+        <span class="n">test_loss</span> <span class="o">=</span> <span class="n">vae_loss</span><span class="p">(</span><span class="n">recon_test</span><span class="p">,</span> <span class="n">X_test_tensor</span><span class="p">,</span> <span class="n">mu_t</span><span class="p">,</span> <span class="n">logvar_t</span><span class="p">)</span>
+
+    <span class="n">train_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    <span class="n">test_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="n">epoch</span> <span class="o">%</span> <span class="mi">5</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">epoch</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">num_epochs</span><span class="si">}</span><span class="s2">, Train Loss: </span><span class="si">{</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, Test Loss: </span><span class="si">{</span><span class="n">test_loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --- Plot train and test reconstruction loss ---</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">train_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Train Reconstruction Loss&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_epochs</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">test_losses</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Test Reconstruction Loss&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Mean Squared Error (MSE) Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;VAE Training and Test Reconstruction Loss over Epochs&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<br/></pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Epoch 01/50, Train Loss: 565.1871, Test Loss: 519.3243
+Epoch 05/50, Train Loss: 398.5197, Test Loss: 361.5198
+Epoch 10/50, Train Loss: 246.3745, Test Loss: 223.0955
+Epoch 15/50, Train Loss: 148.4205, Test Loss: 137.0974
+Epoch 20/50, Train Loss: 93.0730, Test Loss: 89.3535
+Epoch 25/50, Train Loss: 61.1520, Test Loss: 61.9101
+Epoch 30/50, Train Loss: 42.9466, Test Loss: 46.5981
+Epoch 35/50, Train Loss: 32.3869, Test Loss: 38.3153
+Epoch 40/50, Train Loss: 25.1975, Test Loss: 32.8114
+Epoch 45/50, Train Loss: 19.8020, Test Loss: 29.0736
+Epoch 50/50, Train Loss: 16.4846, Test Loss: 27.6375
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_2_deep_learning_anomaly_detection_tutorial2_2_deep_learning_anomaly_detection_24_1.png" src="../../_images/tutorial_notebooks_tutorial2_2_deep_learning_anomaly_detection_tutorial2_2_deep_learning_anomaly_detection_24_1.png" />
+</div>
+</div>
+</section>
+<section id="Step-6:-Compute-Reconstruction-Based-Anomaly-Scores">
+<h4>Step 6: Compute Reconstruction-Based Anomaly Scores<a class="headerlink" href="#Step-6:-Compute-Reconstruction-Based-Anomaly-Scores" title="Link to this heading"></a></h4>
+<p>For anomaly detection, the core principle of a reconstruction-based model (like the VAE) is:</p>
+<blockquote>
+<div><p><strong>High reconstruction error</strong> → <strong>likely anomaly</strong> (The model struggles to reconstruct data it hasn’t seen frequently).</p>
+</div></blockquote>
+<p>We calculate the Mean Squared Error (MSE) between the original test data and its VAE reconstruction to serve as the anomaly score.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Compute Reconstruction Error on Test Set ---</span>
+<span class="n">vae</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="c1"># Only need the reconstruction (recon_test) from the forward pass</span>
+    <span class="n">recon_test</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vae</span><span class="p">(</span><span class="n">X_test_tensor</span><span class="p">)</span>
+<span class="c1"># Calculate MSE for each sample: mean((original - reconstructed)^2)</span>
+<span class="n">errors</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">X_test_tensor</span> <span class="o">-</span> <span class="n">recon_test</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Setting the Anomaly Threshold</strong> A threshold is needed to classify a sample as ‘Normal’ or ‘Attack’. A common heuristic in unsupervised anomaly detection is to set the threshold based on the distribution of reconstruction errors observed on the <strong>training data</strong> (which is assumed to be mostly ‘Normal’). Here, we use the <strong>95th percentile</strong> of the training errors.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Choose Threshold: 95th percentile of reconstruction error on training set ---</span>
+<span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="n">recon_train</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">vae</span><span class="p">(</span><span class="n">X_train_tensor</span><span class="p">)</span>
+<span class="n">train_errors</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">X_train_tensor</span> <span class="o">-</span> <span class="n">recon_train</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="c1"># Use NumPy&#39;s percentile function</span>
+<span class="n">threshold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">train_errors</span><span class="p">,</span> <span class="mi">95</span><span class="p">)</span>
+
+<span class="c1"># --- Predict anomalies ---</span>
+<span class="c1"># Predict 1 (Anomaly/Attack) if error &gt; threshold, 0 (Normal) otherwise</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="p">(</span><span class="n">errors</span> <span class="o">&gt;</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Step-7:-Evaluation-and-Results">
+<h4>Step 7: Evaluation and Results<a class="headerlink" href="#Step-7:-Evaluation-and-Results" title="Link to this heading"></a></h4>
+<p>We use the confusion matrix and classification report to evaluate the performance of our VAE-based detector on the labeled test set.</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># --- Confusion Matrix ---</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">confusion_matrix</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Confusion Matrix:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cm</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Classification Report:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">target_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">]))</span>
+
+<span class="c1"># --- Plot Confusion Matrix ---</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cm</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Blues&#39;</span><span class="p">,</span> <span class="n">xticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">],</span> <span class="n">yticklabels</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Normal&#39;</span><span class="p">,</span> <span class="s1">&#39;Attack&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Predicted Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;True Label&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Confusion Matrix for VAE-based Anomaly Detection&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Confusion Matrix:
+ [[1828  115]
+ [  53   17]]
+
+Classification Report:
+               precision    recall  f1-score   support
+
+      Normal       0.97      0.94      0.96      1943
+      Attack       0.13      0.24      0.17        70
+
+    accuracy                           0.92      2013
+   macro avg       0.55      0.59      0.56      2013
+weighted avg       0.94      0.92      0.93      2013
+
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorial_notebooks_tutorial2_2_deep_learning_anomaly_detection_tutorial2_2_deep_learning_anomaly_detection_30_1.png" src="../../_images/tutorial_notebooks_tutorial2_2_deep_learning_anomaly_detection_tutorial2_2_deep_learning_anomaly_detection_30_1.png" />
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="Exercises">
+<h2>Exercises<a class="headerlink" href="#Exercises" title="Link to this heading"></a></h2>
+<section id="Exercise-1:-Nonstationarity-in-Cybersecurity-Data">
+<h3>Exercise 1: Nonstationarity in Cybersecurity Data<a class="headerlink" href="#Exercise-1:-Nonstationarity-in-Cybersecurity-Data" title="Link to this heading"></a></h3>
+<p>A stochastic process <span class="math notranslate nohighlight">\(\{X_t\}\)</span> is defined as <strong>nonstationary</strong> if its joint probability distribution, or any of its statistical properties (such as the mean, variance, and autocorrelation), changes over time <span class="math notranslate nohighlight">\(t\)</span>.</p>
+<p>In the context of Machine Learning, this phenomenon is often referred to as <strong>data drift</strong> or <strong>concept drift</strong>, and it poses a fundamental challenge in ML for cybersecurity.</p>
+<p><strong>Theory Question:</strong></p>
+<ol class="arabic simple">
+<li><p>Explain why the nonstationary nature of network traffic and threat landscapes is a core challenge for trained Machine Learning models (like the VAE) used for Intrusion Detection Systems (IDS). Specifically, how does it relate to the VAE’s objective of learning the “normal manifold” <span class="math notranslate nohighlight">\(P(X)\)</span>?</p></li>
+<li><p>classify each of the following common cybersecurity effects by the primary type of nonstationarity they induce on the training data distribution (<span class="math notranslate nohighlight">\(P(X)\)</span>) or the relationship between features and labels (<span class="math notranslate nohighlight">\(P(Y \mid X)\)</span>).</p></li>
+</ol>
+<p><strong>Classification Options:</strong></p>
+<ul class="simple">
+<li><p><strong>Covariate Shift:</strong> The input distribution <span class="math notranslate nohighlight">\(P(X)\)</span> changes, but the attack/normal relationship <span class="math notranslate nohighlight">\(P(Y \mid X)\)</span> remains the same.</p></li>
+<li><p><strong>Abrupt Concept Drift:</strong> The attack/normal relationship <span class="math notranslate nohighlight">\(P(Y \mid X)\)</span> changes suddenly (e.g., a new attack type is introduced).</p></li>
+<li><p><strong>Gradual Concept Drift:</strong> The attack/normal relationship <span class="math notranslate nohighlight">\(P(Y \mid X)\)</span> changes slowly over time.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># | Cybersecurity Effect                            | Primary Type of Nonstationarity |</span>
+<span class="c1"># | :-------------------                            | :------------------------------ |</span>
+<span class="c1"># | **Zero-Day Exploits**                           |                                 |</span>
+<span class="c1"># | **Patching &amp; Security Configuration Changes**   |                                 |</span>
+<span class="c1"># | **Deployment of New Services/Infrastructure**   |                                 |</span>
+<span class="c1"># | **Changing User/IT Behavior**                   |                                 |</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Exercise-2:-Practical-Hyperparameter-Tuning-and-Impact">
+<h3>Exercise 2: Practical Hyperparameter Tuning and Impact<a class="headerlink" href="#Exercise-2:-Practical-Hyperparameter-Tuning-and-Impact" title="Link to this heading"></a></h3>
+<p>Modify the implemented VAE code to analyze the impact of two critical hyperparameters:</p>
+<ol class="arabic simple">
+<li><p><strong>Latent Dimension (``latent_dim``):</strong> Change <code class="docutils literal notranslate"><span class="pre">latent_dim</span></code> from <code class="docutils literal notranslate"><span class="pre">10</span></code> to <code class="docutils literal notranslate"><span class="pre">2</span></code>. Why might a smaller latent space (2 vs 10) be better or worse for this particular anomaly detection task? Can you find an optimal value for the <code class="docutils literal notranslate"><span class="pre">latent_dim</span></code>?</p></li>
+<li><p><strong>KL Divergence Weight:</strong> Introduce a hyperparameter <span class="math notranslate nohighlight">\(\beta\)</span> to the <code class="docutils literal notranslate"><span class="pre">vae_loss</span></code> function such that the new loss is <span class="math notranslate nohighlight">\(\mathcal{L}_{VAE} = \text{Reconstruction Loss} + \beta \cdot \text{KL Divergence Loss}\)</span>. Set <span class="math notranslate nohighlight">\(\beta = 0.1\)</span> (a weaker regularization). Explain the trade-off you observe between the reconstruction loss, the KL divergence loss (regularization), and the final anomaly detection performance (Precision/Recall for ‘Attack’ class). Can you find an optimal value for the
+<span class="math notranslate nohighlight">\(\beta\)</span>?</p></li>
+</ol>
+</section>
+</section>
+<section id="Solution---Exercise-1:-Nonstationarity-in-Cybersecurity-Data">
+<h2>Solution - Exercise 1: Nonstationarity in Cybersecurity Data<a class="headerlink" href="#Solution---Exercise-1:-Nonstationarity-in-Cybersecurity-Data" title="Link to this heading"></a></h2>
+<section id="1.-Theory-Question">
+<h3>1. Theory Question<a class="headerlink" href="#1.-Theory-Question" title="Link to this heading"></a></h3>
+<p><strong>Explain why the nonstationary nature of network traffic and threat landscapes is a core challenge for trained Machine Learning models (like the VAE) used for Intrusion Detection Systems (IDS). Specifically, how does it relate to the VAE’s objective of learning the “normal manifold” :math:`P(x)`?</strong></p>
+<p>A VAE is trained to approximate the probability distribution <span class="math notranslate nohighlight">\(P(x)\)</span> of “normal” traffic at a specific point in time <span class="math notranslate nohighlight">\(t\)</span>. It learns a manifold (a lower-dimensional shape in the data space) where normal data points cluster.</p>
+<p>The core challenge of <strong>nonstationarity</strong> is that the statistical properties of network traffic change over time (<span class="math notranslate nohighlight">\(t \to t+1\)</span>).</p>
+<ul class="simple">
+<li><p><strong>Obsolete Manifold:</strong> If legitimate user behavior changes (e.g., employees start using a new video conferencing tool), the new normal data <span class="math notranslate nohighlight">\(x_{new}\)</span> will likely fall <em>off</em> the manifold learned at time <span class="math notranslate nohighlight">\(t\)</span>. The VAE will yield a high reconstruction error for this valid traffic, resulting in a spike of <strong>False Positives</strong>.</p></li>
+<li><p><strong>Security Decay:</strong> As attackers evolve their techniques to mimic normal traffic (adversarial adaptation), they essentially move their attack distribution closer to the learned normal manifold. If the model is not updated, the rate of <strong>False Negatives</strong> increases.</p></li>
+</ul>
+</section>
+<section id="2.-Classification-of-Cybersecurity-Effects">
+<h3>2. Classification of Cybersecurity Effects<a class="headerlink" href="#2.-Classification-of-Cybersecurity-Effects" title="Link to this heading"></a></h3>
+<p>Here is the classification of the effects based on the type of nonstationarity they induce:</p>
+<table class="tutorial-table" border="1" style="width:100%; border-collapse: collapse;"><thead><tr><th><p>Cybersecurity Effect</p>
+</th><th><p>Primary Type of Nonstationarity</p>
+</th><th><p>Description / Reasoning</p>
+</th></tr></thead><tbody><tr><td><p>Zero-Day Exploits</p>
+</td><td rowspan="2" style="vertical-align: middle; text-align: center;"><p>Abrupt Concept Drift</p>
+</td><td><p>A specific pattern suddenly maps to ‘Attack’ where it didn’t before, or a new attack class emerges abruptly.</p>
+</td></tr><tr><td><p>Patching &amp; Security Config Changes</p>
+</td><td><p>The underlying system logic changes abruptly. An input that was previously a successful attack might now be blocked/normal, altering P(Y|X).</p>
+</td></tr><tr><td><p>Deployment of New Services</p>
+</td><td><p>Covariate Shift</p>
+</td><td><p>New services introduce new ports/protocols, significantly changing the input distribution P(X), though the definition of “normal” for those services remains consistent.</p>
+</td></tr><tr><td><p>Changing User/IT Behavior</p>
+</td><td><p>Gradual Concept Drift</p>
+</td><td><p>Slow, continuous changes in traffic patterns over time, shifting the “normal” baseline.</p>
+</td></tr></tbody></table></section>
+</section>
+<section id="Solution---Exercise-2:-Practical-Hyperparameter-Tuning-and-Impact">
+<h2>Solution - Exercise 2: Practical Hyperparameter Tuning and Impact<a class="headerlink" href="#Solution---Exercise-2:-Practical-Hyperparameter-Tuning-and-Impact" title="Link to this heading"></a></h2>
+<section id="Part-1:-Impact-of-Latent-Dimension-(latent_dim)">
+<h3>Part 1: Impact of Latent Dimension (<code class="docutils literal notranslate"><span class="pre">latent_dim</span></code>)<a class="headerlink" href="#Part-1:-Impact-of-Latent-Dimension-(latent_dim)" title="Link to this heading"></a></h3>
+<p>Changing <code class="docutils literal notranslate"><span class="pre">latent_dim</span></code> from 10 to 2 creates an extremely tight “information bottleneck.”</p>
+<p><strong>Code Modification:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Change latent_dim to 2</span>
+<span class="n">latent_dim</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p><strong>Analysis of Latent Dimension</strong> (<code class="docutils literal notranslate"><span class="pre">dim=10</span></code> <span class="math notranslate nohighlight">\(\to\)</span> <code class="docutils literal notranslate"><span class="pre">dim=2</span></code>):</p>
+<ul class="simple">
+<li><p><strong>Observation:</strong> Reducing the dimension caused slight degradation. False Positives increased (109 <span class="math notranslate nohighlight">\(\to\)</span> 114), while Attack Recall remained stagnant at 0.24.</p></li>
+<li><p><strong>Underfitting:</strong> Compressing 6,000+ features into 2 dimensions creates an excessive information bottleneck. The model lacks the capacity to capture complex normal traffic patterns, treating valid edge cases as anomalies.</p></li>
+</ul>
+</section>
+<section id="Part-2:-KL-Divergence-Weight-(\beta-VAE)">
+<h3>Part 2: KL Divergence Weight (<span class="math notranslate nohighlight">\(\beta\)</span>-VAE)<a class="headerlink" href="#Part-2:-KL-Divergence-Weight-(\beta-VAE)" title="Link to this heading"></a></h3>
+<p>We introduce a weight <span class="math notranslate nohighlight">\(\beta\)</span> (beta) to control the trade-off between the Reconstruction Loss and the KL Divergence.</p>
+<p><strong>Code Modification:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Modified Loss Function with beta</span>
+<span class="k">def</span> <span class="nf">vae_loss_beta</span><span class="p">(</span><span class="n">recon_x</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">logvar</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="c1"># 1. Reconstruction Loss</span>
+ <span class="n">recon_loss</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">reduction</span><span class="o">=</span><span class="s1">&#39;sum&#39;</span><span class="p">)(</span><span class="n">recon_x</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># 2. KL Divergence Loss</span>
+ <span class="n">kld</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">logvar</span> <span class="o">-</span> <span class="n">mu</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">logvar</span><span class="o">.</span><span class="n">exp</span><span class="p">())</span>
+
+    <span class="c1"># Total loss with Beta weight</span>
+ <span class="n">total_loss</span> <span class="o">=</span> <span class="p">(</span><span class="n">recon_loss</span> <span class="o">+</span> <span class="p">(</span><span class="n">beta</span> <span class="o">*</span> <span class="n">kld</span><span class="p">))</span> <span class="o">/</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">total_loss</span>
+
+<span class="c1"># Training Example with Beta = 0.1</span>
+<span class="n">beta_val</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="c1"># Inside the training loop:</span>
+<span class="c1"># loss = vae_loss_beta(recon_x, X_train_tensor, mu, logvar, beta=beta_val)</span>
+</pre></div>
+</div>
+<p><strong>Analysis of Trade-off (:math:`beta=0.1`):</strong></p>
+<ul class="simple">
+<li><p><strong>Reconstruction Prioritized:</strong> Lowering <span class="math notranslate nohighlight">\(\beta\)</span> to 0.1 reduces the KL penalty, forcing the model to prioritize minimizing reconstruction error. This results in significantly lower error for normal traffic compared to the standard VAE (<span class="math notranslate nohighlight">\(\beta=1\)</span>).</p></li>
+<li><p><strong>Sacrificed Generative Ability:</strong> The latent space becomes less smooth (irregular), making the model poor at <em>sampling</em> new data. However, this is irrelevant for <em>detection</em> tasks.</p></li>
+<li><p><strong>Improved Detection:</strong> We generally prefer <span class="math notranslate nohighlight">\(0.01 \le \beta \le 0.5\)</span>. This forces the model to tightly overfit the “normal” manifold, maximizing the contrast between normal and anomalous reconstruction scores.</p></li>
+<li><p><strong>The Limit:</strong> As <span class="math notranslate nohighlight">\(\beta \to 0\)</span> (e.g., <span class="math notranslate nohighlight">\(10^{-5}\)</span>), the VAE mimics a deterministic Autoencoder. This risks “memorization,” where the model learns to reconstruct <em>everything</em> well (including attacks), thereby degrading detection performance. <span class="math notranslate nohighlight">\(\beta=0.1\)</span> strikes the optimal balance.</p></li>
+</ul>
+</section>
+</section>
+<section id="Conclusion">
+<h2>Conclusion<a class="headerlink" href="#Conclusion" title="Link to this heading"></a></h2>
+<p>In this tutorial we used a Variational Autoencoder (VAE) as a <strong>self-supervised</strong> anomaly detection technique for cybersecurity data. We successfully implemented the VAE in PyTorch, focusing on training the model exclusively on ‘Normal’ data to learn its specific manifold. By using the reconstruction error as the anomaly score and applying a threshold, we were able to flag deviations as potential attacks, highlighting the VAE’s utility in addressing the challenge of unlabeled data for certain
+security events and zero-day threat detection in IDS.</p>
+<hr class="docutils" />
+<div class="line-block">
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/"><img alt="Star our repository" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=⭐&amp;message=Star%20Our%20Repository&amp;color=yellow" /></a> If you found this tutorial helpful, please <strong>⭐ star our repository</strong> to show your support.</div>
+<div class="line"><a class="reference external" href="https://github.com/clandolt/mlcysec_notebooks/issues"><img alt="Ask questions" src="https://img.shields.io/static/v1.svg?logo=star&amp;label=❔&amp;message=Ask%20Questions&amp;color=9cf" /></a> For any <strong>questions</strong>, <strong>typos</strong>, or <strong>bugs</strong>, kindly open an issue on GitHub — we appreciate your feedback!</div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../tutorial2_anomaly_detection/tutorial2_anomaly_detection.html" class="btn btn-neutral float-left" title="Tutorial 2.1: Intrusion Detection System" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../tutorial2_3_analyzing_application-layer_protocols/tutorial2_3_analyzing_application-layer_protocols.html" class="btn btn-neutral float-right" title="Tutorial 2.3: Analyzing Application-Layer Protocols" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Christoph R. Landolt, Mario Fritz.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
